@@ -142,6 +142,7 @@ class com_ckeditorInstallerScript
 				$this->unlinkRecursive($dir . '/' . $obj, true);
 			}
 		}
+
 		closedir($dh);
 
 		if($deleteRootToo == 1)

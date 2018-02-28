@@ -18,6 +18,5 @@ CKEDITOR.plugins.add( 'jusocial', {
         });
 
         CKEDITOR.dialog.add( 'jusocialDialog', this.path + 'dialogs/jusocialDialog.js' );
-
     }
 });

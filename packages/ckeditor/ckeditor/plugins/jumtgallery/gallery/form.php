@@ -1,7 +1,5 @@
 <?php
 
-defined('_JEXEC') or die('Restricted access');
-
 define('_JEXEC', 1);
 define('JPATH_BASE', __DIR__ . "/../../../../../..");
 define("MAX_SIZE", "500");
@@ -12,25 +10,27 @@ require_once JPATH_BASE . '/includes/framework.php';
 $mainframe = JFactory::getApplication('administrator');
 $mainframe->initialise();
 
-$editor_area = $_GET[ 'editor' ];
-
 $user = JFactory::getUser();
 $lang = JFactory::getLanguage();
 
 $lang->load('plg_editors_ckeditor', JPATH_ADMINISTRATOR);
 
+$editor_area = $_GET[ 'editor' ];
+$rootfolder  = 'images/gallery/';
+
 $cck_jumultithumbs = JPATH_BASE . '/plugins/cck_field_typo/jumultithumbs/jumultithumbs.php';
+
 if(file_exists($cck_jumultithumbs))
 {
 	$mainframe = JFactory::getApplication('site');
-	$js = 'window.parent.CKEDITOR.dialog.getCurrent().hide();';
-	$tag = 'var tag = "{gallery images/" + folder + title + cssclass + "}";';
+	$js        = 'window.parent.CKEDITOR.dialog.getCurrent().hide();';
+	$tag       = 'var tag = "{gallery images/" + folder + title + cssclass + "}";';
 }
 else
 {
-	$mainframe = JFactory::getApplication('administrator');
-	$js = 'window.parent.SqueezeBox.close();';
-	$tag = 'var tag = "{gallery " + folder + title + cssclass + "}";';
+	$mainframe   = JFactory::getApplication('administrator');
+	$js          = 'window.parent.SqueezeBox.close();';
+	$tag         = 'var tag = "{gallery " + folder + title + cssclass + "}";';
 	$editor_area = preg_replace("#jform\[(.*?)\]#is", "jform_\\1", $editor_area);
 }
 
@@ -64,8 +64,6 @@ if($user->get('id') < 1)
 
 	return;
 }
-
-$rootfolder = 'images/gallery/';
 
 ?>
 <!DOCTYPE html>
@@ -115,9 +113,9 @@ $rootfolder = 'images/gallery/';
                 cssclass = "|" + cssclass;
             }
 
-            <?php echo $tag; ?>
+			<?php echo $tag; ?>
             window.parent.jInsertEditorText(tag, '<?php echo $editor_area; ?>');
-            <?php echo $js; ?>
+			<?php echo $js; ?>
 
             return false;
         }
@@ -137,7 +135,7 @@ $rootfolder = 'images/gallery/';
             NewElement.innerHTML = ' <a onclick="BrowseServer();" class="btn btn-primary"><?php echo JText::_('CK_JUMTG_UPLOAD_PHOTOS'); ?></a>';
 
             NewElement.appendAfter(document.getElementById('img_gall'));
-        }
+        };
 
         function BrowseServer() {
             var finder = new CKFinder();

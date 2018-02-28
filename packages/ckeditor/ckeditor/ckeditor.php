@@ -3,7 +3,7 @@
 * @copyright Copyright (c) 2014-2016, Joomla! Ukraine - Denys Nosov. All rights reserved.
 * @copyright Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 * @license	 GNU/GPL
-* CKEditor extension is free software. This version may have been modified pursuant
+* CKEditor extension is free software. This 5.0 may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
@@ -33,6 +33,12 @@ class plgEditorCKeditor extends JPlugin
 		$language->load('com_ckeditor', JPATH_ADMINISTRATOR, 'en-GB', true);
 	}
 
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since 5.0
+	 */
 	public function onInit()
 	{
 		$vcssjs = '?v5.8';
@@ -75,11 +81,26 @@ class plgEditorCKeditor extends JPlugin
 		return $load;
 	}
 
+	/**
+	 * @param $editor
+	 *
+	 * @return string
+	 *
+	 * @since 5.0
+	 */
 	public function onGetContent($editor)
 	{
 		return " CKEDITOR.instances.$editor.getData(); ";
 	}
 
+	/**
+	 * @param $editor
+	 * @param $html
+	 *
+	 * @return string
+	 *
+	 * @since 5.0
+	 */
 	public function onSetContent($editor, $html)
 	{
 		return " CKEDITOR.instances.$editor.setData($html); ";
@@ -99,7 +120,7 @@ class plgEditorCKeditor extends JPlugin
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since 5.0
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
@@ -455,22 +476,22 @@ class plgEditorCKeditor extends JPlugin
 			{
 				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/editor.css$vcssjs'";
+					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/editor.css'";
 				}
 				else
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css$vcssjs'";
+					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css'";
 				}
 			}
 			else
 			{
 				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css$vcssjs'";
+					$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css'";
 				}
 				else
 				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css$vcssjs'";
+					$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css'";
 				}
 			}
 		}
@@ -870,7 +891,7 @@ class plgEditorCKeditor extends JPlugin
 				);
 				$session->set('CKFinderSettingsPlugins', $plugins);
 
-			} //end CKFinder config
+			}
 		}
 
 		$editor .= '});';
@@ -889,6 +910,12 @@ class plgEditorCKeditor extends JPlugin
 		return $editor;
 	}
 
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since 5.0
+	 */
 	public function CKEditorInstance()
 	{
 		$txt = "
@@ -914,19 +941,15 @@ class plgEditorCKeditor extends JPlugin
 		return $txt;
 	}
 
-	/*function returns instanceReady event from CKEditor
-	 * @return variable with javascript code , define CKEDitor instanceReady event
-	 */
-
 	/**
-	 * Displays the editor buttons.
+	 * @param $name
+	 * @param $buttons
+	 * @param $asset
+	 * @param $author
 	 *
-	 * @param   string $name    The editor name
-	 * @param   mixed  $buttons [array with button objects | boolean true to display buttons]
-	 * @param   string $asset   The object asset
-	 * @param   object $author  The author.
+	 * @return string
 	 *
-	 * @return  string HTML
+	 * @since 5.0
 	 */
 	private function _displayButtons($name, $buttons, $asset, $author)
 	{
@@ -965,7 +988,7 @@ class plgEditorCKeditor extends JPlugin
 	 *
 	 * @return bool
 	 *
-	 * @since version
+	 * @since 5.0
 	 */
 	public function onGetInsertMethod($name)
 	{
@@ -987,7 +1010,7 @@ class plgEditorCKeditor extends JPlugin
 	 *
 	 * @return mixed
 	 *
-	 * @since version
+	 * @since 5.0
 	 */
 	private function _toogleButton($name)
 	{

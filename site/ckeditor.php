@@ -17,11 +17,9 @@ define('CKE_PATH', JPATH_PLUGINS . '/editors/ckeditor');
 define('CKE_PLUGINS', CKE_PATH . '/plugins');
 define('CKE_LIBRARIES', CKE_PATH . '/libraries');
 define('CKE_CLASSES', CKE_LIBRARIES . '/classes');
+
 $task = JRequest::getCmd('task');
 
-/*
- * Editor or plugin request.
- */
 if($task == 'plugin' || $task == 'help')
 {
 	require_once __DIR__ . '/editor.php';

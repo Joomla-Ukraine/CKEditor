@@ -15,14 +15,10 @@ defined('_JEXEC') or die ('Restricted access');
 class JContentEditorBridge extends JObject
 {
 	/**
-	 * Returns a reference to a editor object
 	 *
-	 * This method must be invoked as:
-	 *    <pre>  $bridge = &JContentEditorBridge::getInstance();</pre>
+	 * @return \JContentEditorBridge
 	 *
-	 * @access  public
-	 * @return  The bridge object.
-	 * @since   1.5.7
+	 * @since 5.0
 	 */
 	public function getInstance()
 	{
@@ -37,7 +33,9 @@ class JContentEditorBridge extends JObject
 	}
 
 	/**
-	 * Load Plugin files
+	 *
+	 *
+	 * @since 5.0
 	 */
 	public function load()
 	{
