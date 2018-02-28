@@ -1,4 +1,15 @@
 <?php
+/**
+ * CKEditor for Joomla!
+ *
+ * @version       5.x
+ * @package       CKEditor
+ * @author        Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @license       LICENSE.md
+ *
+ **/
+
 //
 // jQuery File Tree PHP Connector
 //
@@ -15,8 +26,6 @@
 //
 // Output a list of files for jQuery File Tree
 //
-
-//error_reporting(0);
 
 if(isset($_SERVER['HTTP_ORIGIN']))
 {

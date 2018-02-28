@@ -1,10 +1,24 @@
 <?php
+/**
+ * CKEditor for Joomla!
+ *
+ * @version       5.x
+ * @package       CKEditor
+ * @author        Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @license       LICENSE.md
+ *
+ **/
+
 /*
-Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-This script is part of CKEditor's  link Browser extension for Joomla.
-This plugin uses parts of JCE extension by Ryan Demmer
+* @copyright Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+* @license	 GNU/GPL
+* CKEditor extension is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 */
+
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
@@ -15,7 +29,6 @@ JToolBarHelper::apply();
 JToolBarHelper::cancel('cancel', JText::_('CLOSE'));
 
 JHTML::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
-//JHTML::script('administrator/components/com_ckeditor/config/views/config/js/sortables.js');
 JHTML::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
 
 include_once '../plugins/editors/ckeditor/functions.php';

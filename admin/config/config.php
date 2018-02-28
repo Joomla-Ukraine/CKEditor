@@ -1,9 +1,18 @@
 <?php
+/**
+ * CKEditor for Joomla!
+ *
+ * @version       5.x
+ * @package       CKEditor
+ * @author        Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @license       LICENSE.md
+ *
+ **/
+
 /*
-* This file uses parts of JCE extension by Ryan Demmer.
-* @copyright	Copyright (C) 2005-2014 Ryan Demmer. All rights reserved.
-* @copyright	Copyright (C) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
-* @license		GNU/GPL
+* @copyright Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+* @license	 GNU/GPL
 * CKEditor extension is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
