@@ -45,7 +45,7 @@ if (!$task)
  */
 if($task == 'plugin' || $task == 'help')
 {
-	require_once dirname(__FILE__) . DS . 'editor.php';
+	require_once(dirname(__FILE__) . DS . 'editor.php');
 
 	exit();
 }
@@ -54,4 +54,4 @@ if( $task == 'popup' ){
 	require_once( dirname( __FILE__ ) .DS. 'popup.php' );
 }*/
 
-require_once dirname(__FILE__) . DS . 'config' . DS . 'config.php';
+require_once(dirname(__FILE__) . DS . 'config' . DS . 'config.php');

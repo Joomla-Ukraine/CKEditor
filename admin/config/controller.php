@@ -22,24 +22,24 @@ class ConfigController extends JControllerLegacy
 	/**
 	 * Custom Constructor
 	 */
-	public function __construct( $default = array())
+	function __construct( $default = array())
 	{
 		parent::__construct( $default );
 		$this->registerTask( 'apply', 'save');
 	}
 
-	public function display( $cachable = false, $urlparams = false )
+	function display( $cachable = false, $urlparams = false )
 	{
 			parent::display($cachable , $urlparams );
 	}
 
-	public function cancel( )
+	function cancel( )
 	{
 		$this->setRedirect( JRoute::_( 'index.php') );
 		//$this->setRedirect( JRoute::_( 'index.php?option=com_ckeditor&client='. $client, false ) );
 	}
 
-	public function save()
+	function save()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
@@ -85,9 +85,9 @@ class ConfigController extends JControllerLegacy
 		$row->checkin();
 
 		if ($client == 'admin') {
-			$where = 'client_id=1';
+			$where = "client_id=1";
 		} else {
-			$where = 'client_id=0';
+			$where = "client_id=0";
 		}
 
 		//$x = $row->reorder( 'folder = '.$db->Quote( $row->folder ).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );

@@ -1,0 +1,127 @@
+<project name="ckeditor" default="dist" basedir=".">
+
+    <property name="VERSION" value="5.10.0-beta"/>
+
+    <tstamp>
+        <format property="DATE" pattern="%d.%m.%Y" />
+    </tstamp>
+
+    <property name="build" value="build"/>
+
+    <property name="temp" value="temp"/>
+
+    <property name="dist" value="dist"/>
+
+    <property name="filename" value="com_ckeditor_v${VERSION}.zip"/>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${temp}"/>
+        <mkdir dir="${dist}"/>
+    </target>
+
+    <target name="temp">
+
+        <copy todir="${temp}/language">
+            <fileset dir="language">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${temp}/admin">
+            <fileset dir="admin">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${temp}/site">
+            <fileset dir="site">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${temp}/packages">
+            <fileset dir="packages">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="replace">
+
+        <copy file="ckeditor.xml" todir="${build}">
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}" />
+                    <token key="date" value="${DATE}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <copy file="packages/ckeditor/ckeditor/ckeditor.xml" todir="${temp}/temp/packages/ckeditor/ckeditor">
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}" />
+                    <token key="date" value="${DATE}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <delete file="${temp}/packages/ckeditor/ckeditor/ckeditor.xml"/>
+        <copy file="${temp}/temp/packages/ckeditor/ckeditor/ckeditor.xml" todir="${temp}/packages/ckeditor/ckeditor"/>
+
+    </target>
+
+    <target name="pack-plugins">
+
+        <mkdir dir="${build}/packages"/>
+
+        <zip destfile="${build}/packages/plg_ckeditor.zip" description="plg_ckeditor">
+            <fileset dir="${temp}/packages/ckeditor"/>
+        </zip>
+
+        <copy todir="${build}/language">
+            <fileset dir="${temp}/language">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build}/admin">
+            <fileset dir="${temp}/admin">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build}/site">
+            <fileset dir="${temp}/site">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy file="ckeditor.xml" todir="${build}"/>
+
+        <copy file="install_ckeditor.php" todir="${build}"/>
+
+    </target>
+
+    <target name="dist" depends="init, temp, replace, pack-plugins">
+        <zip destfile="${dist}/${filename}">
+            <fileset dir="${build}/">
+                <include name="**/**"/>
+            </fileset>
+        </zip>
+
+        <delete dir="${build}"/>
+        <delete dir="${temp}"/>
+
+    </target>
+
+    <target name="clean">
+
+        <delete dir="${build}"/>
+        <delete dir="${temp}"/>
+
+    </target>
+
+</project>

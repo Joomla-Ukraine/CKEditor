@@ -45,7 +45,7 @@ if (!$task)
  */
 if($task == 'plugin' || $task == 'help')
 {
-	require_once dirname(__FILE__) . DS . 'editor.php';
+	require_once(dirname(__FILE__) . DS . 'editor.php');
 
 	exit();
 }

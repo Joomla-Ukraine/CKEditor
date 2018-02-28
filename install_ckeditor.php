@@ -149,6 +149,6 @@ class com_ckeditorInstallerScript
 			@rmdir($dir);
 		}
 
-		return true;
+		return;
 	}
 }

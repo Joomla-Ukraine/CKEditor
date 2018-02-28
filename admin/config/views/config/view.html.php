@@ -20,7 +20,7 @@ jimport('joomla.utilities.simplexml');
  */
 class ConfigViewConfig extends JViewLegacy
 {
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
 		$db = JFactory::getDBO();
 
@@ -182,36 +182,36 @@ class ConfigViewConfig extends JViewLegacy
 		$this->assignRef('toolbar', $toolbar);
 		parent::display($tpl);
 	}
-	public function parseConfigIni()
+	function parseConfigIni()
 	{
 		$config = array();
-		if (file_exists(JPATH_BASE.DS. '..' .DS. 'plugins' .DS. 'editors' .DS. 'ckeditor' .DS. 'config.ini'))
+		if (file_exists(JPATH_BASE.DS."..".DS."plugins".DS."editors".DS."ckeditor".DS."config.ini"))
 		{
-			$config =  parse_ini_file(JPATH_BASE.DS. '..' .DS. 'plugins' .DS. 'editors' .DS. 'ckeditor' .DS. 'config.ini',true);
+			$config =  parse_ini_file(JPATH_BASE.DS."..".DS."plugins".DS."editors".DS."ckeditor".DS."config.ini",true);
 			foreach ($config AS $key => $plugin)
 			{
-				$tmp[$plugin['buttonName']] =  array( 'name' => $plugin['buttonName'], 'icon' => $plugin['image'], 'type' => 'plugin', 'title' => $plugin['title'] ? : $plugin[ 'buttonName'], 'row' => 4);
+				$tmp[$plugin['buttonName']] =  array('name' => $plugin['buttonName'],'icon' => $plugin['image'], 'type' => 'plugin', 'title' => ($plugin['title'])?$plugin['title']: $plugin['buttonName'], 'row' => 4);
 			}
 			$config = $tmp;
 		}
 		return $config;
 	}
-	public function checkConfig($plugins)
+	function checkConfig($plugins)
 	{
 		$message = '';
 		if (!$plugins)
 		{
 			return $message;
 		}
-		if (file_exists('../plugins/editors/ckeditor/config.js'))
+		if (file_exists("../plugins/editors/ckeditor/config.js"))
 		{
-			$f = fopen('../plugins/editors/ckeditor/config.js', 'rb');
-			$file = fread($f,filesize('../plugins/editors/ckeditor/config.js'));
+			$f = fopen("../plugins/editors/ckeditor/config.js", 'r');
+			$file = fread($f,filesize("../plugins/editors/ckeditor/config.js"));
 		}
 		preg_match("#(config.extraPlugins.*=.*([\"']+.+[\"']+))#",$file,$matches);
 		if (isset($matches[2]))
 		{
-			$tmp = str_replace(array('"',"'"), '', $matches[ 2]);
+			$tmp = str_replace(array('"',"'"),array('',''),$matches[2]);
 			$tmp = explode(',',strtolower($tmp));
 			foreach ($plugins AS $plugin)
 			{

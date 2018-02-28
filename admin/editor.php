@@ -22,10 +22,10 @@ class JContentEditorBridge extends JObject
 	 *    <pre>  $bridge = &JContentEditorBridge::getInstance();</pre>
 	 *
 	 * @access  public
-	 * @return \JContentEditorBridge bridge object.
+	 * @return  The bridge object.
 	 * @since   1.5.7
 	 */
-	public function getInstance()
+	function getInstance()
 	{
 		static $instance;
 
@@ -40,7 +40,7 @@ class JContentEditorBridge extends JObject
 	/**
 	 * Load Plugin files
 	 */
-	public function load()
+	function load()
 	{
 		$task = JRequest::getCmd('task');
 		if($task)
@@ -49,7 +49,7 @@ class JContentEditorBridge extends JObject
 			{
 				case 'plugin':
 					$plugin = JRequest::getVar('plugin', 'cmd');
-/*					if($plugin == "linkBrowser")
+					if($plugin == "linkBrowser")
 					{
 						$file = 'linkBrowser';
 						$path = CKE_PLUGINS . DS . $plugin;
@@ -65,7 +65,7 @@ class JContentEditorBridge extends JObject
 					else
 					{
 						JError::raiseError(500, JText::_('PLUGIN_NOT_FOUND'));
-					}*/
+					}
 					exit ();
 					break;
 			}

@@ -9,7 +9,7 @@
     </copyright>
     <license>Licensed under CKEditor for Joomla License Agreement, version 1.1. For licensing, see http://cksource.com/license/ckeditor-for-joomla
     </license>
-    <version>5.10.0-beta</version>
+    <version>5.9.1</version>
     <description>CKEditor for Joomla component integrates CKEditor, a WYSIWYG online editor, with the link browser plugin and CKFinder.
     </description>
 
@@ -65,4 +65,8 @@
         </languages>
     </administration>
 
+    <update>http://joomla-ua.org/update/editor/ckeditor.xml</update>
+    <updateservers>
+        <server type="extension" priority="1" name="CKEditor">http://joomla-ua.org/update/editor/ckeditor.xml</server>
+    </updateservers>
 </extension>
