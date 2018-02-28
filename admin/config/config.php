@@ -10,11 +10,11 @@
 * other free or open source software licenses.
 */
 
-// no direct access
+
 defined('_JEXEC') or die('Restricted access');
 
 // Controller
-require_once(JPATH_COMPONENT . '/config/controller.php');
+require_once JPATH_COMPONENT . '/config/controller.php';
 
 // Create the controller
 $controller = new ConfigController(array(

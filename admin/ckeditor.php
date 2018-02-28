@@ -10,48 +10,22 @@
 * other free or open source software licenses.
 */
 
-// no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if(!defined('DS'))
-{
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
-define('CKE_PATH', JPATH_PLUGINS . DS . 'editors' . DS . 'ckeditor');
-define('CKE_PLUGINS', CKE_PATH . DS . 'plugins');
-define('CKE_LIBRARIES', CKE_PATH . DS . 'libraries');
-define('CKE_CLASSES', CKE_LIBRARIES . DS . 'classes');
+define('CKE_PATH', JPATH_PLUGINS . '/editors/ckeditor');
+define('CKE_PLUGINS', CKE_PATH . '/plugins');
+define('CKE_LIBRARIES', CKE_PATH . '/libraries');
+define('CKE_CLASSES', CKE_LIBRARIES . '/classes');
 $task = JRequest::getCmd('task');
-
-/*
-if (!$task)
-{
-	$db =& JFactory::getDBO();
-	$db->setQuery('SELECT id FROM #__plugins WHERE element="ckeditor"');
-	$id = $db->loadResult();
-	if ((int)$id > 0)
-	{
-	header("Location: index.php?option=com_plugins&view=plugin&client=site&task=edit&cid[]=$id");
-	exit();
-	}else{
-		die('You have to install CKEditor plugin');
-	}
-
-}*/
 
 /*
  * Editor or plugin request.
  */
 if($task == 'plugin' || $task == 'help')
 {
-	require_once(dirname(__FILE__) . DS . 'editor.php');
+	require_once __DIR__ . '/editor.php';
 
 	exit();
 }
-/*
-if( $task == 'popup' ){
-	require_once( dirname( __FILE__ ) .DS. 'popup.php' );
-}*/
 
-require_once(dirname(__FILE__) . DS . 'config' . DS . 'config.php');
+require_once __DIR__ . '/config/config.php';

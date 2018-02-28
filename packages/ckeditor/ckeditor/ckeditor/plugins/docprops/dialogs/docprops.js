@@ -149,7 +149,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		'void((function(){' + encodeURIComponent(
 			'document.open();' +
 			( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
-			'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
+			'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0">' + lang.previewHtml + '</body></html>\' );' +
 			'document.close();'
 		) + '})())';
 
@@ -468,7 +468,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						{
 							type: 'html',
 							id: 'marginTitle',
-							html: '<div style="text-align: center; margin: 0px auto; font-weight: bold">' + lang.margin + '</div>'
+							html: '<div style="text-align: center; margin: 0 auto; font-weight: bold">' + lang.margin + '</div>'
 						},
 						{
 							type: 'text',

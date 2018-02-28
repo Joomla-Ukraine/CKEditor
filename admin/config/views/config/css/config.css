@@ -23,7 +23,7 @@ li.sortableItem
 {
 	position: relative;
 	float: left;
-	margin: 0px 1px 1px 0px;
+	margin: 0 1px 1px 0;
 	border: 1px solid #CCC;
 	background-color: #F0F0EE;
 
@@ -55,26 +55,3 @@ li.sortableItem
 	width: 65px;
 
 }
-
-}
-
-fieldset ul li
-{
-	clear: both;
-}
-
-#CKEditorJs label
-{
-	min-width: 140px;
-}
-
-fieldset.adminform label, fieldset.adminform span.faux-label
-{
-	width: 200px;
-}
-fieldset.radio label
-{
-width: 70px;
-}
-pre {font-size: 12px;}
-#CKEditorCustomJs {width: 650px;}

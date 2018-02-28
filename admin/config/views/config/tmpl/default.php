@@ -18,7 +18,7 @@ JHTML::stylesheet('administrator/components/com_ckeditor/config/views/config/css
 //JHTML::script('administrator/components/com_ckeditor/config/views/config/js/sortables.js');
 JHTML::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
 
-include_once('../plugins/editors/ckeditor/functions.php');
+include_once '../plugins/editors/ckeditor/functions.php';
 
 // clean item data
 JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
@@ -198,7 +198,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>
@@ -217,7 +217,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>
@@ -240,7 +240,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>
@@ -259,7 +259,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>
@@ -269,7 +269,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<fieldset class="adminform form-horizontal">
 						<legend><?php echo JText::_('CUSTOM_CONFIGURATION'); ?></legend>
 						<p><?php echo JText::_('CUSTOM_CONFIGURATION_DESCRIPTION'); ?></p>
-						<p><?php echo str_replace("!conf", "<pre>CKEDITOR.config.entities = false;\nCKEDITOR.config.forcePasteAsPlainText = true;</pre>", JText::_('SAMPLE_CONFIGURATION') . '!conf'); ?></p>
+						<p><?php echo str_replace('!conf', "<pre>CKEDITOR.config.entities = false;\nCKEDITOR.config.forcePasteAsPlainText = true;</pre>", JText::_('SAMPLE_CONFIGURATION') . '!conf'); ?></p>
 						<?php if($this->form->getFieldset('formatting')): ?>
 							<?php foreach($this->form->getFieldset('custom_config') as $field): ?>
 								<?php if($field->hidden): ?>
@@ -282,7 +282,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>
@@ -290,7 +290,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 		</div>
 		<?php
 		//      echo JHtmlTabs::panel(JText :: _('FILE_BROWSER_SETTINGS'), "file-browser-settings");
-		$ckfinder_found = file_exists(JPATH_BASE . DS . ".." . DS . "plugins" . DS . "editors" . DS . "ckeditor" . DS . "ckfinder" . DS . "ckfinder.php") || file_exists(JPATH_BASE . DS . ".." . DS . "plugins" . DS . "editors" . DS . "ckeditor" . DS . "ckfinder" . DS . 'ckfinder' . DS . "ckfinder.php");
+		$ckfinder_found = file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/ckfinder/ckfinder.php') || file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/ckfinder/ckfinder/ckfinder.php');
 		?>
 		<div id="file-browser-settings" class="tab-pane">
 			<?php if(!$ckfinder_found): ?>
@@ -321,7 +321,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else :
-								echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS ') . "</div>";
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
 					</div>
@@ -342,7 +342,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else :
-								echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS ') . "</div>";
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
 					</div>
@@ -361,7 +361,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else :
-								echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS ') . "</div>";
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
 					</div>
@@ -382,7 +382,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else :
-								echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS ') . "</div>";
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
 					</div>
@@ -401,7 +401,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else :
-								echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS ') . "</div>";
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
 					</div>
@@ -410,11 +410,11 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 		</div>
 		<div id="layout-settings" class="tab-pane">
 			<p><?php
-				$other = ($this->toolbar == "advanced") ? "basic" : "advanced";
+				$other = ($this->toolbar == 'advanced') ? 'basic' : 'advanced';
 				echo strtr(JText:: _('LAYOUT_EDIT'), array(
-						'!type'    => '<b>' . JText:: _(!empty($this->toolbar) ? strtoupper($this->toolbar) : "BASIC") . '</b>',
-						'!other'   => '<a href="' . $link . '">' . JText:: _($other) . '</a>',
-						'!default' => '<a href="' . $link1 . '">' . JText:: _('DEFAULT') . '</a>'
+					'!type'    => '<b>' . JText:: _(!empty($this->toolbar) ? strtoupper($this->toolbar) : 'BASIC') . '</b>',
+					'!other'   => '<a href="' . $link . '">' . JText:: _($other) . '</a>',
+					'!default' => '<a href="' . $link1 . '">' . JText:: _('DEFAULT') . '</a>'
 					)); ?>
 			</p>
 			<fieldset>
@@ -430,7 +430,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 							<ul class="sortableRow">
 								<!--<li class="sortableListDiv">-->
 								<?php
-								$spacer = file_exists(JPATH_BASE . DS . 'components' . DS . 'com_ckeditor' . DS . 'config' . DS . 'views' . DS . 'config' . DS . 'images' . DS . 'spacer.png');
+								$spacer = file_exists(JPATH_BASE . '/components/com_ckeditor/config/views/config/images/spacer.png');
 								for($x = 0; $x < $many; $x++)
 								{
 									if($i == $x)
@@ -440,7 +440,9 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 										{
 											$icon = trim($icon);
 											if(!$icon)
+											{
 												continue;
+											}
 											if($spacer)
 											{
 												if($icon == ';' || $icon == '-')
@@ -535,7 +537,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php else :
-							echo "<div  style=\"text-align: center; padding: 5px; \">" . JText::_('NO_PARAMETERS') . "</div>";
+							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
 						endif; ?>
 					</fieldset>
 				</div>

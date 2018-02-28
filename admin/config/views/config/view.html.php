@@ -5,22 +5,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 This script is part of CKEditor's  link Browser extension for Joomla.
 This plugin uses parts of JCE extension by Ryan Demmer
  */
-// no direct access
+
+
 defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 jimport('joomla.form.form');
 jimport('joomla.utilities.simplexml');
 
-/**
- * Extension Manager Default View
- *
- * @package		JCE
- * @since		1.5
- */
 class ConfigViewConfig extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$db = JFactory::getDBO();
 
@@ -49,9 +44,9 @@ class ConfigViewConfig extends JViewLegacy
 		// load the row from the db table
 		$row->load(intval($id));
 
-		$xml = JPATH_BASE.DS.'components'.DS.'com_ckeditor'.DS.'config.xml';
+		$xml = JPATH_BASE . '/components/com_ckeditor/config.xml';
 		if (!file_exists($xml)) {
-			$xml = JPATH_PLUGINS.DS.'editors'.DS.'ckeditor.xml';
+			$xml = JPATH_PLUGINS . '/editors/ckeditor.xml';
 		}
 
 		//$params = new JParameter($row->params, $xml);
@@ -59,7 +54,7 @@ class ConfigViewConfig extends JViewLegacy
 		$formData = new JRegistry($row->params, 'xml');
 
 		//if _source directory dosen't exist remove CKEditroJs option from XML params
-		if (!is_dir(JPATH_PLUGINS.DS.'editors'.DS.'ckeditor'.DS.'ckeditor'.DS.'_source'))
+		if (!is_dir(JPATH_PLUGINS . '/editors/ckeditor/ckeditor/_source'))
 		{
 			$form->removeField('CKEditorJs');
 		}
@@ -67,7 +62,7 @@ class ConfigViewConfig extends JViewLegacy
 		$form->bind($formData);
 
 		$params = $formData;
-		//$params->addElementPath(JPATH_COMPONENT.DS.'elements');
+		//$params->addElementPath(JPATH_COMPONENT . '/elements');
 	//	$this->assignRef('params', $params);
 		$this->assignRef('params', $formData);
 
@@ -182,31 +177,31 @@ class ConfigViewConfig extends JViewLegacy
 		$this->assignRef('toolbar', $toolbar);
 		parent::display($tpl);
 	}
-	function parseConfigIni()
+	public function parseConfigIni()
 	{
 		$config = array();
-		if (file_exists(JPATH_BASE.DS."..".DS."plugins".DS."editors".DS."ckeditor".DS."config.ini"))
+		if (file_exists(JPATH_BASE .'/../plugins/editors/ckeditor/config.ini'))
 		{
-			$config =  parse_ini_file(JPATH_BASE.DS."..".DS."plugins".DS."editors".DS."ckeditor".DS."config.ini",true);
+			$config =  parse_ini_file(JPATH_BASE .'/../plugins/editors/ckeditor/config.ini',true);
 			foreach ($config AS $key => $plugin)
 			{
-				$tmp[$plugin['buttonName']] =  array('name' => $plugin['buttonName'],'icon' => $plugin['image'], 'type' => 'plugin', 'title' => ($plugin['title'])?$plugin['title']: $plugin['buttonName'], 'row' => 4);
+				$tmp[$plugin['buttonName']] =  array( 'name' => $plugin['buttonName'], 'icon' => $plugin['image'], 'type' => 'plugin', 'title' => $plugin['title'] ? : $plugin[ 'buttonName'], 'row' => 4);
 			}
 			$config = $tmp;
 		}
 		return $config;
 	}
-	function checkConfig($plugins)
+	public function checkConfig($plugins)
 	{
 		$message = '';
 		if (!$plugins)
 		{
 			return $message;
 		}
-		if (file_exists("../plugins/editors/ckeditor/config.js"))
+		if (file_exists('../plugins/editors/ckeditor/config.js'))
 		{
-			$f = fopen("../plugins/editors/ckeditor/config.js", 'r');
-			$file = fread($f,filesize("../plugins/editors/ckeditor/config.js"));
+			$f = fopen('../plugins/editors/ckeditor/config.js', 'rb');
+			$file = fread($f,filesize('../plugins/editors/ckeditor/config.js'));
 		}
 		preg_match("#(config.extraPlugins.*=.*([\"']+.+[\"']+))#",$file,$matches);
 		if (isset($matches[2]))

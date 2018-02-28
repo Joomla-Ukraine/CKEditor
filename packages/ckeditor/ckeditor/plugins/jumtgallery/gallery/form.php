@@ -1,22 +1,13 @@
 <?php
-/**
- * JUMultiThumb
- *
- * @version          7.x
- * @package          JUMultiThumb
- * @author           Denys D. Nosov (denys@joomla-ua.org)
- * @copyright    (C) 2007-2017 by Denys D. Nosov (http://joomla-ua.org)
- * @license          GNU/GPL: http://www.gnu.org/copyleft/gpl.html
- *
- **/
+
+defined('_JEXEC') or die('Restricted access');
 
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 define('JPATH_BASE', __DIR__ . "/../../../../../..");
 define("MAX_SIZE", "500");
 
-require_once(JPATH_BASE . '/includes/defines.php');
-require_once(JPATH_BASE . '/includes/framework.php');
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 $mainframe = JFactory::getApplication('administrator');
 $mainframe->initialise();

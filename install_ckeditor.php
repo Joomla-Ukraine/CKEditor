@@ -98,7 +98,7 @@ class com_ckeditorInstallerScript
 			}
 			else
 			{
-				$installer  = JInstaller::getInstance();
+				$installer = JInstaller::getInstance();
 
 				if(JFolder::copy($packagePath, dirname($installer->getPath('extension_site')) . '/../plugins/editors', '', true))
 				{
@@ -148,7 +148,5 @@ class com_ckeditorInstallerScript
 		{
 			@rmdir($dir);
 		}
-
-		return;
 	}
 }

@@ -105,10 +105,6 @@
 			<option value="0">JDisabled</option>
 			<option value="1">JEnabled</option>
 		</field>
-		<field name="LinkBrowser" type="radio" default="1" label="LINK_BROWSER" description="LINK_BROWSER_DESCRIPTION" class="btn-group">
-			<option value="0">JDisabled</option>
-			<option value="1">JEnabled</option>
-		</field>
 		<field name="LinkBrowserUrl" type="radio" default="1" label="LINK_BROWSER_URL" description="LINK_BROWSER_URL_DESCRIPTION" class="btn-group">
 			<option value="0">JDisabled</option>
 			<option value="1">JEnabled</option>

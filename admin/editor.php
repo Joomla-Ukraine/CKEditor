@@ -10,7 +10,6 @@
 * other free or open source software licenses.
 */
 
-// no direct access
 defined('_JEXEC') or die ('Restricted access');
 
 class JContentEditorBridge extends JObject
@@ -25,7 +24,7 @@ class JContentEditorBridge extends JObject
 	 * @return  The bridge object.
 	 * @since   1.5.7
 	 */
-	function getInstance()
+	public function getInstance()
 	{
 		static $instance;
 
@@ -40,7 +39,7 @@ class JContentEditorBridge extends JObject
 	/**
 	 * Load Plugin files
 	 */
-	function load()
+	public function load()
 	{
 		$task = JRequest::getCmd('task');
 		if($task)
@@ -49,23 +48,7 @@ class JContentEditorBridge extends JObject
 			{
 				case 'plugin':
 					$plugin = JRequest::getVar('plugin', 'cmd');
-					if($plugin == "linkBrowser")
-					{
-						$file = 'linkBrowser';
-						$path = CKE_PLUGINS . DS . $plugin;
-						if(is_dir($path) && file_exists($path . DS . $file . '.php'))
-						{
-							include_once $path . DS . $file . '.php';
-						}
-						else
-						{
-							JError::raiseError(500, JText::_('FILE') . ' ' . $file . ' ' . JText::_('NOT_FOUND'));
-						}
-					}
-					else
-					{
-						JError::raiseError(500, JText::_('PLUGIN_NOT_FOUND'));
-					}
+					JError::raiseError(500, JText::_('PLUGIN_NOT_FOUND'));
 					exit ();
 					break;
 			}
