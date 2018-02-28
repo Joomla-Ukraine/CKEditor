@@ -1,0 +1,38 @@
+/**
+ * @version		$Id: tree_ie.css 36 2011-01-20 12:59:29Z happy_noodle_boy $
+ * @package		JCE
+ * @copyright	Copyright (C) 2009 Ryan Demmer. All rights reserved.
+ * @license		GNU/GPL
+ * This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ */
+div.tree ul {
+	margin: 0px 0px 0px -16px;
+}
+div.tree ul li {
+	clear: left;
+	margin: 0px 0px 0px 16px;
+	border: 0px !important;
+}
+div.tree ul li div.tree-row {
+	margin: 0px 0px 0px -16px;
+	border: 0px;
+}
+div.tree ul li div.tree-row span {
+	float: left;
+	clear: right;
+	white-space: pre;
+}
+div.tree ul li div.tree-row div.tree-image {
+	margin-left: 0px;
+	border: 0px !important;
+}
+#link-browser {
+	font-family: Arial,Helvetica,Tahoma,Verdana,Sans-Serif;
+	font-size: 12px;
+	border: 0px ;
+}
+
+

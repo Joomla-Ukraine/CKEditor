@@ -1,0 +1,92 @@
+/* docmanlinks CSS */
+
+div.tree ul li div.tree-row span.file.docmanlinks {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 0;
+}
+div.tree ul li div.tree-row span.folder.docmanlinks {
+	background: url(../img/docmanlinks.gif) no-repeat;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.css {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -420px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.doc, 
+div.tree ul li div.tree-row span.file.docmanlinks.docx {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -20px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.zip, 
+div.tree ul li div.tree-row span.file.docmanlinks.tar, 
+div.tree ul li div.tree-row span.file.docmanlinks.gz {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -40px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.html, 
+div.tree ul li div.tree-row span.file.docmanlinks.htm {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -60px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.mp3, 
+div.tree ul li div.tree-row span.file.docmanlinks.wav {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -80px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.pdf {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -100px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.ppt {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -120px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.rar {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -140px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.xls {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -160px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.rtf, 
+div.tree ul li div.tree-row span.file.docmanlinks.txt {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -180px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.php {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -200px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.sql {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -220px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.gif {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -240px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.jpg, 
+div.tree ul li div.tree-row span.file.docmanlinks.jpeg {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -260px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.png {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -280px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.mov, 
+div.tree ul li div.tree-row span.file.docmanlinks.mpeg, 
+div.tree ul li div.tree-row span.file.docmanlinks.mpe, 
+div.tree ul li div.tree-row span.file.docmanlinks.mpg, 
+div.tree ul li div.tree-row span.file.docmanlinks.mp4, 
+div.tree ul li div.tree-row span.file.docmanlinks.mp3 {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -300px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.ra, 
+div.tree ul li div.tree-row span.file.docmanlinks.rm {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -320px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.swf {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -340px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.wmv, 
+div.tree ul li div.tree-row span.file.docmanlinks.wma, 
+div.tree ul li div.tree-row span.file.docmanlinks.asf, 
+div.tree ul li div.tree-row span.file.docmanlinks.asx, 
+div.tree ul li div.tree-row span.file.docmanlinks.avi {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -360px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.flv {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -380px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.dcr {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -400px;
+}
+div.tree ul li div.tree-row span.file.docmanlinks.js, 
+div.tree ul li div.tree-row span.file.docmanlinks.xml {
+	background: url(../../../../libraries/img/ext.png) no-repeat 0 -440px;
+}

@@ -1,0 +1,78 @@
+.icon-48-CKEditorConfigIcon{
+	background:url('../images/icon.png');
+}
+ul.sortableRow
+{
+	background-color: #F0F0EE;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	border-right: 1px dashed #CCC;
+	list-style-type: none;
+
+	display: block;
+
+	margin-top: 2px;
+}
+ul.sortableRow li img
+{
+	margin: 5px;
+	cursor: move;
+}
+
+li.sortableItem
+{
+	position: relative;
+	float: left;
+	margin: 0px 1px 1px 0px;
+	border: 1px solid #CCC;
+	background-color: #F0F0EE;
+
+}
+
+.sortableList div
+{
+	cursor: n-resize;
+}
+
+#paramsstyle,
+#paramstemplate,
+#paramscss,
+#paramsCKFinderSaveImages,
+#paramsCKFinderSaveFlash,
+#paramsCKFinderSaveFiles,
+#paramsCKFinderSaveThumbs,
+#paramsCKFinderResourceFiles,
+#paramsCKFinderResourceImages,
+#paramsCKFinderResourceFlash,
+#paramsCKFinderLicenseName,
+#paramsCKFinderLicenseKey {
+	width: 300px;
+}
+
+#CKEditorLangDir label
+{
+	min-width: 65px;
+	width: 65px;
+
+}
+
+fieldset ul li
+{
+	clear: both;
+}
+
+#CKEditorJs label
+{
+	min-width: 140px;
+}
+
+fieldset.adminform label, fieldset.adminform span.faux-label
+{
+	width: 200px;
+}
+fieldset.radio label
+{
+width: 70px;
+}
+pre {font-size: 12px;}
+#CKEditorCustomJs {width: 650px;}
