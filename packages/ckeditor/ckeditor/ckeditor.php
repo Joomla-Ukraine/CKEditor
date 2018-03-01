@@ -66,7 +66,7 @@ class plgEditorCKeditor extends JPlugin
 
 		//set base href to works with default joomla editor
 		$load .= '<script>';
-		$load .= "\nCKEDITOR.config.baseHref = '" . JURI::root() . "';";
+		$load .= "CKEDITOR.config.baseHref = '" . JURI::root() . "';";
 
 		if($this->params->get('LinkBrowserUrl', 1) == 0)
 		{
@@ -162,7 +162,7 @@ class plgEditorCKeditor extends JPlugin
 			$_height = 'height:' . $height . ';';
 		}
 
-		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '"' . ($_width || $_height ? ' style="' . $_width . $_height . '"' : '') . '>' . $content . '</textarea>';
+		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '"' . ($_width ? ' style="' . $_width . $_height . '"' : '') . '>' . $content . '</textarea>';
 
 		$userid = $user->get('id');
 		$gid    = JAccess::getGroupsByUser($userid);
@@ -249,18 +249,19 @@ class plgEditorCKeditor extends JPlugin
 			$divarea = ',divarea';
 		}
 
-		$string              = $this->params->get('CKEditorCustomJs', '');
-		$reg                 = "#/\*.+\*/#Us";
-		$string              = preg_replace($reg, '', $string);
-		$customConfigPlugins = preg_match('/CKEDITOR.config.extraPlugins = [\'|"](.+)[\'|"]/i', $string, $matches);
-		//$customConfigPlugins = '';
+		//$string = $this->params->get('CKEditorCustomJs', '');
+		//$reg    = "#/\*.+\*/#Us";
+		//$string = preg_replace($reg, '', $string);
+		//$customConfigPlugins = preg_match('/CKEDITOR.config.extraPlugins = [\'|"](.+)[\'|"]/i', $string, $matches);
 
-		if(isset($matches[ 1 ]))
-		{
-			$customConfigPlugins = ',' . $matches[ 1 ];
-			$string              = preg_replace('/CKEDITOR.config.extraPlugins = [\'|"](.+)[\'|"]/i', '', $string);
-			$this->params->set('CKEditorCustomJs', $string);
-		}
+		$customConfigPlugins = '';
+
+		/*		if(isset($matches[ 1 ]))
+				{
+					$customConfigPlugins = ',' . $matches[ 1 ];
+					$string              = preg_replace('/CKEDITOR.config.extraPlugins = [\'|"](.+)[\'|"]/i', '', $string);
+					$this->params->set('CKEditorCustomJs', $string);
+				}*/
 
 		$skin = $this->params->get('skin', 'moono');
 		if($skin == 'v2' || $skin == 'office2003')
@@ -284,7 +285,7 @@ class plgEditorCKeditor extends JPlugin
 			' . $entities . "\nextraPlugins: \"" . implode(',', $this->pluginsName) . $autogrow . $tableresize . $divarea . $customConfigPlugins . "\",
 			customConfig: '../config.js',
 			enterMode: " . $this->params->get('enterMode', '1') . ',
-			shiftEnterMode: ' . $this->params->get('shiftEnterMode', '2') . ';
+			shiftEnterMode: ' . $this->params->get('shiftEnterMode', '2') . '
 		';
 
 		if($this->params->get('CKEditorWidth', '') > 0 && $this->params->get('CKEditorWidth', '') != '100%')
@@ -313,7 +314,6 @@ class plgEditorCKeditor extends JPlugin
 		{
 			$editor .= ", uiColor: '" . $this->params->get('Color', '') . "'";
 		}
-
 		// ACF settings
 		if($this->params->get('ACF', 0) != 1)
 		{
@@ -441,8 +441,7 @@ class plgEditorCKeditor extends JPlugin
 		{
 			$editor .= ",stylesCombo_stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
 			$editor .= ",stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
-
-			$style = true;
+			$style  = true;
 		}
 
 		$template      = false;
@@ -451,9 +450,8 @@ class plgEditorCKeditor extends JPlugin
 		//set template
 		if($template_file != '' && file_exists(__DIR__ . '/templates/' . $template_file))
 		{
-			$editor .= ",templates_files: ['" . JURI::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
-			$editor .= ",templates: 'default'";
-
+			$editor   .= ",templates_files: ['" . JURI::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
+			$editor   .= ",templates: 'default'";
 			$template = true;
 		}
 
@@ -512,12 +510,12 @@ class plgEditorCKeditor extends JPlugin
 
 		if($this->params->get('ckfinder', '1') == 1)
 		{
-			$userid        = $user->get('id');
-			$gid           = JAccess::getGroupsByUser($userid);
-			$access        = $this->params->get('username_access', array( '8' ));
+			$userid = $user->get('id');
+			$gid    = JAccess::getGroupsByUser($userid);
+			$access = $this->params->get('username_access', array( '8' ));
+
 			$access_true   = false;
 			$sessionActive = false;
-
 			$session->set('CKFinderAccess', false); //default false - user can't use CKFinder
 
 			if($this->params->get('CKFinderPathType', 0) == 1)
@@ -551,7 +549,6 @@ class plgEditorCKeditor extends JPlugin
 			if($access_true && $session->getState() == 'active')
 			{
 				$sessionActive = true;
-
 				$session->set('LicenseName', $this->params->get('CKFinderLicenseName', ''));
 				$session->set('LicenseKey', $this->params->get('CKFinderLicenseKey', ''));
 				$session->set('CKFinderAccess', true); //user can use CKFinder
@@ -616,7 +613,6 @@ class plgEditorCKeditor extends JPlugin
 				{
 					$dirs = explode('/', $saveDir);
 					$path = CKFINDER_PATH_BASE;
-
 					foreach($dirs AS $dir)
 					{
 						$path = $path . '/' . $dir;
@@ -650,7 +646,6 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
-
 				$session->set('CKFinderFlashPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFlashUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -691,7 +686,6 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
-
 				$session->set('CKFinderFilesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -734,7 +728,6 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
-
 				$session->set('CKFinderThumbsPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -781,7 +774,6 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
-
 					$session->set('CKFinderResourceFiles', implode(',', $results));
 				}
 
@@ -798,7 +790,6 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
-
 					$session->set('CKFinderResourceImages', implode(',', $results));
 				}
 
@@ -815,7 +806,6 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
-
 					$session->set('CKFinderResourceFlash', implode(',', $results));
 				}
 
@@ -867,7 +857,6 @@ class plgEditorCKeditor extends JPlugin
 					'fileedit'    => $this->params->get('CKFinderFileEdit', 1),
 					'zip'         => $this->params->get('CKFinderZip', 1),
 				);
-
 				$session->set('CKFinderSettingsPlugins', $plugins);
 
 			}
