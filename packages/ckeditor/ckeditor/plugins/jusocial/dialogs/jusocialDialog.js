@@ -19,7 +19,7 @@
 
 CKEDITOR.dialog.add('jusocialDialog', function (editor) {
     return {
-        title: 'Посты из соцсети',
+        title: lang.title,
         minWidth: 400,
         minHeight: 100,
         contents: [
@@ -30,8 +30,8 @@ CKEDITOR.dialog.add('jusocialDialog', function (editor) {
                     {
                         type: 'textarea',
                         id: 'jusoc_code',
-                        label: 'Вставте embed-код',
-                        validate: CKEDITOR.dialog.validate.notEmpty("Пусто!")
+                        label: editor.lang.jusocial.paste,
+                        validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.jusocial.empty)
                     }
                 ]
             }
