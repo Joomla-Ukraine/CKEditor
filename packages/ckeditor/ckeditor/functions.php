@@ -54,8 +54,8 @@ function checkPackageLicense($licenseKey, $licenseName)
  */
 function checkKey($key, $licenseName)
 {
-	//getApplication
 	$app = JFactory::getApplication();
+
 	if(strlen($key) == 15 && ($key[ 0 ] == 'C' || $key[ 0 ] == 'D') && $key[ 13 ] == 'K' && ((int) (ord($key[ 10 ]) . ord($key[ 11 ])) % 3 == 0) && ((int) (ord($key[ 6 ]) . ord($key[ 7 ])) % 2 == 0) && $key[ 6 ] != '0' && $key[ 7 ] != '0' && $key[ 10 ] != '0' && $key[ 11 ] != '0')
 	{
 		if($key[ 0 ] == 'D' && $app->getName() == 'administrator')
