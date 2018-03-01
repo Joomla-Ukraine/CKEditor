@@ -51,7 +51,7 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	public function onInit()
 	{
-		$vcssjs = '?v5.8';
+		$vcssjs = '?v=@version@';
 
 		$load = "\t<script>window.CKEDITOR_BASEPATH='" . JURI::root() . "plugins/editors/ckeditor/ckeditor/';</script>\n";
 

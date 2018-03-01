@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.4.3" type="plugin" group="editors" method="upgrade">
 	<name>Editor - CKEditor</name>
-	<version>5.9.1</version>
-	<creationDate>05.12.2017</creationDate>
+	<version>@version@</version>
+	<creationDate>@date@</creationDate>
 	<author>CKSource</author>
 	<authorurl>http://cksource.com</authorurl>
 	<license>GPL</license>
