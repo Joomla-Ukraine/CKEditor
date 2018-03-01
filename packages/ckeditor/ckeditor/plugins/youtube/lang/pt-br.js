@@ -1,13 +1,13 @@
-CKEDITOR.plugins.setLang('youtube', 'pt', {
+CKEDITOR.plugins.setLang('youtube', 'pt-br', {
 	button : 'Inserir Vídeo do Youtube',
 	title : 'Inserir Vídeo do Youtube',
 	txtEmbed : 'Cole aqui o código embed de um vídeo do Youtube',
 	txtUrl : 'Cole aqui uma URL de um vídeo do Youtube',
 	txtWidth : 'Largura',
 	txtHeight : 'Altura',
-	chkRelated : 'Mostrar vídeos sugeridos quando o vídeo terminar',
+	chkRelated : 'Mostrar vídeos sugeridos ao final do vídeo',
 	txtStartAt : 'Iniciar em (ss ou mm:ss ou hh:mm:ss)',
-	chkPrivacy : 'Ativar o modo de privacidade otimizada',
+	chkPrivacy : 'Ativar o modo de privacidade aprimorada',
 	chkOlderCode : 'Usar código de incorporação antigo',
 	chkAutoplay : 'Reproduzir automaticamente',
 	chkControls: 'Mostrar controles do player',
