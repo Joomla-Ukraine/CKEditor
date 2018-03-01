@@ -17,7 +17,7 @@
  *
  **/
 
-CKEDITOR.dialog.add( 'jusocialDialog', function( editor ) {
+CKEDITOR.dialog.add('jusocialDialog', function (editor) {
     return {
         title: 'Посты из соцсети',
         minWidth: 400,
@@ -31,18 +31,16 @@ CKEDITOR.dialog.add( 'jusocialDialog', function( editor ) {
                         type: 'textarea',
                         id: 'jusoc_code',
                         label: 'Вставте embed-код',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Пусто!" )
+                        validate: CKEDITOR.dialog.validate.notEmpty("Пусто!")
                     }
                 ]
             }
         ],
-        onOk: function()
-        {
+        onOk: function () {
             var editor = this.getParentEditor();
-            var content = this.getValueOf( 'jusocPlugin', 'jusoc_code' );
+            var content = this.getValueOf('jusocPlugin', 'jusoc_code');
 
-            if ( content.length>0 )
-            {
+            if (content.length > 0) {
                 var realElement = CKEDITOR.dom.element.createFromHtml('<p><p>');
 
                 realElement.setHtml('[socpost]' + convert(content) + '[/socpost]');
@@ -52,8 +50,7 @@ CKEDITOR.dialog.add( 'jusocialDialog', function( editor ) {
     };
 });
 
-function convert(str)
-{
+function convert(str) {
     str = str.replace(/&/g, "&amp;");
     str = str.replace(/>/g, "&gt;");
     str = str.replace(/</g, "&lt;");
