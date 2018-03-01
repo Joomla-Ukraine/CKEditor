@@ -26,7 +26,6 @@ CKEDITOR.addStylesSet('default', [
 
     /* Inline Styles */
 
-
     {name: 'Marker: Yellow', element: 'span', styles: {'background-color': 'Yellow'}},
     {name: 'Marker: Green', element: 'span', styles: {'background-color': 'Lime'}},
 

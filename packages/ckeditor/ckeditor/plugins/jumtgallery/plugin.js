@@ -36,7 +36,7 @@ CKEDITOR.plugins.add('jumtgallery', {
             function () {
             }, {
                 onShow: function () {
-                    document.getElementById(this.getButton('ok').domId).style.display='none';
+                    document.getElementById(this.getButton('ok').domId).style.display = 'none';
                 }
             }
         );

@@ -428,7 +428,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					'!type'    => '<b>' . JText:: _(!empty($this->toolbar) ? strtoupper($this->toolbar) : 'BASIC') . '</b>',
 					'!other'   => '<a href="' . $link . '">' . JText:: _($other) . '</a>',
 					'!default' => '<a href="' . $link1 . '">' . JText:: _('DEFAULT') . '</a>'
-					)); ?>
+				)); ?>
 			</p>
 			<fieldset>
 				<legend><?php echo ucfirst($this->toolbar) ?> Toolbar</legend>

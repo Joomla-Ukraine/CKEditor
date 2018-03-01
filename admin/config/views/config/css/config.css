@@ -1,37 +1,32 @@
-.icon-48-CKEditorConfigIcon{
-	background:url('../images/icon.png');
-}
-ul.sortableRow
-{
-	background-color: #F0F0EE;
-	height: 30px;
-	border: 1px solid #CCCCCC;
-	border-right: 1px dashed #CCC;
-	list-style-type: none;
-
-	display: block;
-
-	margin-top: 2px;
-}
-ul.sortableRow li img
-{
-	margin: 5px;
-	cursor: move;
+.icon-48-CKEditorConfigIcon {
+    background: url('../images/icon.png');
 }
 
-li.sortableItem
-{
-	position: relative;
-	float: left;
-	margin: 0 1px 1px 0;
-	border: 1px solid #CCC;
-	background-color: #F0F0EE;
-
+ul.sortableRow {
+    background-color: #F0F0EE;
+    height: 30px;
+    border: 1px solid #CCCCCC;
+    border-right: 1px dashed #CCC;
+    list-style-type: none;
+    display: block;
+    margin-top: 2px;
 }
 
-.sortableList div
-{
-	cursor: n-resize;
+ul.sortableRow li img {
+    margin: 5px;
+    cursor: move;
+}
+
+li.sortableItem {
+    position: relative;
+    float: left;
+    margin: 0 1px 1px 0;
+    border: 1px solid #CCC;
+    background-color: #F0F0EE;
+}
+
+.sortableList div {
+    cursor: n-resize;
 }
 
 #paramsstyle,
@@ -46,12 +41,10 @@ li.sortableItem
 #paramsCKFinderResourceFlash,
 #paramsCKFinderLicenseName,
 #paramsCKFinderLicenseKey {
-	width: 300px;
+    width: 300px;
 }
 
-#CKEditorLangDir label
-{
-	min-width: 65px;
-	width: 65px;
-
+#CKEditorLangDir label {
+    min-width: 65px;
+    width: 65px;
 }
