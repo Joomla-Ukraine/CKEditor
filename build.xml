@@ -2,7 +2,7 @@
 
 <project name="ckeditor" default="dist" basedir=".">
 
-    <property name="VERSION" value="5.10.0-RC1"/>
+    <property name="VERSION" value="5.10.0-RC3"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>
