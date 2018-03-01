@@ -22,7 +22,7 @@
         lang: ['en', 'ru', 'uk'],
         icons: 'jusocial',
         init: function (editor) {
-            console.log(editor.lang);
+
             editor.addCommand('jusocial', new CKEDITOR.dialogCommand('jusocialDialog'));
             editor.ui.addButton('jusocial', {
                 label: editor.lang.jusocial.button,

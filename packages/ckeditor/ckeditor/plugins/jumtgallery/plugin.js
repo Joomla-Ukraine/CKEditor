@@ -23,7 +23,6 @@ CKEDITOR.plugins.add('jumtgallery', {
     icons: 'jumtgallery',
     init: function (editor) {
 
-        console.log(editor.lang);
         var height = 540,
             width = 750,
             editarea = editor_name;
