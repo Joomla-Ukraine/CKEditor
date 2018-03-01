@@ -19,23 +19,25 @@
 
 CKEDITOR.plugins.add('jumtgallery', {
     requires: ['iframedialog'],
+    lang: ['en', 'ru', 'uk'],
     icons: 'jumtgallery',
     init: function (editor) {
-        var height = 540,
-            width = 750;
 
-        var editarea = editor_name;
+        console.log(editor.lang);
+        var height = 540,
+            width = 750,
+            editarea = editor_name;
 
         CKEDITOR.dialog.addIframe(
             'myiframedialogDialog',
-            'Gallery',
+            editor.lang.jumtgallery.title,
             this.path + 'gallery/form.php?editor=' + editarea,
             width,
             height,
             function () {
-            },
-            {
-                onOk: function () {
+            }, {
+                onShow: function () {
+                    document.getElementById(this.getButton('ok').domId).style.display='none';
                 }
             }
         );
@@ -43,13 +45,9 @@ CKEDITOR.plugins.add('jumtgallery', {
         editor.addCommand('myiframedialog', new CKEDITOR.dialogCommand('myiframedialogDialog'));
 
         editor.ui.addButton('jumtgallery', {
-            label: 'Insert Facebook and Twitter post',
+            label: editor.lang.jumtgallery.button,
             command: 'myiframedialog',
             icon: CKEDITOR.plugins.getPath('jumtgallery') + '/icons/icon.png'
         });
     }
 });
-
-var toolbar = CKEDITOR.config.toolbar_Full;
-
-toolbar[toolbar.length - 1].items.push('Myiframedialog');
