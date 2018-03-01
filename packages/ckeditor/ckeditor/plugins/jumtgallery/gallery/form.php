@@ -22,14 +22,11 @@ $mainframe->initialise();
 
 $user = JFactory::getUser();
 $lang = JFactory::getLanguage();
-
 $lang->load('plg_editors_ckeditor', JPATH_ADMINISTRATOR);
 
 $editor_area = $_GET[ 'editor' ];
-$rootfolder  = 'images/gallery/';
 
 $cck_jumultithumbs = JPATH_BASE . '/plugins/cck_field_typo/jumultithumbs/jumultithumbs.php';
-
 if(file_exists($cck_jumultithumbs))
 {
 	$mainframe = JFactory::getApplication('site');
@@ -47,8 +44,7 @@ else
 $mainframe->initialise();
 
 $language = mb_strtolower($lang->getTag());
-
-$doc = JFactory::getDocument();
+$doc      = JFactory::getDocument();
 
 if($user->get('id') < 1)
 {
@@ -75,6 +71,32 @@ if($user->get('id') < 1)
 	return;
 }
 
+jimport('joomla.form.form');
+jimport('joomla.utilities.simplexml');
+
+$xml  = file_get_contents('components/com_ckeditor/config.xml');
+$xml  = str_replace(array(
+	'<config>',
+	'</config>'
+), array(
+	'<form>',
+	'</form>'
+), $xml);
+$form = new jForm('adminFormCKEditor');
+$form->load($xml);
+
+$lists = array();
+$row   = JTable::getInstance('extension');
+
+$db    = JFactory::getDBO();
+$query = 'SELECT extension_id FROM #__extensions WHERE element = "ckeditor"';
+$db->setQuery($query);
+$id = $db->loadResult();
+$row->load(intval($id));
+$formData = new JRegistry($row->params, 'xml');
+
+$rootfolder = $formData[ 'jumtgallery' ];
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $language; ?>">
@@ -90,6 +112,7 @@ if($user->get('id') < 1)
 
 	<script>
         jQuery.noConflict();
+
         jQuery(document).ready(function () {
             jQuery('.selects').fileTree({
                 root: '<?php echo $rootfolder; ?>',
@@ -101,9 +124,9 @@ if($user->get('id') < 1)
         });
 
         function insertJUGallery() {
-            var folder = document.getElementById("folder").value;
-            var title = document.getElementById("title").value;
-            var cssclass = document.getElementById("cssclass").value;
+            var folder = document.getElementById("folder").value,
+                title = document.getElementById("title").value,
+                cssclass = document.getElementById("cssclass").value;
 
             if (folder != '') {
                 folder = "" + folder + "";
@@ -135,11 +158,11 @@ if($user->get('id') < 1)
         window.onload = function () {
             Element.prototype.appendBefore = function (element) {
                 element.parentNode.insertBefore(this, element);
-            }, false;
+            };
 
             Element.prototype.appendAfter = function (element) {
                 element.parentNode.insertBefore(this, element.nextSibling);
-            }, false;
+            };
 
             var NewElement = document.createElement('span');
             NewElement.innerHTML = ' <a onclick="BrowseServer();" class="btn btn-primary"><?php echo JText::_('CK_JUMTG_UPLOAD_PHOTOS'); ?></a>';
@@ -154,21 +177,18 @@ if($user->get('id') < 1)
         }
 
         function SetFileField(fileUrl) {
-            var str = fileUrl;
-            var str2 = str.replace("http://" + window.location.host + "/", "");
-            document.getElementById('img_gall').value = str2;
+            var str = fileUrl.replace("http://" + window.location.host + "/", "");
+            document.getElementById('img_gall').value = str;
         }
 	</script>
 
-	<style>
-		body {
+	<style>body {
 			background: transparent;
 		}
 
 		fieldset {
 			margin: 5px 0 !important;
-		}
-	</style>
+		}</style>
 </head>
 <body>
 <form class="form-horizontal">
