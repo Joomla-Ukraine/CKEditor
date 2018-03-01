@@ -29,6 +29,8 @@ class plgEditorCKeditor extends JPlugin
 
 	public $called = false;
 
+	public $buildVersion = '?v=@version@';
+
 	/**
 	 * plgEditorCKeditor constructor.
 	 *
@@ -51,17 +53,15 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	public function onInit()
 	{
-		$vcssjs = '?v=@version@';
-
 		$load = "\t<script>window.CKEDITOR_BASEPATH='" . JURI::root() . "plugins/editors/ckeditor/ckeditor/';</script>\n";
 
 		if($this->params->get('CKEditorJs', 0) == 1 && is_dir('../plugins/editors/ckeditor/ckeditor/_source/') && file_exists('../plugins/editors/ckeditor/ckeditor/ckeditor_source.js'))
 		{
-			$load .= "\t<script src=\"" . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor_source.js' . $vcssjs . "\"></script>\n";
+			$load .= "\t<script src=\"" . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor_source.js' . $this->buildVersion . "\"></script>\n";
 		}
 		else
 		{
-			$load .= "\t<script src=\"" . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor.js' . $vcssjs . "\"></script>\n";
+			$load .= "\t<script src=\"" . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor.js' . $this->buildVersion . "\"></script>\n";
 		}
 
 		//set base href to works with default joomla editor
@@ -438,8 +438,8 @@ class plgEditorCKeditor extends JPlugin
 		{
 			if(file_exists(__DIR__ . '/styles/' . $style_file))
 			{
-				$editor .= ",stylesCombo_stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . "'";
-				$editor .= ",stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . "'";
+				$editor .= ",stylesCombo_stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
+				$editor .= ",stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
 				$style  = true;
 			}
 		}
@@ -452,7 +452,7 @@ class plgEditorCKeditor extends JPlugin
 		{
 			if(file_exists(__DIR__ . '/templates/' . $template_file))
 			{
-				$editor   .= ",templates_files: ['" . JURI::root() . '/plugins/editors/ckeditor/templates/' . $template_file . "']";
+				$editor   .= ",templates_files: ['" . JURI::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
 				$editor   .= ",templates: 'default'";
 				$template = true;
 			}
@@ -475,7 +475,7 @@ class plgEditorCKeditor extends JPlugin
 			{
 				if(file_exists(__DIR__ . '/css/' . trim($file)))
 				{
-					$css .= ", '" . JURI::root() . 'plugins/editors/ckeditor/css/' . trim($file) . "'";
+					$css .= ", '" . JURI::root() . 'plugins/editors/ckeditor/css/' . trim($file) . $this->buildVersion . "'";
 				}
 			}
 		}
@@ -486,22 +486,22 @@ class plgEditorCKeditor extends JPlugin
 			{
 				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/editor.css'";
+					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/editor.css". $this->buildVersion ."'";
 				}
 				else
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css'";
+					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css". $this->buildVersion ."'";
 				}
 			}
 			else
 			{
 				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css'";
+					$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css". $this->buildVersion ."'";
 				}
 				else
 				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css'";
+					$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css". $this->buildVersion ."'";
 				}
 			}
 		}
@@ -661,6 +661,7 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
+
 				$session->set('CKFinderFlashPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFlashUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -710,6 +711,7 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
+
 				$session->set('CKFinderFilesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -761,6 +763,7 @@ class plgEditorCKeditor extends JPlugin
 					$user->id,
 					$user->username
 				), $saveDir);
+
 				$session->set('CKFinderThumbsPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
@@ -816,6 +819,7 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
+
 					$session->set('CKFinderResourceFiles', implode(',', $results));
 				}
 
@@ -832,6 +836,7 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
+
 					$session->set('CKFinderResourceImages', implode(',', $results));
 				}
 
@@ -848,6 +853,7 @@ class plgEditorCKeditor extends JPlugin
 							$results[] = $extension;
 						}
 					}
+
 					$session->set('CKFinderResourceFlash', implode(',', $results));
 				}
 
@@ -899,6 +905,7 @@ class plgEditorCKeditor extends JPlugin
 					'fileedit'    => $this->params->get('CKFinderFileEdit', 1),
 					'zip'         => $this->params->get('CKFinderZip', 1),
 				);
+
 				$session->set('CKFinderSettingsPlugins', $plugins);
 
 			}
