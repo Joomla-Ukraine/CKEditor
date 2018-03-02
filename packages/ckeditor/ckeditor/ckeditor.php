@@ -142,7 +142,7 @@ class plgEditorCKeditor extends JPlugin
 			JHTML::_('behavior.modal', 'a.modal-button');
 		}
 
-		setcookie('ckfinder_app', $app->getClientId(), strtotime('+' . $config->get('lifetime') . ' seconds'), '/');
+		setcookie('ckfinder_app', $app->getClientId(), strtotime('+' . $config->get('lifetime') . ' minutes'), '/');
 
 		$session = JFactory::getSession();
 		$user    = JFactory::getUser();
@@ -260,9 +260,9 @@ class plgEditorCKeditor extends JPlugin
 
 		$editor .= "<script>
 
-        var editor_name = '" . $name . "',
-            attrstyle = document.getElementById('" . $id . "'),
-            editorheight = (attrstyle.clientHeight+2);
+        var editor_name = '" . $name . "';
+        var attrstyle = document.getElementById('" . $id . "');
+        var editorheight = (attrstyle.clientHeight+2);
 
 		CKEDITOR.replace('" . $name . "', {
 			resize_minWidth: '200',

@@ -118,15 +118,6 @@ class ConfigController extends JControllerLegacy
 
 		$row->checkin();
 
-		if($client == 'admin')
-		{
-			$where = 'client_id=1';
-		}
-		else
-		{
-			$where = 'client_id=0';
-		}
-
 		$msg = JText::sprintf('SAVED');
 
 		switch($task)

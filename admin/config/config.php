@@ -27,5 +27,8 @@ $controller = new ConfigController(array(
 	'base_path' => JPATH_COMPONENT . '/config'
 ));
 
-$controller->execute(JRequest::getCmd('task'));
+$jinput = JFactory::getApplication()->input;
+$task   = $jinput->get('task', '', 'STR');
+
+$controller->execute($task);
 $controller->redirect();

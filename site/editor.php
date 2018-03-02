@@ -49,7 +49,8 @@ class JContentEditorBridge extends JObject
 	 */
 	public function load()
 	{
-		$task = JRequest::getCmd('task');
+		$jinput = JFactory::getApplication()->input;
+		$task   = $jinput->get('task', '', 'STR');
 
 		if($task)
 		{
@@ -69,5 +70,5 @@ class JContentEditorBridge extends JObject
 	}
 }
 
-$bridge = &JContentEditorBridge::getInstance();
+$bridge = JContentEditorBridge::getInstance();
 $bridge->load();

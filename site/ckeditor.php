@@ -27,7 +27,8 @@ define('CKE_PLUGINS', CKE_PATH . '/plugins');
 define('CKE_LIBRARIES', CKE_PATH . '/libraries');
 define('CKE_CLASSES', CKE_LIBRARIES . '/classes');
 
-$task = JRequest::getCmd('task');
+$jinput = JFactory::getApplication()->input;
+$task   = $jinput->get('task', '', 'STR');
 
 if($task == 'plugin' || $task == 'help')
 {

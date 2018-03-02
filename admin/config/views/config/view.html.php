@@ -27,6 +27,12 @@ jimport('joomla.utilities.simplexml');
 
 class ConfigViewConfig extends JViewLegacy
 {
+	/**
+	 * @param null $tpl
+	 *
+	 *
+	 * @since 5.0
+	 */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -50,7 +56,7 @@ class ConfigViewConfig extends JViewLegacy
 		$form->load($xml);
 
 		$client = JRequest::getWord('client', 'site');
-		$lists  = array();
+
 		$row    = JTable::getInstance('extension');
 
 		$query = 'SELECT extension_id'
@@ -75,20 +81,19 @@ class ConfigViewConfig extends JViewLegacy
 		{
 			$form->removeField('CKEditorJs');
 		}
-		//bind data to form
+
 		$form->bind($formData);
 
 		$params = $formData;
-		//$params->addElementPath(JPATH_COMPONENT . '/elements');
-		//	$this->assignRef('params', $params);
-		$this->assignRef('params', $formData);
 
+		$this->assignRef('params', $formData);
 		$this->assignRef('client', $client);
 		$this->assignRef('form', $form);
 
 		$configIni   = $this->parseConfigIni();
 		$configCheck = $this->checkConfig($configIni);
 		$this->assignRef('message', $configCheck);
+
 		//define all CKEditor toolbar buttons
 		$toolBars = array(
 			'Source'         => array(
@@ -182,7 +187,6 @@ class ConfigViewConfig extends JViewLegacy
 				'title' => 'Spell Check As you Type',
 				'row'   => 1
 			),
-			//TODO sprawdzic ta opcje
 			'Undo'           => array(
 				'name'  => 'Undo',
 				'icon'  => '../images/undo.png',
@@ -562,10 +566,12 @@ class ConfigViewConfig extends JViewLegacy
 				'row'   => 3
 			),
 		);
+
 		if($configIni)
 		{
 			$toolBars = array_merge($toolBars, $configIni);
 		}
+
 		$this->assignRef('allToolbars', $toolBars);
 
 		//get variables from GET
@@ -599,16 +605,25 @@ class ConfigViewConfig extends JViewLegacy
 				$this->assignRef('usedToolbars', $param);
 			}
 		}
+
 		$this->assignRef('toolbar', $toolbar);
+
 		parent::display($tpl);
 	}
 
+	/**
+	 *
+	 * @return array|bool
+	 *
+	 * @since 5.0
+	 */
 	public function parseConfigIni()
 	{
 		$config = array();
 		if(file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/config.ini'))
 		{
 			$config = parse_ini_file(JPATH_BASE . '/../plugins/editors/ckeditor/config.ini', true);
+
 			foreach($config AS $key => $plugin)
 			{
 				$tmp[ $plugin[ 'buttonName' ] ] = array(
@@ -619,12 +634,20 @@ class ConfigViewConfig extends JViewLegacy
 					'row'   => 4
 				);
 			}
+
 			$config = $tmp;
 		}
 
 		return $config;
 	}
 
+	/**
+	 * @param $plugins
+	 *
+	 * @return string
+	 *
+	 * @since 5.0
+	 */
 	public function checkConfig($plugins)
 	{
 		$message = '';
@@ -632,12 +655,15 @@ class ConfigViewConfig extends JViewLegacy
 		{
 			return $message;
 		}
+
 		if(file_exists('../plugins/editors/ckeditor/config.js'))
 		{
 			$f    = fopen('../plugins/editors/ckeditor/config.js', 'rb');
 			$file = fread($f, filesize('../plugins/editors/ckeditor/config.js'));
 		}
+
 		preg_match("#(config.extraPlugins.*=.*([\"']+.+[\"']+))#", $file, $matches);
+
 		if(isset($matches[ 2 ]))
 		{
 			$tmp = str_replace(array(
@@ -646,6 +672,7 @@ class ConfigViewConfig extends JViewLegacy
 			), '', $matches[ 2 ]);
 
 			$tmp = explode(',', strtolower($tmp));
+
 			foreach($plugins AS $plugin)
 			{
 				if(!in_array(strtolower($plugin[ 'name' ]), $tmp))
