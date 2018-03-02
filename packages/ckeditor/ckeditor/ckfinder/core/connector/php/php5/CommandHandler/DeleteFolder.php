@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 /**
  * Handle DeleteFolder command
@@ -38,7 +38,7 @@ class CKFinder_Connector_CommandHandler_DeleteFolder extends CKFinder_Connector_
      * @access private
      * @var string
      */
-    private $command = "DeleteFolder";
+    private $command = 'DeleteFolder';
 
 
     /**
@@ -57,7 +57,7 @@ class CKFinder_Connector_CommandHandler_DeleteFolder extends CKFinder_Connector_
         }
 
         // The root folder cannot be deleted.
-        if ($this->_currentFolder->getClientPath() == "/") {
+        if ($this->_currentFolder->getClientPath() == '/') {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
         }
 

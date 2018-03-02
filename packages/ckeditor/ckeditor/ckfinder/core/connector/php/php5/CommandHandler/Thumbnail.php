@@ -33,7 +33,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
      * @access private
      * @var string
      */
-    private $command = "Thumbnail";
+    private $command = 'Thumbnail';
 
     /**
      * handle request and send response
@@ -46,12 +46,12 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         if (ob_get_level()) {
             while (@ob_end_clean() && ob_get_level());
         }
-        header("Content-Encoding: none");
+        header('Content-Encoding: none');
 
         $this->checkConnector();
         $this->checkRequest();
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
 
         $_thumbnails = $_config->getThumbnailsConfig();
         if (!$_thumbnails->getIsEnabled()) {
@@ -62,11 +62,11 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
         }
 
-        if (!isset($_GET["FileName"])) {
+        if (!isset($_GET[ 'FileName' ])) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
         }
 
-        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_GET["FileName"]);
+        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_GET[ 'FileName' ]);
         $_resourceTypeInfo = $this->_currentFolder->getResourceTypeConfig();
 
         if (!CKFinder_Connector_Utils_FileSystem::checkFileName($fileName)) {
@@ -90,15 +90,15 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
 
         $size = filesize($thumbFilePath);
         $sourceImageAttr = getimagesize($thumbFilePath);
-        $mime = $sourceImageAttr["mime"];
+        $mime = $sourceImageAttr[ 'mime' ];
 
-        $rtime = isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])?@strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]):0;
+        $rtime = isset($_SERVER[ 'HTTP_IF_MODIFIED_SINCE' ])?@strtotime($_SERVER[ 'HTTP_IF_MODIFIED_SINCE' ]):0;
         $mtime =  filemtime($thumbFilePath);
-        $etag = dechex($mtime) . "-" . dechex($size);
+        $etag = dechex($mtime) . '-' . dechex($size);
 
         $is304 = false;
 
-        if (isset($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] === $etag) {
+        if (isset($_SERVER[ 'HTTP_IF_NONE_MATCH' ]) && $_SERVER[ 'HTTP_IF_NONE_MATCH' ] === $etag) {
             $is304 = true;
         }
         else if($rtime == $mtime) {
@@ -106,7 +106,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         }
 
         if ($is304) {
-            header("HTTP/1.0 304 Not Modified");
+            header('HTTP/1.0 304 Not Modified');
             exit();
         }
 
@@ -115,11 +115,11 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         //header("Expires: 0");
         header('Cache-control: public');
         header('Etag: ' . $etag);
-        header("Content-type: " . $mime . "; name=\"" . CKFinder_Connector_Utils_Misc::mbBasename($thumbFilePath) . "\"");
-        header("Last-Modified: ".gmdate('D, d M Y H:i:s', $mtime) . " GMT");
+        header('Content-type: ' . $mime . '; name="' . CKFinder_Connector_Utils_Misc::mbBasename($thumbFilePath) . '"');
+        header('Last-Modified: ' .gmdate('D, d M Y H:i:s', $mtime) . ' GMT');
         //header("Content-type: application/octet-stream; name=\"{$file}\"");
         //header("Content-Disposition: attachment; filename=\"{$file}\"");
-        header("Content-Length: ".$size);
+        header('Content-Length: ' .$size);
         readfile($thumbFilePath);
         exit;
     }
@@ -145,9 +145,9 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         }
         $sourceImageWidth = isset($sourceImageAttr[0]) ? $sourceImageAttr[0] : 0;
         $sourceImageHeight = isset($sourceImageAttr[1]) ? $sourceImageAttr[1] : 0;
-        $sourceImageMime = isset($sourceImageAttr["mime"]) ? $sourceImageAttr["mime"] : "";
-        $sourceImageBits = isset($sourceImageAttr["bits"]) ? $sourceImageAttr["bits"] : 8;
-        $sourceImageChannels = isset($sourceImageAttr["channels"]) ? $sourceImageAttr["channels"] : 3;
+        $sourceImageMime = isset($sourceImageAttr[ 'mime' ]) ? $sourceImageAttr[ 'mime' ] : '';
+        $sourceImageBits = isset($sourceImageAttr[ 'bits' ]) ? $sourceImageAttr[ 'bits' ] : 8;
+        $sourceImageChannels = isset($sourceImageAttr[ 'channels' ]) ? $sourceImageAttr[ 'channels' ] : 3;
 
         if (!$sourceImageWidth || !$sourceImageHeight || !$sourceImageMime) {
             return false;
@@ -237,7 +237,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         }
 
 
-        $oThumbImage = imagecreatetruecolor($oSize["Width"], $oSize["Height"]);
+        $oThumbImage = imagecreatetruecolor($oSize[ 'Width' ], $oSize[ 'Height' ]);
 
         if ($sourceImageAttr['mime'] == 'image/png')
         {
@@ -248,7 +248,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         }
 
         //imagecopyresampled($oThumbImage, $oImage, 0, 0, 0, 0, $oSize["Width"], $oSize["Height"], $sourceImageWidth, $sourceImageHeight);
-        CKFinder_Connector_Utils_Misc::fastImageCopyResampled($oThumbImage, $oImage, 0, 0, 0, 0, $oSize["Width"], $oSize["Height"], $sourceImageWidth, $sourceImageHeight, (int)max(floor($quality/20), 6));
+        CKFinder_Connector_Utils_Misc::fastImageCopyResampled($oThumbImage, $oImage, 0, 0, 0, 0, $oSize[ 'Width' ], $oSize[ 'Height' ], $sourceImageWidth, $sourceImageHeight, (int)max(floor($quality/20), 6));
 
         switch ($sourceImageAttr['mime'])
         {
@@ -267,7 +267,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
                 break;
         }
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if (file_exists($targetFile) && ($perms = $_config->getChmodFiles())) {
             $oldUmask = umask(0);
             chmod($targetFile, $perms);
@@ -302,7 +302,7 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
      */
     public static function getAspectRatioSize($maxWidth, $maxHeight, $actualWidth, $actualHeight)
     {
-        $oSize = array("Width"=>$maxWidth, "Height"=>$maxHeight);
+        $oSize = array( 'Width' =>$maxWidth, 'Height' =>$maxHeight);
 
         // Calculates the X and Y resize factors
         $iFactorX = (float)$maxWidth / (float)$actualWidth;
@@ -313,18 +313,18 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
         {
             // Uses the lower Factor to scale the oposite size
             if ($iFactorX < $iFactorY) {
-                $oSize["Height"] = (int)round($actualHeight * $iFactorX);
+	            $oSize[ 'Height' ] = (int)round($actualHeight * $iFactorX);
             }
             else if ($iFactorX > $iFactorY) {
-                $oSize["Width"] = (int)round($actualWidth * $iFactorY);
+	            $oSize[ 'Width' ] = (int)round($actualWidth * $iFactorY);
             }
         }
 
-        if ($oSize["Height"] <= 0) {
-            $oSize["Height"] = 1;
+        if ($oSize[ 'Height' ] <= 0) {
+	        $oSize[ 'Height' ] = 1;
         }
-        if ($oSize["Width"] <= 0) {
-            $oSize["Width"] = 1;
+        if ($oSize[ 'Width' ] <= 0) {
+	        $oSize[ 'Width' ] = 1;
         }
 
         // Returns the Size

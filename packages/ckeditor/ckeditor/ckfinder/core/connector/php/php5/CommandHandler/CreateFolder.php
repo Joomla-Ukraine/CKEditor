@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 /**
  * Handle CreateFolder command
@@ -38,7 +38,7 @@ class CKFinder_Connector_CommandHandler_CreateFolder extends CKFinder_Connector_
      * @access private
      * @var string
      */
-    private $command = "CreateFolder";
+    private $command = 'CreateFolder';
 
     /**
      * handle request and build XML
@@ -51,13 +51,13 @@ class CKFinder_Connector_CommandHandler_CreateFolder extends CKFinder_Connector_
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
         }
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if (!$this->_currentFolder->checkAcl(CKFINDER_CONNECTOR_ACL_FOLDER_CREATE)) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
         }
 
         $_resourceTypeConfig = $this->_currentFolder->getResourceTypeConfig();
-        $sNewFolderName = isset($_GET["NewFolderName"]) ? $_GET["NewFolderName"] : "";
+        $sNewFolderName = isset($_GET[ 'NewFolderName' ]) ? $_GET[ 'NewFolderName' ] : '';
         $sNewFolderName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($sNewFolderName);
         if ($_config->forceAscii()) {
             $sNewFolderName = CKFinder_Connector_Utils_FileSystem::convertToAscii($sNewFolderName);
@@ -68,7 +68,7 @@ class CKFinder_Connector_CommandHandler_CreateFolder extends CKFinder_Connector_
         }
 
         $sServerDir = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getServerPath(), $sNewFolderName);
-        if (!is_writeable($this->_currentFolder->getServerPath())) {
+        if (!is_writable($this->_currentFolder->getServerPath())) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED);
         }
 
@@ -90,9 +90,9 @@ class CKFinder_Connector_CommandHandler_CreateFolder extends CKFinder_Connector_
         if (!$bCreated) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED);
         } else {
-            $oNewFolderNode = new Ckfinder_Connector_Utils_XmlNode("NewFolder");
+            $oNewFolderNode = new Ckfinder_Connector_Utils_XmlNode('NewFolder');
             $this->_connectorNode->addChild($oNewFolderNode);
-            $oNewFolderNode->addAttribute("name", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($sNewFolderName));
+            $oNewFolderNode->addAttribute('name', CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($sNewFolderName));
         }
     }
 }

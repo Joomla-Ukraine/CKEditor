@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base error handling class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/ErrorHandler/Base.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/ErrorHandler/Base.php';
 
 /**
  * File upload error handler
@@ -43,9 +43,9 @@ class CKFinder_Connector_ErrorHandler_QuickUpload extends CKFinder_Connector_Err
             return false;
         }
 
-        $oRegistry = & CKFinder_Connector_Core_Factory :: getInstance("Core_Registry");
-        $sFileName = $oRegistry->get("FileUpload_fileName");
-        $sFileUrl = $oRegistry->get("FileUpload_url");
+        $oRegistry = & CKFinder_Connector_Core_Factory :: getInstance('Core_Registry');
+        $sFileName = $oRegistry->get('FileUpload_fileName');
+        $sFileUrl = $oRegistry->get('FileUpload_url');
         $sEncodedFileName = CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($sFileName);
         $errorMessage = CKFinder_Connector_Utils_Misc::getErrorMessage($number, $sEncodedFileName);
 
@@ -78,26 +78,26 @@ class CKFinder_Connector_ErrorHandler_QuickUpload extends CKFinder_Connector_Err
              * because PHP has problems with including files that contain BOM character.
              * Having BOM character after <script> tag causes a javascript error.
              */
-            echo "<script type=\"text/javascript\">";
+            echo '<script type="text/javascript">';
             if (!empty($_GET['CKEditor'])) {
 
                 if (!$uploaded) {
-                    $sFileUrl = "";
-                    $sFileName = "";
-                    $sEncodedFileName = "";
+                    $sFileUrl = '';
+                    $sFileName = '';
+                    $sEncodedFileName = '';
                 }
 
-                $funcNum = preg_replace("/[^0-9]/", "", $_GET['CKEditorFuncNum']);
+                $funcNum = preg_replace('/[^0-9]/', '', $_GET[ 'CKEditorFuncNum']);
                 echo "window.parent.CKEDITOR.tools.callFunction($funcNum, '" . str_replace("'", "\\'", $sFileUrl . CKFinder_Connector_Utils_Misc::encodeURIComponent($sEncodedFileName)) . "', '" .str_replace("'", "\\'", $errorMessage). "');";
             }
             else {
                 if (!$uploaded) {
-                    echo "window.parent.OnUploadCompleted(" . $number . ", '', '', '') ;";
+                    echo 'window.parent.OnUploadCompleted(' . $number . ", '', '', '') ;";
                 } else {
-                    echo "window.parent.OnUploadCompleted(" . $number . ", '" . str_replace("'", "\\'", $sFileUrl . CKFinder_Connector_Utils_Misc::encodeURIComponent($sEncodedFileName)) . "', '" . str_replace("'", "\\'", $sEncodedFileName) . "', '') ;";
+                    echo 'window.parent.OnUploadCompleted(' . $number . ", '" . str_replace("'", "\\'", $sFileUrl . CKFinder_Connector_Utils_Misc::encodeURIComponent($sEncodedFileName)) . "', '" . str_replace("'", "\\'", $sEncodedFileName) . "', '') ;";
                 }
             }
-            echo "</script>";
+            echo '</script>';
         }
 
         if ($exit) {

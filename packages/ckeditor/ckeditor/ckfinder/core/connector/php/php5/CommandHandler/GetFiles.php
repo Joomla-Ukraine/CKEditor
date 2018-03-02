@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 /**
  * Handle GetFiles command
@@ -38,7 +38,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
      * @access private
      * @var string
      */
-    private $command = "GetFiles";
+    private $command = 'GetFiles';
 
     /**
      * handle request and build XML
@@ -47,7 +47,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
      */
     protected function buildXml()
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if (!$this->_currentFolder->checkAcl(CKFINDER_CONNECTOR_ACL_FILE_VIEW)) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
         }
@@ -56,7 +56,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
         $_sServerDir = $this->_currentFolder->getServerPath();
 
         // Create the "Files" node.
-        $oFilesNode = new Ckfinder_Connector_Utils_XmlNode("Files");
+        $oFilesNode = new Ckfinder_Connector_Utils_XmlNode('Files');
         $this->_connectorNode->addChild($oFilesNode);
 
         if (!is_dir($_sServerDir)) {
@@ -68,7 +68,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
 
         if ($dh = @opendir($_sServerDir)) {
             while (($file = readdir($dh)) !== false) {
-                if ($file != "." && $file != ".." && !is_dir($_sServerDir . $file)) {
+                if ($file != '.' && $file != '..' && !is_dir($_sServerDir . $file)) {
                     $files[] = $file;
                 }
             }
@@ -79,7 +79,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
 
         $resourceTypeInfo = $this->_currentFolder->getResourceTypeConfig();
 
-        if (sizeof($files)>0) {
+        if (count($files)>0) {
             $_thumbnailsConfig = $_config->getThumbnailsConfig();
             $_thumbServerPath = '';
             $_showThumbs = (!empty($_GET['showThumbs']) && $_GET['showThumbs'] == 1);
@@ -101,16 +101,16 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
                     if ($resourceTypeInfo->checkIsHiddenFile($filename)) {
                         continue;
                     }
-                    $oFileNode[$i] = new Ckfinder_Connector_Utils_XmlNode("File");
+                    $oFileNode[$i] = new Ckfinder_Connector_Utils_XmlNode('File');
                     $oFilesNode->addChild($oFileNode[$i]);
-                    $oFileNode[$i]->addAttribute("name", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding(CKFinder_Connector_Utils_Misc::mbBasename($file)));
-                    $oFileNode[$i]->addAttribute("date", @date("YmdHi", $filemtime));
+                    $oFileNode[$i]->addAttribute('name', CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding(CKFinder_Connector_Utils_Misc::mbBasename($file)));
+                    $oFileNode[$i]->addAttribute('date', @date('YmdHi', $filemtime));
                     if (!empty($_thumbServerPath) && preg_match(CKFINDER_REGEX_IMAGES_EXT, $filename)) {
                         if (file_exists($_thumbServerPath . $filename)) {
-                            $oFileNode[$i]->addAttribute("thumb", $filename);
+                            $oFileNode[$i]->addAttribute('thumb', $filename);
                         }
                         elseif ($_showThumbs) {
-                            $oFileNode[$i]->addAttribute("thumb", "?" . $filename);
+                            $oFileNode[$i]->addAttribute('thumb', '?' . $filename);
                         }
                     }
                     $size = filesize($_sServerDir . $file);
@@ -120,7 +120,7 @@ class CKFinder_Connector_CommandHandler_GetFiles extends CKFinder_Connector_Comm
                     else {
                         $size = (int)round($size / 1024);
                     }
-                    $oFileNode[$i]->addAttribute("size", $size);
+                    $oFileNode[$i]->addAttribute('size', $size);
                     $i++;
                 }
             }

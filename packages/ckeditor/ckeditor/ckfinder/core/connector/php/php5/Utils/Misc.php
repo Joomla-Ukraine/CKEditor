@@ -25,21 +25,21 @@ if (!defined('IN_CKFINDER')) exit;
  */
 class CKFinder_Connector_Utils_Misc
 {
-    public static function getErrorMessage($number, $arg = "") {
+    public static function getErrorMessage($number, $arg = '') {
         $langCode = 'en';
         if (!empty($_GET['langCode']) && preg_match("/^[a-z\-]+$/", $_GET['langCode'])) {
-            if (file_exists(CKFINDER_CONNECTOR_LANG_PATH . "/" . $_GET['langCode'] . ".php"))
+            if (file_exists(CKFINDER_CONNECTOR_LANG_PATH . '/' . $_GET[ 'langCode'] . '.php'))
                 $langCode = $_GET['langCode'];
         }
-        include CKFINDER_CONNECTOR_LANG_PATH . "/" . $langCode . ".php";
+        include CKFINDER_CONNECTOR_LANG_PATH . '/' . $langCode . '.php';
         if ($number) {
             if (!empty ($GLOBALS['CKFLang']['Errors'][$number])) {
-                $errorMessage = str_replace("%1", $arg, $GLOBALS['CKFLang']['Errors'][$number]);
+                $errorMessage = str_replace('%1', $arg, $GLOBALS[ 'CKFLang'][ 'Errors'][ $number]);
             } else {
-                $errorMessage = str_replace("%1", $number, $GLOBALS['CKFLang']['ErrorUnknown']);
+                $errorMessage = str_replace('%1', $number, $GLOBALS[ 'CKFLang'][ 'ErrorUnknown']);
             }
         } else {
-            $errorMessage = "";
+            $errorMessage = '';
         }
         return $errorMessage;
     }
@@ -65,7 +65,7 @@ class CKFinder_Connector_Utils_Misc
      */
     public static function booleanValue($value)
     {
-        if (strcasecmp("false", $value) == 0 || strcasecmp("off", $value) == 0 || !$value) {
+        if (strcasecmp('false', $value) == 0 || strcasecmp('off', $value) == 0 || !$value) {
             return false;
         } else {
             return true;
@@ -238,7 +238,7 @@ class CKFinder_Connector_Utils_Misc
     */
     public static function mbBasename($file)
     {
-        $explode = explode('/', str_replace("\\", "/", $file));
+        $explode = explode('/', str_replace("\\", '/', $file));
         return end($explode);
     }
 
@@ -271,11 +271,11 @@ class CKFinder_Connector_Utils_Misc
         //20 seconds seems to be a reasonable value to not kill a server and process images up to 1680x1050
         @set_time_limit(20);
 
-        if (false === ($f1 = fopen($filename, "rb"))) {
+        if (false === ($f1 = fopen($filename, 'rb'))) {
             return false;
         }
 
-        $FILE = unpack("vfile_type/Vfile_size/Vreserved/Vbitmap_offset", fread($f1, 14));
+        $FILE = unpack('vfile_type/Vfile_size/Vreserved/Vbitmap_offset', fread($f1, 14));
         if ($FILE['file_type'] != 19778) {
             return false;
         }
@@ -324,7 +324,7 @@ class CKFinder_Connector_Utils_Misc
             while ($Y >= 0)
             {
                 $X=0;
-                $temp = unpack( "C*", substr($IMG, $P, $line_length));
+                $temp = unpack( 'C*', substr($IMG, $P, $line_length));
 
                 while ($X < $BMP['width'])
                 {
@@ -341,7 +341,7 @@ class CKFinder_Connector_Utils_Misc
             {
                 $X=0;
 
-                $temp = unpack( "C*", substr($IMG, $P, $line_length));
+                $temp = unpack( 'C*', substr($IMG, $P, $line_length));
 
                 while ($X < $BMP['width'])
                 {
@@ -359,7 +359,7 @@ class CKFinder_Connector_Utils_Misc
                 $i = 1;
                 $low = true;
 
-                $temp = unpack( "C*", substr($IMG, $P, $line_length));
+                $temp = unpack( 'C*', substr($IMG, $P, $line_length));
 
                 while ($X < $BMP['width'])
                 {
@@ -379,7 +379,7 @@ class CKFinder_Connector_Utils_Misc
         }
         elseif ($BMP['bits_per_pixel'] == 1)
         {
-            $COLOR = unpack("n",$VIDE.substr($IMG,floor($P),1));
+            $COLOR = unpack('n',$VIDE.substr($IMG,floor($P),1));
             if     (($P*8)%8 == 0) $COLOR[1] =  $COLOR[1]        >>7;
             elseif (($P*8)%8 == 1) $COLOR[1] = ($COLOR[1] & 0x40)>>6;
             elseif (($P*8)%8 == 2) $COLOR[1] = ($COLOR[1] & 0x20)>>5;

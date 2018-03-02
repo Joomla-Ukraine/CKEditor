@@ -49,7 +49,7 @@ class CKFinder_Connector_Core_ImagesConfig
      */
     private $_quality = 80;
 
-    function __construct($imagesNode)
+    public function __construct($imagesNode)
     {
         if(isset($imagesNode['maxWidth'])) {
             $_maxWidth = intval($imagesNode['maxWidth']);

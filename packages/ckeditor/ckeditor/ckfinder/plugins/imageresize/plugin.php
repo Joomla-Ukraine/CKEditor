@@ -17,27 +17,27 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_CommandHandler_XmlCommandHandlerBase
 {
     /**
      * @access private
      */
-    function getConfig()
+    public function getConfig()
     {
         $config = array();
         if (isset($GLOBALS['config']['plugin_imageresize'])) {
             $config = $GLOBALS['config']['plugin_imageresize'];
         }
         if (!isset($config['smallThumb'])) {
-            $config['smallThumb'] = "90x90";
+            $config['smallThumb'] = '90x90';
         }
         if (!isset($config['mediumThumb'])) {
-            $config['mediumThumb'] = "120x120";
+            $config['mediumThumb'] = '120x120';
         }
         if (!isset($config['largeThumb'])) {
-            $config['largeThumb'] = "180x180";
+            $config['largeThumb'] = '180x180';
         }
         return $config;
     }
@@ -47,7 +47,7 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
      * @access protected
      *
      */
-    function buildXml()
+    public function buildXml()
     {
         if (empty($_POST['CKFinderCommand']) || $_POST['CKFinderCommand'] != 'true') {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
@@ -61,14 +61,14 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
         }
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $resourceTypeInfo = $this->_currentFolder->getResourceTypeConfig();
 
-        if (!isset($_POST["fileName"])) {
+        if (!isset($_POST[ 'fileName' ])) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_NAME);
         }
 
-        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_POST["fileName"]);
+        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_POST[ 'fileName' ]);
 
         if (!CKFinder_Connector_Utils_FileSystem::checkFileName($fileName) || $resourceTypeInfo->checkIsHiddenFile($fileName)) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
@@ -93,10 +93,10 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
             if (!preg_match("/^\d+$/", $newWidth) || !preg_match("/^\d+$/", $newHeight) || !preg_match("/^\d+$/", $newWidth)) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
             }
-            if (!isset($_POST["newFileName"])) {
+            if (!isset($_POST[ 'newFileName' ])) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_NAME);
             }
-            $newFileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_POST["newFileName"]);
+            $newFileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_POST[ 'newFileName' ]);
             if (!$resourceTypeInfo->checkExtension($newFileName)) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_EXTENSION);
             }
@@ -107,7 +107,7 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
             if (!is_writable(dirname($newFilePath))) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED);
             }
-            if ($_POST['overwrite'] != "1" && file_exists($newFilePath)) {
+            if ($_POST['overwrite'] != '1' && file_exists($newFilePath)) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_ALREADY_EXIST);
             }
             $_imagesConfig = $_config->getImagesConfig();
@@ -119,7 +119,7 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
             }
         }
 
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/Thumbnail.php";
+        require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/Thumbnail.php';
 
         if ($resizeOriginal) {
             $result = CKFinder_Connector_CommandHandler_Thumbnail::createThumb($filePath, $newFilePath, $newWidth, $newHeight, $quality, false) ;
@@ -129,11 +129,11 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
         }
 
         $config = $this->getConfig();
-        $nameWithoutExt = preg_replace("/^(.+)\_\d+x\d+$/", "$1", CKFinder_Connector_Utils_FileSystem::getFileNameWithoutExtension($fileName));
+        $nameWithoutExt = preg_replace("/^(.+)\_\d+x\d+$/", '$1', CKFinder_Connector_Utils_FileSystem::getFileNameWithoutExtension($fileName));
         $extension = CKFinder_Connector_Utils_FileSystem::getExtension($fileName);
         foreach (array('small', 'medium', 'large') as $size) {
             if (!empty($_POST[$size]) && $_POST[$size] == '1') {
-                $thumbName = $nameWithoutExt."_".$size.".".$extension;
+                $thumbName = $nameWithoutExt. '_' .$size. '.' .$extension;
                 $newFilePath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getServerPath(), $thumbName);
                 if (!empty($config[$size.'Thumb'])) {
                     if (preg_match("/^(\d+)x(\d+)$/", $config[$size.'Thumb'], $matches)) {
@@ -148,11 +148,11 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
     /**
      * @access public
      */
-    function onInitCommand( &$connectorNode )
+    public function onInitCommand( &$connectorNode )
     {
         // "@" protects against E_STRICT (Only variables should be assigned by reference)
-        @$pluginsInfo = &$connectorNode->getChild("PluginsInfo");
-        $imageresize = new CKFinder_Connector_Utils_XmlNode("imageresize");
+        @$pluginsInfo = &$connectorNode->getChild('PluginsInfo');
+        $imageresize = new CKFinder_Connector_Utils_XmlNode('imageresize');
         $pluginsInfo->addChild($imageresize);
         $config = $this->getConfig();
         foreach (array('small', 'medium', 'large') as $size) {
@@ -166,7 +166,7 @@ class CKFinder_Connector_CommandHandler_ImageResize extends CKFinder_Connector_C
     /**
      * @access public
      */
-    function onBeforeExecuteCommand( &$command )
+    public function onBeforeExecuteCommand( &$command )
     {
         if ( $command == 'ImageResize' )
         {
@@ -185,7 +185,7 @@ class CKFinder_Connector_CommandHandler_ImageResizeInfo extends CKFinder_Connect
      * @access protected
      *
      */
-    function buildXml()
+    public function buildXml()
     {
         $this->checkConnector();
         $this->checkRequest();
@@ -196,11 +196,11 @@ class CKFinder_Connector_CommandHandler_ImageResizeInfo extends CKFinder_Connect
 
         $resourceTypeInfo = $this->_currentFolder->getResourceTypeConfig();
 
-        if (!isset($_GET["fileName"])) {
+        if (!isset($_GET[ 'fileName' ])) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_NAME);
         }
 
-        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_GET["fileName"]);
+        $fileName = CKFinder_Connector_Utils_FileSystem::convertToFilesystemEncoding($_GET[ 'fileName' ]);
 
         if (!CKFinder_Connector_Utils_FileSystem::checkFileName($fileName) || $resourceTypeInfo->checkIsHiddenFile($fileName)) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
@@ -217,16 +217,16 @@ class CKFinder_Connector_CommandHandler_ImageResizeInfo extends CKFinder_Connect
         }
 
         list($width, $height) = getimagesize($filePath);
-        $oNode = new Ckfinder_Connector_Utils_XmlNode("ImageInfo");
-        $oNode->addAttribute("width", $width);
-        $oNode->addAttribute("height", $height);
+        $oNode = new Ckfinder_Connector_Utils_XmlNode('ImageInfo');
+        $oNode->addAttribute('width', $width);
+        $oNode->addAttribute('height', $height);
         $this->_connectorNode->addChild($oNode);
     }
 
     /**
      * @access public
      */
-    function onBeforeExecuteCommand( &$command )
+    public function onBeforeExecuteCommand( &$command )
     {
         if ( $command == 'ImageResizeInfo' )
         {
@@ -241,8 +241,14 @@ class CKFinder_Connector_CommandHandler_ImageResizeInfo extends CKFinder_Connect
 if (function_exists('imagecreate')) {
 	$CommandHandler_ImageResize = new CKFinder_Connector_CommandHandler_ImageResize();
 	$CommandHandler_ImageResizeInfo = new CKFinder_Connector_CommandHandler_ImageResizeInfo();
-	$config['Hooks']['BeforeExecuteCommand'][] = array($CommandHandler_ImageResize, "onBeforeExecuteCommand");
-	$config['Hooks']['BeforeExecuteCommand'][] = array($CommandHandler_ImageResizeInfo, "onBeforeExecuteCommand");
-	$config['Hooks']['InitCommand'][] = array($CommandHandler_ImageResize, "onInitCommand");
+	$config['Hooks']['BeforeExecuteCommand'][] = array( $CommandHandler_ImageResize,
+	                                                    'onBeforeExecuteCommand'
+	);
+	$config['Hooks']['BeforeExecuteCommand'][] = array( $CommandHandler_ImageResizeInfo,
+	                                                    'onBeforeExecuteCommand'
+	);
+	$config['Hooks']['InitCommand'][] = array( $CommandHandler_ImageResize,
+	                                           'onInitCommand'
+	);
 	$config['Plugins'][] = 'imageresize';
 }

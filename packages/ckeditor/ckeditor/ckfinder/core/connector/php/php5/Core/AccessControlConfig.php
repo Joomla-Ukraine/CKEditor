@@ -48,7 +48,7 @@ class CKFinder_Connector_Core_AccessControlConfig
      */
     private $_aclEntries = array();
 
-    function __construct($accessControlNodes)
+    public function __construct($accessControlNodes)
     {
         foreach ($accessControlNodes as $node) {
             $_folderView = isset($node['folderView']) ? CKFinder_Connector_Utils_Misc::booleanValue($node['folderView']) : false;
@@ -60,9 +60,9 @@ class CKFinder_Connector_Core_AccessControlConfig
             $_fileRename = isset($node['fileRename']) ? CKFinder_Connector_Utils_Misc::booleanValue($node['fileRename']) : false;
             $_fileDelete = isset($node['fileDelete']) ? CKFinder_Connector_Utils_Misc::booleanValue($node['fileDelete']) : false;
 
-            $_role = isset($node['role']) ? $node['role'] : "*";
-            $_resourceType = isset($node['resourceType']) ? $node['resourceType'] : "*";
-            $_folder = isset($node['folder']) ? $node['folder'] : "/";
+            $_role = isset($node['role']) ? $node['role'] : '*';
+            $_resourceType = isset($node['resourceType']) ? $node['resourceType'] : '*';
+            $_folder = isset($node['folder']) ? $node['folder'] : '/';
 
             $this->addACLEntry($_role, $_resourceType, $_folder,
             array(
@@ -115,7 +115,7 @@ class CKFinder_Connector_Core_AccessControlConfig
             }
         }
 
-        $_entryKey = $role . "#@#" . $resourceType;
+        $_entryKey = $role . '#@#' . $resourceType;
 
         if (array_key_exists($folderPath,$this->_aclEntries)) {
             if (array_key_exists($_entryKey, $this->_aclEntries[$folderPath])) {
@@ -147,7 +147,7 @@ class CKFinder_Connector_Core_AccessControlConfig
     {
         $_computedMask = 0;
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $_roleSessionVar = $_config->getRoleSessionVar();
 
         $_userRole = null;
@@ -158,12 +158,12 @@ class CKFinder_Connector_Core_AccessControlConfig
             $_userRole = null;
         }
 
-        $folderPath = trim($folderPath, "/");
-        $_pathParts = explode("/", $folderPath);
+        $folderPath = trim($folderPath, '/');
+        $_pathParts = explode('/', $folderPath);
 
-        $_currentPath = "/";
+        $_currentPath = '/';
 
-        for($i = -1; $i < sizeof($_pathParts); $i++) {
+        for($i = -1, $iMax = count($_pathParts); $i < $iMax; $i++) {
             if ($i >= 0) {
                 if (!strlen($_pathParts[$i])) {
                     continue;
@@ -199,16 +199,16 @@ class CKFinder_Connector_Core_AccessControlConfig
 
         $_possibleEntries = array();
 
-        $_possibleEntries[0] = "*#@#*";
-        $_possibleEntries[1] = "*#@#" . $resourceType;
+        $_possibleEntries[0] = '*#@#*';
+        $_possibleEntries[1] = '*#@#' . $resourceType;
 
         if (!is_null($userRole))
         {
-            $_possibleEntries[2] = $userRole . "#@#*";
-            $_possibleEntries[3] = $userRole . "#@#" . $resourceType;
+            $_possibleEntries[2] = $userRole . '#@#*';
+            $_possibleEntries[3] = $userRole . '#@#' . $resourceType;
         }
 
-        for ($r = 0; $r < sizeof($_possibleEntries); $r++)
+        for ($r = 0, $rMax = count($_possibleEntries); $r < $rMax; $r++)
         {
             $_possibleKey = $_possibleEntries[$r];
             if (array_key_exists($_possibleKey, $_folderEntries))

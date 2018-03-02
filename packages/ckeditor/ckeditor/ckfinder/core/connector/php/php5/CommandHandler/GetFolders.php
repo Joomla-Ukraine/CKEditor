@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 /**
  * Handle GetFolders command
@@ -38,7 +38,7 @@ class CKFinder_Connector_CommandHandler_GetFolders extends CKFinder_Connector_Co
      * @access private
      * @var string
      */
-    private $command = "GetFolders";
+    private $command = 'GetFolders';
 
     /**
      * handle request and build XML
@@ -47,7 +47,7 @@ class CKFinder_Connector_CommandHandler_GetFolders extends CKFinder_Connector_Co
      */
     protected function buildXml()
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if (!$this->_currentFolder->checkAcl(CKFINDER_CONNECTOR_ACL_FOLDER_VIEW)) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
         }
@@ -60,13 +60,13 @@ class CKFinder_Connector_CommandHandler_GetFolders extends CKFinder_Connector_Co
         }
 
         // Create the "Folders" node.
-        $oFoldersNode = new Ckfinder_Connector_Utils_XmlNode("Folders");
+        $oFoldersNode = new Ckfinder_Connector_Utils_XmlNode('Folders');
         $this->_connectorNode->addChild($oFoldersNode);
 
         $files = array();
         if ($dh = @opendir($_sServerDir)) {
             while (($file = readdir($dh)) !== false) {
-                if ($file != "." && $file != ".." && is_dir($_sServerDir . $file)) {
+                if ($file != '.' && $file != '..' && is_dir($_sServerDir . $file)) {
                     $files[] = $file;
                 }
             }
@@ -77,12 +77,12 @@ class CKFinder_Connector_CommandHandler_GetFolders extends CKFinder_Connector_Co
 
         $resourceTypeInfo = $this->_currentFolder->getResourceTypeConfig();
 
-        if (sizeof($files)>0) {
+        if (count($files)>0) {
             natcasesort($files);
             $i=0;
             foreach ($files as $file) {
                 $oAcl = $_config->getAccessControlConfig();
-                $folderPath = $this->_currentFolder->getClientPath() . $file . "/";
+                $folderPath = $this->_currentFolder->getClientPath() . $file . '/';
                 $aclMask = $oAcl->getComputedMask($this->_currentFolder->getResourceTypeName(), $folderPath);
 
                 if (($aclMask & CKFINDER_CONNECTOR_ACL_FOLDER_VIEW) != CKFINDER_CONNECTOR_ACL_FOLDER_VIEW) {
@@ -93,11 +93,11 @@ class CKFinder_Connector_CommandHandler_GetFolders extends CKFinder_Connector_Co
                 }
 
                 // Create the "Folder" node.
-                $oFolderNode[$i] = new Ckfinder_Connector_Utils_XmlNode("Folder");
+                $oFolderNode[$i] = new Ckfinder_Connector_Utils_XmlNode('Folder');
                 $oFoldersNode->addChild($oFolderNode[$i]);
-                $oFolderNode[$i]->addAttribute("name", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($file));
-                $oFolderNode[$i]->addAttribute("hasChildren", CKFinder_Connector_Utils_FileSystem::hasChildren($folderPath, $resourceTypeInfo) ? "true" : "false");
-                $oFolderNode[$i]->addAttribute("acl", $aclMask);
+                $oFolderNode[$i]->addAttribute('name', CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($file));
+                $oFolderNode[$i]->addAttribute('hasChildren', CKFinder_Connector_Utils_FileSystem::hasChildren($folderPath, $resourceTypeInfo) ? 'true' : 'false');
+                $oFolderNode[$i]->addAttribute('acl', $aclMask);
 
                 $i++;
             }

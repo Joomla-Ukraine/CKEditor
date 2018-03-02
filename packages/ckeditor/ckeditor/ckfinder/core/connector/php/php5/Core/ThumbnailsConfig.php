@@ -34,14 +34,14 @@ class CKFinder_Connector_Core_ThumbnailsConfig
      * @var string
      * @access private
      */
-    private $_url = "";
+    private $_url = '';
     /**
 	 * Directory where thumbnails are stored
 	 *
 	 * @var string
 	 * @access private
 	 */
-    private $_directory = "";
+    private $_directory = '';
     /**
 	 * Are thumbnails enabled
 	 *
@@ -85,7 +85,7 @@ class CKFinder_Connector_Core_ThumbnailsConfig
      */
     private $_bmpSupported = false;
 
-    function __construct($thumbnailsNode)
+    public function __construct($thumbnailsNode)
     {
         if(extension_loaded('gd') && isset($thumbnailsNode['enabled'])) {
             $this->_isEnabled = CKFinder_Connector_Utils_Misc::booleanValue($thumbnailsNode['enabled']);
@@ -119,10 +119,10 @@ class CKFinder_Connector_Core_ThumbnailsConfig
             $this->_url = $thumbnailsNode['url'];
         }
         if (!strlen($this->_url)) {
-            $this->_url = "/";
+            $this->_url = '/';
         }
-        else if(substr($this->_url,-1,1) != "/") {
-            $this->_url .= "/";
+        else if(substr($this->_url,-1,1) != '/') {
+            $this->_url .= '/';
         }
 
         if(isset($thumbnailsNode['directory'])) {

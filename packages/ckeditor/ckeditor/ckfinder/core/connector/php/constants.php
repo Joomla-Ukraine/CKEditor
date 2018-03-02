@@ -20,7 +20,7 @@
  */
 
 // dirname(__FILE__) instead of __DIR__ because of PHP backward compatibility
-$basedir = dirname(__FILE__);
+$basedir = __DIR__;
 
 /**
  * No errors
@@ -60,7 +60,7 @@ define('CKFINDER_CONNECTOR_DEFAULT_USER_FILES_PATH','/userfiles/');
 define('CKFINDER_CONNECTOR_LANG_PATH',$basedir . '/lang');
 define('CKFINDER_CONNECTOR_CONFIG_FILE_PATH',$basedir . '/../../../config.php');
 
-if (version_compare(phpversion(),'6','>=')) {
+if (version_compare(PHP_VERSION,'6','>=')) {
     define('CKFINDER_CONNECTOR_PHP_MODE',6);
 }
 else {

@@ -46,15 +46,15 @@ class CKFinder_Connector_Utils_FileSystem
     public static function combinePaths($path1, $path2)
     {
         if (is_null($path1))  {
-            $path1 = "";
+            $path1 = '';
         }
         if (is_null($path2))  {
-            $path2 = "";
+            $path2 = '';
         }
         if (!strlen($path2)) {
             if (strlen($path1)) {
                 $_lastCharP1 = substr($path1, -1, 1);
-                if ($_lastCharP1 != "/" && $_lastCharP1 != "\\") {
+                if ($_lastCharP1 != '/' && $_lastCharP1 != "\\") {
                     $path1 .= '/';
                 }
             }
@@ -66,7 +66,7 @@ class CKFinder_Connector_Utils_FileSystem
                     return $path2;
                 }
                 $_lastCharP1 = substr($path1, -1, 1);
-                if ($_lastCharP1 != "/" && $_lastCharP1 != "\\" && $_firstCharP2 != "/" && $_firstCharP2 != "\\") {
+                if ($_lastCharP1 != '/' && $_lastCharP1 != "\\" && $_firstCharP2 != '/' && $_firstCharP2 != "\\") {
                     $path1 .= '/';
                 }
             }
@@ -87,9 +87,9 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function checkFileName($fileName)
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
 
-        if (is_null($fileName) || !strlen($fileName) || substr($fileName,-1,1)=="." || false!==strpos($fileName, "..")) {
+        if (is_null($fileName) || !strlen($fileName) || substr($fileName,-1,1)== '.' || false!==strpos($fileName, '..')) {
             return false;
         }
 
@@ -98,7 +98,7 @@ class CKFinder_Connector_Utils_FileSystem
         }
 
         if ($_config->getDisallowUnsafeCharacters()) {
-            if (strpos($fileName, ";") !== false) {
+            if (strpos($fileName, ';') !== false) {
                 return false;
             }
         }
@@ -116,10 +116,10 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function checkFolderName($folderName)
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
 
         if ($_config->getDisallowUnsafeCharacters()) {
-            if (strpos($folderName, ".") !== false) {
+            if (strpos($folderName, '.') !== false) {
                 return false;
             }
         }
@@ -167,7 +167,7 @@ class CKFinder_Connector_Utils_FileSystem
         }
 
         /*    Scan the dir and recursively unlink    */
-        $files = scandir($path);
+        $files = scandir($path, SCANDIR_SORT_NONE);
         if ($files) {
             foreach($files as $filename)
             {
@@ -219,7 +219,7 @@ class CKFinder_Connector_Utils_FileSystem
     {
         $dotPos = $shortExtensionMode ? strrpos( $fileName, '.' ) : strpos( $fileName, '.' );
         if (false === $dotPos) {
-            return "";
+            return '';
         }
 
         return substr( $fileName, $dotPos + 1 );
@@ -349,15 +349,27 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function secureFileName($fileName)
     {
-      $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
-      $fileName = str_replace(array(":", "*", "?", "|", "/"), "_", $fileName);
-      $fileName = str_replace(" ", "_", $fileName);
-      $fileName = str_replace("%20", "_", $fileName);
-      $fileName = str_replace(array("(", ")", "[", "]", "|", "'", '"', "/", "\\"), "", $fileName);
+      $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
+      $fileName = str_replace(array(
+	      ':',
+	      '*',
+	      '?',
+	      '|',
+	      '/'
+      ), '_', $fileName);
+      $fileName = str_replace(' ', '_', $fileName);
+      $fileName = str_replace('%20', '_', $fileName);
+      $fileName = str_replace(array(
+	      '(',
+	      ')',
+	      '[',
+	      ']',
+	      '|', "'", '"',
+	      '/', "\\"), '', $fileName);
 
       if ( $_config->getDisallowUnsafeCharacters() )
       {
-        $fileName = str_replace(";", "_", $fileName);
+        $fileName = str_replace(';', '_', $fileName);
       }
       if ($_config->forceAscii())
       {
@@ -376,34 +388,34 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function convertToFilesystemEncoding($fileName)
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $encoding = $_config->getFilesystemEncoding();
-        if (is_null($encoding) || strcasecmp($encoding, "UTF-8") == 0 || strcasecmp($encoding, "UTF8") == 0) {
+        if (is_null($encoding) || strcasecmp($encoding, 'UTF-8') == 0 || strcasecmp($encoding, 'UTF8') == 0) {
             return $fileName;
         }
 
-        if (!function_exists("iconv")) {
-            if (strcasecmp($encoding, "ISO-8859-1") == 0 || strcasecmp($encoding, "ISO8859-1") == 0 || strcasecmp($encoding, "Latin1") == 0) {
-                return str_replace("\0", "_", utf8_decode($fileName));
+        if (!function_exists('iconv')) {
+            if (strcasecmp($encoding, 'ISO-8859-1') == 0 || strcasecmp($encoding, 'ISO8859-1') == 0 || strcasecmp($encoding, 'Latin1') == 0) {
+                return str_replace("\0", '_', utf8_decode($fileName));
             } else if (function_exists('mb_convert_encoding')) {
                 /**
                  * @todo check whether charset is supported - mb_list_encodings
                  */
                 $encoded = @mb_convert_encoding($fileName, $encoding, 'UTF-8');
-                if (@mb_strlen($fileName, "UTF-8") != @mb_strlen($encoded, $encoding)) {
-                    return str_replace("\0", "_", preg_replace("/[^[:ascii:]]/u","_",$fileName));
+                if (@mb_strlen($fileName, 'UTF-8') != @mb_strlen($encoded, $encoding)) {
+                    return str_replace("\0", '_', preg_replace('/[^[:ascii:]]/u', '_',$fileName));
                 }
                 else {
-                    return str_replace("\0", "_", $encoded);
+                    return str_replace("\0", '_', $encoded);
                 }
             } else {
-                return str_replace("\0", "_", preg_replace("/[^[:ascii:]]/u","_",$fileName));
+                return str_replace("\0", '_', preg_replace('/[^[:ascii:]]/u', '_',$fileName));
             }
         }
 
-        $converted = @iconv("UTF-8", $encoding . "//IGNORE//TRANSLIT", $fileName);
+        $converted = @iconv('UTF-8', $encoding . '//IGNORE//TRANSLIT', $fileName);
         if ($converted === false) {
-            return str_replace("\0", "_", preg_replace("/[^[:ascii:]]/u","_",$fileName));
+            return str_replace("\0", '_', preg_replace('/[^[:ascii:]]/u', '_',$fileName));
         }
 
         return $converted;
@@ -419,21 +431,21 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function convertToConnectorEncoding($fileName)
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $encoding = $_config->getFilesystemEncoding();
-        if (is_null($encoding) || strcasecmp($encoding, "UTF-8") == 0 || strcasecmp($encoding, "UTF8") == 0) {
+        if (is_null($encoding) || strcasecmp($encoding, 'UTF-8') == 0 || strcasecmp($encoding, 'UTF8') == 0) {
             return $fileName;
         }
 
-        if (!function_exists("iconv")) {
-            if (strcasecmp($encoding, "ISO-8859-1") == 0 || strcasecmp($encoding, "ISO8859-1") == 0 || strcasecmp($encoding, "Latin1") == 0) {
+        if (!function_exists('iconv')) {
+            if (strcasecmp($encoding, 'ISO-8859-1') == 0 || strcasecmp($encoding, 'ISO8859-1') == 0 || strcasecmp($encoding, 'Latin1') == 0) {
                 return utf8_encode($fileName);
             } else {
                 return $fileName;
             }
         }
 
-        $converted = @iconv($encoding, "UTF-8", $fileName);
+        $converted = @iconv($encoding, 'UTF-8', $fileName);
 
         if ($converted === false) {
             return $fileName;
@@ -489,13 +501,13 @@ class CKFinder_Connector_Utils_FileSystem
     public static function createDirectoryRecursively($dir)
     {
         if (DIRECTORY_SEPARATOR === "\\") {
-            $dir = str_replace("/", "\\", $dir);
+            $dir = str_replace('/', "\\", $dir);
         }
-        else if (DIRECTORY_SEPARATOR === "/") {
-            $dir = str_replace("\\", "/", $dir);
+        else if (DIRECTORY_SEPARATOR === '/') {
+            $dir = str_replace("\\", '/', $dir);
         }
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if ($perms = $_config->getChmodFolders()) {
             $oldUmask = umask(0);
             $bCreated = @mkdir($dir, $perms, true);
@@ -590,21 +602,21 @@ class CKFinder_Connector_Utils_FileSystem
 
         // version_compare is available since PHP4 >= 4.0.7
         if ( function_exists( 'version_compare' ) ) {
-            $sCurrentVersion = phpversion();
-            if ( version_compare( $sCurrentVersion, "4.2.0" ) >= 0 ) {
-                $imageCheckExtensions[] = "tiff";
-                $imageCheckExtensions[] = "tif";
+            $sCurrentVersion = PHP_VERSION;
+            if ( version_compare( $sCurrentVersion, '4.2.0') >= 0 ) {
+                $imageCheckExtensions[] = 'tiff';
+                $imageCheckExtensions[] = 'tif';
             }
-            if ( version_compare( $sCurrentVersion, "4.3.0" ) >= 0 ) {
-                $imageCheckExtensions[] = "swc";
+            if ( version_compare( $sCurrentVersion, '4.3.0') >= 0 ) {
+                $imageCheckExtensions[] = 'swc';
             }
-            if ( version_compare( $sCurrentVersion, "4.3.2" ) >= 0 ) {
-                $imageCheckExtensions[] = "jpc";
-                $imageCheckExtensions[] = "jp2";
-                $imageCheckExtensions[] = "jpx";
-                $imageCheckExtensions[] = "jb2";
-                $imageCheckExtensions[] = "xbm";
-                $imageCheckExtensions[] = "wbmp";
+            if ( version_compare( $sCurrentVersion, '4.3.2') >= 0 ) {
+                $imageCheckExtensions[] = 'jpc';
+                $imageCheckExtensions[] = 'jp2';
+                $imageCheckExtensions[] = 'jpx';
+                $imageCheckExtensions[] = 'jb2';
+                $imageCheckExtensions[] = 'xbm';
+                $imageCheckExtensions[] = 'wbmp';
             }
         }
 
@@ -642,7 +654,7 @@ class CKFinder_Connector_Utils_FileSystem
                 continue;
             } else if (is_dir($serverPath . $filename)) {
                 //we have found valid directory
-                $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+                $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
                 $_acl = $_config->getAccessControlConfig();
                 $_aclMask = $_acl->getComputedMask($_resourceType->getName(), $clientPath . $filename);
                 if ( ($_aclMask & CKFINDER_CONNECTOR_ACL_FOLDER_VIEW) != CKFINDER_CONNECTOR_ACL_FOLDER_VIEW ) {
@@ -671,7 +683,7 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function getTmpDir()
     {
-      $_config = & CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+      $_config = & CKFinder_Connector_Core_Factory::getInstance('Core_Config');
       $tmpDir = $_config->getTempDirectory();
       if ( $tmpDir )
       {
@@ -709,7 +721,7 @@ class CKFinder_Connector_Utils_FileSystem
      */
     public static function isEmptyDir($dirname)
     {
-      $files = scandir($dirname);
+      $files = scandir($dirname, SCANDIR_SORT_NONE);
       if ( $files && count($files) > 2)
       {
         return false;
@@ -733,7 +745,7 @@ class CKFinder_Connector_Utils_FileSystem
         $sFilePath = CKFinder_Connector_Utils_FileSystem::combinePaths($filePath, $fileName);
         if ( file_exists($sFilePath) ){
           $iCounter++;
-          $fileName = CKFinder_Connector_Utils_FileSystem::getFileNameWithoutExtension($sFileNameOrginal, false) . "(" . $iCounter . ")" . "." .CKFinder_Connector_Utils_FileSystem::getExtension($sFileNameOrginal, false);
+          $fileName = CKFinder_Connector_Utils_FileSystem::getFileNameWithoutExtension($sFileNameOrginal, false) . '(' . $iCounter . ')' . '.' .CKFinder_Connector_Utils_FileSystem::getExtension($sFileNameOrginal, false);
         }
         else
         {
@@ -749,7 +761,7 @@ class CKFinder_Connector_Utils_FileSystem
      * @param string $filePath
      */
     public static function sendFile( $filePath ){
-      $config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+      $config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
       if ( $config->getXSendfile() ){
         CKFinder_Connector_Utils_FileSystem::sendWithXSendfile($filePath);
       } else {
@@ -765,13 +777,13 @@ class CKFinder_Connector_Utils_FileSystem
     public static function sendWithXSendfile ( $filePath ){
       if ( stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== FALSE ){
         $fallback = true;
-        $config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $XSendfileNginx = $config->getXSendfileNginx();
         foreach ( $XSendfileNginx as $location => $root){
           if ( false !== stripos($filePath , $root) ){
             $fallback = false;
             $filePath = str_ireplace($root,$location,$filePath);
-            header("X-Accel-Redirect: ".$filePath); // Nginx
+            header('X-Accel-Redirect: ' .$filePath); // Nginx
             break;
           }
         }
@@ -780,9 +792,9 @@ class CKFinder_Connector_Utils_FileSystem
           CKFinder_Connector_Utils_FileSystem::readfileChunked($filePath);
         }
       } elseif ( stripos($_SERVER['SERVER_SOFTWARE'], 'lighttpd/1.4') !== FALSE ){
-        header("X-LIGHTTPD-send-file: ".$filePath); // Lighttpd v1.4
+        header('X-LIGHTTPD-send-file: ' .$filePath); // Lighttpd v1.4
       } else {
-        header("X-Sendfile: ".$filePath); // Apache, Lighttpd v1.5, Cherokee
+        header('X-Sendfile: ' .$filePath); // Apache, Lighttpd v1.5, Cherokee
       }
     }
 }

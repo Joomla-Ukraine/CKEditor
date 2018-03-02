@@ -33,7 +33,7 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
      * @access protected
      * @var string
      */
-    protected $command = "FileUpload";
+    protected $command = 'FileUpload';
 
     /**
      * send response (save uploaded file, resize if required)
@@ -44,9 +44,9 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
     {
         $iErrorNumber = CKFINDER_CONNECTOR_ERROR_NONE;
 
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
-        $oRegistry =& CKFinder_Connector_Core_Factory::getInstance("Core_Registry");
-        $oRegistry->set("FileUpload_fileName", "unknown file");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
+        $oRegistry =& CKFinder_Connector_Core_Factory::getInstance('Core_Registry');
+        $oRegistry->set('FileUpload_fileName', 'unknown file');
 
         $uploadedFile = array_shift($_FILES);
 
@@ -60,7 +60,7 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
         if ($sFileName != $sUnsafeFileName) {
           $iErrorNumber = CKFINDER_CONNECTOR_ERROR_UPLOADED_INVALID_NAME_RENAMED;
         }
-        $oRegistry->set("FileUpload_fileName", $sFileName);
+        $oRegistry->set('FileUpload_fileName', $sFileName);
 
         $this->checkConnector();
         $this->checkRequest();
@@ -79,8 +79,8 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_EXTENSION);
         }
 
-        $oRegistry->set("FileUpload_fileName", $sFileName);
-        $oRegistry->set("FileUpload_url", $this->_currentFolder->getUrl());
+        $oRegistry->set('FileUpload_fileName', $sFileName);
+        $oRegistry->set('FileUpload_url', $this->_currentFolder->getUrl());
 
         $maxSize = $resourceTypeInfo->getMaxSize();
         if (!$_config->checkSizeAfterScaling() && $maxSize && $uploadedFile['size']>$maxSize) {
@@ -137,7 +137,7 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
 
             if (file_exists($sFilePath)) {
                 $sFileName = CKFinder_Connector_Utils_FileSystem::autoRename($sServerDir, $sFileName);
-                $oRegistry->set("FileUpload_fileName", $sFileName);
+                $oRegistry->set('FileUpload_fileName', $sFileName);
 
                 $iErrorNumber = CKFINDER_CONNECTOR_ERROR_UPLOADED_FILE_RENAMED;
             } else {
@@ -168,7 +168,7 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
         }
 
         //resize image if required
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/Thumbnail.php";
+        require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/Thumbnail.php';
         $_imagesConfig = $_config->getImagesConfig();
 
         if ($_imagesConfig->getMaxWidth()>0 && $_imagesConfig->getMaxHeight()>0 && $_imagesConfig->getQuality()>0) {

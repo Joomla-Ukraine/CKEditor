@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include basic Xml library
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Utils/XmlNode.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Utils/XmlNode.php';
 
 /**
  * XML document
@@ -47,12 +47,12 @@ class CKFinder_Connector_Core_Xml
      */
     private $_errorNode;
 
-    function __construct()
+    public function __construct()
     {
         $this->sendXmlHeaders();
         echo $this->getXMLDeclaration();
-        $this->_connectorNode = new Ckfinder_Connector_Utils_XmlNode("Connector");
-        $this->_errorNode = new Ckfinder_Connector_Utils_XmlNode("Error");
+        $this->_connectorNode = new Ckfinder_Connector_Utils_XmlNode('Connector');
+        $this->_errorNode = new Ckfinder_Connector_Utils_XmlNode('Error');
         $this->_connectorNode->addChild($this->_errorNode);
     }
 
@@ -120,9 +120,9 @@ class CKFinder_Connector_Core_Xml
      */
     public function raiseError( $number, $text = false)
     {
-        $this->_errorNode->addAttribute("number", intval($number));
+        $this->_errorNode->addAttribute('number', intval($number));
         if (false!=$text) {
-            $this->_errorNode->addAttribute("text", $text);
+            $this->_errorNode->addAttribute('text', $text);
         }
 
         echo $this->_connectorNode->asXML();

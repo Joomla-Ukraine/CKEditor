@@ -21,11 +21,11 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/CommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/CommandHandlerBase.php';
 /**
  * Include xml utils
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/Xml.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/Xml.php';
 
 /**
  * Base XML commands handler
@@ -53,7 +53,7 @@ abstract class CKFinder_Connector_CommandHandler_XmlCommandHandlerBase extends C
      */
     public function sendResponse()
     {
-        $xml =& CKFinder_Connector_Core_Factory::getInstance("Core_Xml");
+        $xml =& CKFinder_Connector_Core_Factory::getInstance('Core_Xml');
         $this->_connectorNode =& $xml->getConnectorNode();
 
         $this->checkConnector();
@@ -63,26 +63,26 @@ abstract class CKFinder_Connector_CommandHandler_XmlCommandHandlerBase extends C
 
         $resourceTypeName = $this->_currentFolder->getResourceTypeName();
         if (!empty($resourceTypeName)) {
-            $this->_connectorNode->addAttribute("resourceType", $this->_currentFolder->getResourceTypeName());
+            $this->_connectorNode->addAttribute('resourceType', $this->_currentFolder->getResourceTypeName());
         }
 
         if ($this->mustAddCurrentFolderNode()) {
-            $_currentFolder = new Ckfinder_Connector_Utils_XmlNode("CurrentFolder");
+            $_currentFolder = new Ckfinder_Connector_Utils_XmlNode('CurrentFolder');
             $this->_connectorNode->addChild($_currentFolder);
-            $_currentFolder->addAttribute("path", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($this->_currentFolder->getClientPath()));
+            $_currentFolder->addAttribute('path', CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($this->_currentFolder->getClientPath()));
 
             $this->_errorHandler->setCatchAllErros(true);
             $_url = $this->_currentFolder->getUrl();
-            $_currentFolder->addAttribute("url", is_null($_url) ? "" : CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($_url));
+            $_currentFolder->addAttribute('url', is_null($_url) ? '' : CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($_url));
             $this->_errorHandler->setCatchAllErros(false);
 
-            $_currentFolder->addAttribute("acl", $this->_currentFolder->getAclMask());
+            $_currentFolder->addAttribute('acl', $this->_currentFolder->getAclMask());
         }
 
         $this->buildXml();
 
         $_oErrorNode =& $xml->getErrorNode();
-        $_oErrorNode->addAttribute("number", "0");
+        $_oErrorNode->addAttribute('number', '0');
 
         echo $this->_connectorNode->asXML();
         exit;

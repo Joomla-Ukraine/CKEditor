@@ -21,7 +21,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base XML command handler
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/CommandHandler/XmlCommandHandlerBase.php';
 
 /**
  * Handle MoveFiles command
@@ -38,7 +38,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
      * @access private
      * @var string
      */
-    private $command = "MoveFiles";
+    private $command = 'MoveFiles';
 
 
     /**
@@ -55,7 +55,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
         $clientPath = $this->_currentFolder->getClientPath();
         $sServerDir = $this->_currentFolder->getServerPath();
         $currentResourceTypeConfig = $this->_currentFolder->getResourceTypeConfig();
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         $_aclConfig = $_config->getAccessControlConfig();
         $_thumbnailsConfig = $_config->getThumbnailsConfig();
         $aclMasks = array();
@@ -66,7 +66,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
         }
 
         // Create the "Errors" node.
-        $oErrorsNode = new CKFinder_Connector_Utils_XmlNode("Errors");
+        $oErrorsNode = new CKFinder_Connector_Utils_XmlNode('Errors');
         $errorCode = CKFINDER_CONNECTOR_ERROR_NONE;
         $moved = 0;
         $movedAll = 0;
@@ -75,7 +75,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
         }
         $checkedPaths = array();
 
-        $oMoveFilesNode = new Ckfinder_Connector_Utils_XmlNode("MoveFiles");
+        $oMoveFilesNode = new Ckfinder_Connector_Utils_XmlNode('MoveFiles');
 
         if (!empty($_POST['files']) && is_array($_POST['files'])) {
             foreach ($_POST['files'] as $index => $arr) {
@@ -146,11 +146,11 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
                 }
 
                 // check #7 (Access Control, need file view permission to source files)
-                if (!isset($aclMasks[$type."@".$path])) {
-                    $aclMasks[$type."@".$path] = $_aclConfig->getComputedMask($type, $path);
+                if (!isset($aclMasks[$type. '@' .$path])) {
+                    $aclMasks[$type. '@' .$path] = $_aclConfig->getComputedMask($type, $path);
                 }
 
-                $isAuthorized = (($aclMasks[$type."@".$path] & CKFINDER_CONNECTOR_ACL_FILE_VIEW) == CKFINDER_CONNECTOR_ACL_FILE_VIEW);
+                $isAuthorized = (($aclMasks[$type. '@' .$path] & CKFINDER_CONNECTOR_ACL_FILE_VIEW) == CKFINDER_CONNECTOR_ACL_FILE_VIEW);
                 if (!$isAuthorized) {
                     $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED);
                 }
@@ -186,7 +186,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
                 }
                 // check if file exists if we don't force overwriting
                 else if (file_exists($destinationFilePath)) {
-                    if (strpos($options, "overwrite") !== false) {
+                    if (strpos($options, 'overwrite') !== false) {
                         if (!@unlink($destinationFilePath)) {
                             $errorCode = CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED;
                             $this->appendErrorNode($oErrorsNode, $errorCode, $name, $type, $path);
@@ -204,7 +204,7 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
                             }
                         }
                     }
-                    else if (strpos($options, "autorename") !== false) {
+                    else if (strpos($options, 'autorename') !== false) {
                         $fileName = CKFinder_Connector_Utils_FileSystem::autoRename($sServerDir, $name);
                         $destinationFilePath = $sServerDir.$fileName;
                         if (!@rename($sourceFilePath, $destinationFilePath)) {
@@ -241,8 +241,8 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
         if ($errorCode != CKFINDER_CONNECTOR_ERROR_NONE) {
             $this->_connectorNode->addChild($oErrorsNode);
         }
-        $oMoveFilesNode->addAttribute("moved", $moved);
-        $oMoveFilesNode->addAttribute("movedTotal", $movedAll + $moved);
+        $oMoveFilesNode->addAttribute('moved', $moved);
+        $oMoveFilesNode->addAttribute('movedTotal', $movedAll + $moved);
 
         /**
          * Note: actually we could have more than one error.
@@ -255,11 +255,11 @@ class CKFinder_Connector_CommandHandler_MoveFiles extends CKFinder_Connector_Com
 
     private function appendErrorNode($oErrorsNode, $errorCode, $name, $type, $path)
     {
-        $oErrorNode = new CKFinder_Connector_Utils_XmlNode("Error");
-        $oErrorNode->addAttribute("code", $errorCode);
-        $oErrorNode->addAttribute("name", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($name));
-        $oErrorNode->addAttribute("type", $type);
-        $oErrorNode->addAttribute("folder", $path);
+        $oErrorNode = new CKFinder_Connector_Utils_XmlNode('Error');
+        $oErrorNode->addAttribute('code', $errorCode);
+        $oErrorNode->addAttribute('name', CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($name));
+        $oErrorNode->addAttribute('type', $type);
+        $oErrorNode->addAttribute('folder', $path);
         $oErrorsNode->addChild($oErrorNode);
     }
 }

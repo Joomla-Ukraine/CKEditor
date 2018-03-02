@@ -21,19 +21,19 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include access control config class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/AccessControlConfig.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/AccessControlConfig.php';
 /**
  * Include resource type config class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/ResourceTypeConfig.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/ResourceTypeConfig.php';
 /**
  * Include thumbnails config class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/ThumbnailsConfig.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/ThumbnailsConfig.php';
 /**
  * Include images config class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/ImagesConfig.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/ImagesConfig.php';
 
 /**
  * Main config parser
@@ -59,21 +59,21 @@ class CKFinder_Connector_Core_Config
 	 * @var string
 	 * @access private
 	 */
-    private $_licenseName = "";
+    private $_licenseName = '';
     /**
      * License Key
      *
      * @var string
      * @access private
      */
-    private $_licenseKey = "";
+    private $_licenseKey = '';
     /**
      * Role session variable name
      *
      * @var string
      * @access private
      */
-    private $_roleSessionVar = "CKFinder_UserRole";
+    private $_roleSessionVar = 'CKFinder_UserRole';
     /**
      * Access Control Configuration
      *
@@ -170,14 +170,17 @@ class CKFinder_Connector_Core_Config
      * @var array
      * @access private
      */
-    private $_hideFolders = array(".svn", "CVS");
+    private $_hideFolders = array(
+	    '.svn',
+	    'CVS'
+    );
     /**
      * Hide files
      *
      * @var integer
      * @access private
      */
-    private $_hideFiles = array(".*");
+    private $_hideFiles = array( '.*' );
     /**
      * If set to true, force ASCII names
      *
@@ -210,7 +213,7 @@ class CKFinder_Connector_Core_Config
      */
     private $_enableCsrfProtection = true;
 
-    function __construct()
+    public function __construct()
     {
         $this->loadValues();
     }
@@ -282,14 +285,14 @@ class CKFinder_Connector_Core_Config
 
         if (!isset($folderRegex)) {
             if (is_array($this->_hideFolders) && $this->_hideFolders) {
-                $folderRegex = join("|", $this->_hideFolders);
-                $folderRegex = strtr($folderRegex, array("?" => "__QMK__", "*" => "__AST__", "|" => "__PIP__"));
-                $folderRegex = preg_quote($folderRegex, "/");
-                $folderRegex = strtr($folderRegex, array("__QMK__" => ".", "__AST__" => ".*", "__PIP__" => "|"));
-                $folderRegex = "/^(?:" . $folderRegex . ")$/uim";
+                $folderRegex = implode('|', $this->_hideFolders);
+                $folderRegex = strtr($folderRegex, array( '?' => '__QMK__', '*' => '__AST__', '|' => '__PIP__' ));
+                $folderRegex = preg_quote($folderRegex, '/');
+                $folderRegex = strtr($folderRegex, array( '__QMK__' => '.', '__AST__' => '.*', '__PIP__' => '|' ));
+                $folderRegex = '/^(?:' . $folderRegex . ')$/uim';
             }
             else {
-                $folderRegex = "";
+                $folderRegex = '';
             }
         }
 
@@ -308,14 +311,14 @@ class CKFinder_Connector_Core_Config
 
         if (!isset($fileRegex)) {
             if (is_array($this->_hideFiles) && $this->_hideFiles) {
-                $fileRegex = join("|", $this->_hideFiles);
-                $fileRegex = strtr($fileRegex, array("?" => "__QMK__", "*" => "__AST__", "|" => "__PIP__"));
-                $fileRegex = preg_quote($fileRegex, "/");
-                $fileRegex = strtr($fileRegex, array("__QMK__" => ".", "__AST__" => ".*", "__PIP__" => "|"));
-                $fileRegex = "/^(?:" . $fileRegex . ")$/uim";
+                $fileRegex = implode('|', $this->_hideFiles);
+                $fileRegex = strtr($fileRegex, array( '?' => '__QMK__', '*' => '__AST__', '|' => '__PIP__' ));
+                $fileRegex = preg_quote($fileRegex, '/');
+                $fileRegex = strtr($fileRegex, array( '__QMK__' => '.', '__AST__' => '.*', '__PIP__' => '|' ));
+                $fileRegex = '/^(?:' . $fileRegex . ')$/uim';
             }
             else {
-                $fileRegex = "";
+                $fileRegex = '';
             }
         }
 
@@ -552,7 +555,7 @@ class CKFinder_Connector_Core_Config
         if (isset($GLOBALS['config']['DefaultResourceTypes'])) {
             $_defaultResourceTypes = (string)$GLOBALS['config']['DefaultResourceTypes'];
             if (strlen($_defaultResourceTypes)) {
-                $this->_defaultResourceTypes = explode(",", $_defaultResourceTypes);
+                $this->_defaultResourceTypes = explode(',', $_defaultResourceTypes);
             }
         }
         if (isset($GLOBALS['config']['TempDirectory'])) {

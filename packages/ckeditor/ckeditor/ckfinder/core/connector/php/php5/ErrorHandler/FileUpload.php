@@ -22,7 +22,7 @@ if (!defined('IN_CKFINDER')) exit;
 /**
  * Include base error handling class
  */
-require_once CKFINDER_CONNECTOR_LIB_DIR . "/ErrorHandler/Base.php";
+require_once CKFINDER_CONNECTOR_LIB_DIR . '/ErrorHandler/Base.php';
 
 /**
  * File upload error handler
@@ -44,37 +44,37 @@ class CKFinder_Connector_ErrorHandler_FileUpload extends CKFinder_Connector_Erro
             return false;
         }
 
-        $oRegistry = & CKFinder_Connector_Core_Factory :: getInstance("Core_Registry");
-        $sFileName = $oRegistry->get("FileUpload_fileName");
-        $sFileUrl = $oRegistry->get("FileUpload_url");
+        $oRegistry = & CKFinder_Connector_Core_Factory :: getInstance('Core_Registry');
+        $sFileName = $oRegistry->get('FileUpload_fileName');
+        $sFileUrl = $oRegistry->get('FileUpload_url');
         $sEncodedFileName = CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($sFileName);
 
         header('Content-Type: text/html; charset=utf-8');
 
         $errorMessage = CKFinder_Connector_Utils_Misc::getErrorMessage($number, $sEncodedFileName);
         if (!$uploaded) {
-            $sFileName = "";
-            $sEncodedFileName = "";
+            $sFileName = '';
+            $sEncodedFileName = '';
         }
         if (!empty($_GET['response_type']) && $_GET['response_type'] == 'txt') {
-            echo $sFileName."|".$errorMessage;
+            echo $sFileName. '|' .$errorMessage;
         }
         else {
-            echo "<script type=\"text/javascript\">";
+            echo '<script type="text/javascript">';
             if (!empty($_GET['CKFinderFuncNum'])) {
 
                 if (!$uploaded) {
-                    $sFileUrl = "";
-                    $sFileName = "";
+                    $sFileUrl = '';
+                    $sFileName = '';
                 }
 
-                $funcNum = preg_replace("/[^0-9]/", "", $_GET['CKFinderFuncNum']);
+                $funcNum = preg_replace('/[^0-9]/', '', $_GET[ 'CKFinderFuncNum']);
                 echo "window.parent.CKFinder.tools.callFunction($funcNum, '" . str_replace("'", "\\'", $sFileUrl . $sFileName) . "', '" .str_replace("'", "\\'", $errorMessage). "');";
             }
             else {
                 echo "window.parent.OnUploadCompleted('" . str_replace("'", "\\'", $sEncodedFileName) . "', '" . str_replace("'", "\\'", $errorMessage) . "') ;";
             }
-            echo "</script>";
+            echo '</script>';
         }
 
         if ($exit) {

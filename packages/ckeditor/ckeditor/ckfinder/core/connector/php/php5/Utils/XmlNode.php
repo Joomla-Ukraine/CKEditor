@@ -63,7 +63,7 @@ class Ckfinder_Connector_Utils_XmlNode
      * @param string $nodeValue node value
      * @return Ckfinder_Connector_Utils_XmlNode
      */
-    function __construct($nodeName, $nodeValue = null)
+    public function __construct($nodeName, $nodeValue = null)
     {
         $this->_name = $nodeName;
         if (!is_null($nodeValue)) {
@@ -71,7 +71,7 @@ class Ckfinder_Connector_Utils_XmlNode
         }
     }
 
-    function getChild($name)
+    public function getChild($name)
     {
         foreach ($this->_childNodes as $i => $node) {
             if ($node->_name == $name) {
@@ -149,8 +149,8 @@ class Ckfinder_Connector_Utils_XmlNode
             return $string;
         }
 
-        $ret = "";
-        for ($i = 0; $i < strlen($string); $i++) {
+        $ret = '';
+        for ($i = 0, $iMax = strlen($string); $i < $iMax; $i++) {
             $ret .= CKFinder_Connector_Utils_Misc::isValidUTF8($string[$i]) ? $string[$i] : "\xEF\xBF\xBD";
         }
 
@@ -165,23 +165,23 @@ class Ckfinder_Connector_Utils_XmlNode
      */
     public function asXML()
     {
-        $ret = "<" . $this->_name;
+        $ret = '<' . $this->_name;
 
         //print Attributes
-        if (sizeof($this->_attributes)>0) {
+        if (count($this->_attributes)>0) {
             foreach ($this->_attributes as $_name => $_value) {
-                $ret .= " " . $_name . '="' . htmlspecialchars($this->asUTF8($_value)) . '"';
+                $ret .= ' ' . $_name . '="' . htmlspecialchars($this->asUTF8($_value)) . '"';
             }
         }
 
         //if there is nothing more todo, close empty tag and exit
-        if (is_null($this->_value) && !sizeof($this->_childNodes)) {
-            $ret .= " />";
+        if (is_null($this->_value) && !count($this->_childNodes)) {
+            $ret .= ' />';
             return $ret;
         }
 
         //close opening tag
-        $ret .= ">";
+        $ret .= '>';
 
         //print value
         if (!is_null($this->_value)) {
@@ -189,13 +189,13 @@ class Ckfinder_Connector_Utils_XmlNode
         }
 
         //print child nodes
-        if (sizeof($this->_childNodes)>0) {
+        if (count($this->_childNodes)>0) {
             foreach ($this->_childNodes as $_node) {
                 $ret .= $_node->asXml();
             }
         }
 
-        $ret .= "</" . $this->_name . ">";
+        $ret .= '</' . $this->_name . '>';
 
         return $ret;
     }

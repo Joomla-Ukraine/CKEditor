@@ -33,7 +33,7 @@ ob_start();
 /**
  * define required constants
  */
-require_once dirname(__FILE__) . '/constants.php';
+require_once __DIR__ . '/constants.php';
 
 // @ob_end_clean();
 // header("Content-Encoding: none");
@@ -65,12 +65,12 @@ require_once CKFINDER_CONNECTOR_LIB_DIR . '/Core/Hooks.php';
  * @return string
  */
 function resolveUrl($baseUrl) {
-    $fileSystem =& CKFinder_Connector_Core_Factory::getInstance("Utils_FileSystem");
-    $baseUrl = preg_replace("|^http(s)?://[^/]+|i", "", $baseUrl);
+    $fileSystem =& CKFinder_Connector_Core_Factory::getInstance('Utils_FileSystem');
+    $baseUrl = preg_replace('|^http(s)?://[^/]+|i', '', $baseUrl);
     return $fileSystem->getDocumentRootPath() . $baseUrl;
 }
 
-$utilsSecurity =& CKFinder_Connector_Core_Factory::getInstance("Utils_Security");
+$utilsSecurity =& CKFinder_Connector_Core_Factory::getInstance('Utils_Security');
 $utilsSecurity->getRidOfMagicQuotes();
 
 /**
@@ -86,7 +86,7 @@ $config['Plugins'] = array();
 require_once CKFINDER_CONNECTOR_CONFIG_FILE_PATH;
 
 CKFinder_Connector_Core_Factory::initFactory();
-$connector =& CKFinder_Connector_Core_Factory::getInstance("Core_Connector");
+$connector =& CKFinder_Connector_Core_Factory::getInstance('Core_Connector');
 
 if(isset($_GET['command'])) {
     $connector->executeCommand($_GET['command']);

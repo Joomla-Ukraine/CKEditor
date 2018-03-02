@@ -78,7 +78,7 @@ class CKFinder_Connector_ErrorHandler_Base
             return false;
         }
 
-        $_xml =& CKFinder_Connector_Core_Factory::getInstance("Core_Xml");
+        $_xml =& CKFinder_Connector_Core_Factory::getInstance('Core_Xml');
         $_xml->raiseError($number,$text);
 
         exit;

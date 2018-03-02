@@ -51,10 +51,10 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
      */
     protected $_errorHandler;
 
-    function __construct()
+    public function __construct()
     {
-        $this->_currentFolder =& CKFinder_Connector_Core_Factory::getInstance("Core_FolderHandler");
-        $this->_connector =& CKFinder_Connector_Core_Factory::getInstance("Core_Connector");
+        $this->_currentFolder =& CKFinder_Connector_Core_Factory::getInstance('Core_FolderHandler');
+        $this->_connector =& CKFinder_Connector_Core_Factory::getInstance('Core_Connector');
         $this->_errorHandler =&  $this->_connector->getErrorHandler();
     }
 
@@ -67,7 +67,7 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
     public function getFolderHandler()
     {
         if (is_null($this->_currentFolder)) {
-            $this->_currentFolder =& CKFinder_Connector_Core_Factory::getInstance("Core_FolderHandler");
+            $this->_currentFolder =& CKFinder_Connector_Core_Factory::getInstance('Core_FolderHandler');
         }
 
         return $this->_currentFolder;
@@ -80,7 +80,7 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
      */
     protected function checkConnector()
     {
-        $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+        $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
         if (!$_config->getIsEnabled()) {
             $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_CONNECTOR_DISABLED);
         }
@@ -95,7 +95,7 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
     {
         if (strtoupper($_SERVER['REQUEST_METHOD']) === 'POST') {
             /* @var $_config CKFinder_Connector_Core_Config */
-            $_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
+            $_config =& CKFinder_Connector_Core_Factory::getInstance('Core_Config');
 
             if ($_config->getEnableCsrfProtection() && !$this->checkCsrfToken()) {
                 $this->_errorHandler->throwError(CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST);
@@ -113,7 +113,7 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
         }
 
         $_clientPath = $this->_currentFolder->getClientPath();
-        $_clientPathParts = explode("/", trim($_clientPath, "/"));
+        $_clientPathParts = explode('/', trim($_clientPath, '/'));
         if ($_clientPathParts) {
             foreach ($_clientPathParts as $_part) {
                 if ($_resourceTypeConfig->checkIsHiddenFolder($_part)) {
@@ -123,7 +123,7 @@ class CKFinder_Connector_CommandHandler_CommandHandlerBase
         }
 
         if (!is_dir($this->_currentFolder->getServerPath())) {
-            if ($_clientPath == "/") {
+            if ($_clientPath == '/') {
                 if (!CKFinder_Connector_Utils_FileSystem::createDirectoryRecursively($this->_currentFolder->getServerPath())) {
                     /**
                      * @todo handle error
