@@ -642,10 +642,8 @@ class ConfigViewConfig extends JViewLegacy
 			$tmp = str_replace(array(
 				'"',
 				"'"
-			), array(
-				'',
-				''
-			), $matches[ 2 ]);
+			), '', $matches[ 2 ]);
+
 			$tmp = explode(',', strtolower($tmp));
 			foreach($plugins AS $plugin)
 			{

@@ -456,16 +456,16 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 											{
 												continue;
 											}
-											if($spacer)
+
+											if($spacer && ($icon == ';' || $icon == '-'))
 											{
-												if($icon == ';' || $icon == '-')
-												{
-													?>
-													<li class="sortableItem spacer">
-														<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
-													</li>
-												<?php }
+												?>
+												<li class="sortableItem spacer">
+													<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
+												</li>
+											<?php
 											}
+
 											if($icon != ';' && $icon != '-')
 											{
 												$button = $this->allToolbars[ $icon ];
@@ -498,19 +498,18 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						?>
 						<div>
 							<ul class="sortableRow">
-								<?php if($spacer)
+								<?php if($spacer && $i == 5)
 								{
-									if($i == 5)
+									for($x = 1; $x <= 20; $x++)
 									{
-										for($x = 1; $x <= 20; $x++)
-										{
-											?>
-											<li class="sortableItem spacer">
-												<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
-											</li>
-										<?php }
+										?>
+										<li class="sortableItem spacer">
+											<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
+										</li>
+									<?php
 									}
 								}
+
 								$all = explode(',', implode('', $this->usedToolbars));
 								foreach($this->allToolbars as $icon)
 								{
