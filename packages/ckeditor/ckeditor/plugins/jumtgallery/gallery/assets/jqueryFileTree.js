@@ -89,8 +89,9 @@ if (jQuery) (function ($) {
                         var folderurl = $(this).attr('rel');
                         var theString = folderurl;
                         theString = theString.split("/")[0];
-                        str = folderurl;
-                        lastslash = str.replace(theString + "/", "");
+
+                        var str = folderurl;
+                        var lastslash = str.replace(theString + "/", "");
 
                         $('.folderurl').val(lastslash.substring(0, lastslash.length - 1));
 
