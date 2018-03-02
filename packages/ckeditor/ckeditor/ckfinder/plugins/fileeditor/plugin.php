@@ -12,7 +12,10 @@
 *
 * CKFinder extension: prodives command that saves edited file.
 */
-if (!defined('IN_CKFINDER')) exit;
+if (!defined('IN_CKFINDER'))
+{
+	exit;
+}
 
 /**
  * Include base XML command handler

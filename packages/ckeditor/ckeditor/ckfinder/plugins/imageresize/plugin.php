@@ -12,7 +12,10 @@
 *
 * CKFinder extension: resize image according to a given size
 */
-if (!defined('IN_CKFINDER')) exit;
+if (!defined('IN_CKFINDER'))
+{
+	exit;
+}
 
 /**
  * Include base XML command handler

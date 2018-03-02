@@ -51,11 +51,15 @@ class CKFinder
 	{
 		$className = $this->ClassName ;
 		if ( !empty( $className ) )
-			$className = ' class="' . $className . '"' ;
+		{
+			$className = ' class="' . $className . '"';
+		}
 
 		$id = $this->Id ;
 		if ( !empty( $id ) )
-			$id = ' id="' . $id . '"' ;
+		{
+			$id = ' id="' . $id . '"';
+		}
 
 		return '<iframe src="' . $this->_BuildUrl() . '" width="' . $this->Width . '" ' .
 			'height="' . $this->Height . '"' . $className . $id . ' frameborder="0" scrolling="no"></iframe>' ;
@@ -64,20 +68,28 @@ class CKFinder
 	private function _BuildUrl( $url = '')
 	{
 		if ( !$url )
-			$url = $this->BasePath ;
+		{
+			$url = $this->BasePath;
+		}
 
 		$qs = '';
 
 		if ( empty( $url ) )
-			$url = CKFINDER_DEFAULT_BASEPATH ;
+		{
+			$url = CKFINDER_DEFAULT_BASEPATH;
+		}
 
 		if ( $url[ strlen( $url ) - 1 ] != '/' )
-			$url = $url . '/' ;
+		{
+			$url = $url . '/';
+		}
 
 		$url .= 'ckfinder.html' ;
 
 		if ( !empty( $this->SelectFunction ) )
-			$qs .= '?action=js&amp;func=' . $this->SelectFunction ;
+		{
+			$qs .= '?action=js&amp;func=' . $this->SelectFunction;
+		}
 
 		if ( !empty( $this->SelectFunctionData ) )
 		{
@@ -96,9 +108,13 @@ class CKFinder
 			$qs .= 'thumbFunc=' . ( !empty( $this->SelectThumbnailFunction ) ? $this->SelectThumbnailFunction : $this->SelectFunction ) ;
 
 			if ( !empty( $this->SelectThumbnailFunctionData ) )
-				$qs .= '&amp;tdata=' . rawurlencode( $this->SelectThumbnailFunctionData ) ;
+			{
+				$qs .= '&amp;tdata=' . rawurlencode($this->SelectThumbnailFunctionData);
+			}
 			else if ( empty( $this->SelectThumbnailFunction ) && !empty( $this->SelectFunctionData ) )
-				$qs .= '&amp;tdata=' . rawurlencode( $this->SelectFunctionData ) ;
+			{
+				$qs .= '&amp;tdata=' . rawurlencode($this->SelectFunctionData);
+			}
 		}
 
 		if ( !empty( $this->StartupPath ) )
@@ -139,7 +155,9 @@ class CKFinder
 	public static function SetupFCKeditor( &$editorObj, $basePath = CKFINDER_DEFAULT_BASEPATH, $imageType = null, $flashType = null )
 	{
 		if ( empty( $basePath ) )
-			$basePath = CKFINDER_DEFAULT_BASEPATH ;
+		{
+			$basePath = CKFINDER_DEFAULT_BASEPATH;
+		}
 
 		$ckfinder = new CKFinder( $basePath ) ;
 		$ckfinder->SetupFCKeditorObject( $editorObj, $imageType, $flashType );
@@ -188,7 +206,9 @@ class CKFinder
 	public static function SetupCKEditor( &$editorObj, $basePath = CKFINDER_DEFAULT_BASEPATH, $imageType = null, $flashType = null )
 	{
 		if ( empty( $basePath ) )
-			$basePath = CKFINDER_DEFAULT_BASEPATH ;
+		{
+			$basePath = CKFINDER_DEFAULT_BASEPATH;
+		}
 
 		$ckfinder = new CKFinder( $basePath ) ;
 		$ckfinder->SetupCKEditorObject( $editorObj, $imageType, $flashType );

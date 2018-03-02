@@ -10,7 +10,10 @@
 * modifying or distribute this file or part of its contents. The contents of
 * this file is part of the Source Code of CKFinder.
 */
-if (!defined('IN_CKFINDER')) exit;
+if (!defined('IN_CKFINDER'))
+{
+	exit;
+}
 
 /**
  * @package CKFinder
@@ -44,7 +47,10 @@ class CKFinder_Connector_CommandHandler_Thumbnail extends CKFinder_Connector_Com
     {
         // Get rid of BOM markers
         if (ob_get_level()) {
-            while (@ob_end_clean() && ob_get_level());
+            while (@ob_end_clean() && ob_get_level())
+            {
+	            ;
+            }
         }
         header('Content-Encoding: none');
 

@@ -10,7 +10,10 @@
 * modifying or distribute this file or part of its contents. The contents of
 * this file is part of the Source Code of CKFinder.
 */
-if (!defined('IN_CKFINDER')) exit;
+if (!defined('IN_CKFINDER'))
+{
+	exit;
+}
 
 /**
  * @package CKFinder
@@ -29,7 +32,9 @@ class CKFinder_Connector_Utils_Misc
         $langCode = 'en';
         if (!empty($_GET['langCode']) && preg_match("/^[a-z\-]+$/", $_GET['langCode'])) {
             if (file_exists(CKFINDER_CONNECTOR_LANG_PATH . '/' . $_GET[ 'langCode'] . '.php'))
-                $langCode = $_GET['langCode'];
+            {
+	            $langCode = $_GET[ 'langCode' ];
+            }
         }
         include CKFINDER_CONNECTOR_LANG_PATH . '/' . $langCode . '.php';
         if ($number) {
@@ -380,14 +385,38 @@ class CKFinder_Connector_Utils_Misc
         elseif ($BMP['bits_per_pixel'] == 1)
         {
             $COLOR = unpack('n',$VIDE.substr($IMG,floor($P),1));
-            if     (($P*8)%8 == 0) $COLOR[1] =  $COLOR[1]        >>7;
-            elseif (($P*8)%8 == 1) $COLOR[1] = ($COLOR[1] & 0x40)>>6;
-            elseif (($P*8)%8 == 2) $COLOR[1] = ($COLOR[1] & 0x20)>>5;
-            elseif (($P*8)%8 == 3) $COLOR[1] = ($COLOR[1] & 0x10)>>4;
-            elseif (($P*8)%8 == 4) $COLOR[1] = ($COLOR[1] & 0x8)>>3;
-            elseif (($P*8)%8 == 5) $COLOR[1] = ($COLOR[1] & 0x4)>>2;
-            elseif (($P*8)%8 == 6) $COLOR[1] = ($COLOR[1] & 0x2)>>1;
-            elseif (($P*8)%8 == 7) $COLOR[1] = ($COLOR[1] & 0x1);
+            if     (($P*8)%8 == 0)
+            {
+	            $COLOR[ 1 ] = $COLOR[ 1 ] >> 7;
+            }
+            elseif (($P*8)%8 == 1)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x40) >> 6;
+            }
+            elseif (($P*8)%8 == 2)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x20) >> 5;
+            }
+            elseif (($P*8)%8 == 3)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x10) >> 4;
+            }
+            elseif (($P*8)%8 == 4)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x8) >> 3;
+            }
+            elseif (($P*8)%8 == 5)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x4) >> 2;
+            }
+            elseif (($P*8)%8 == 6)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x2) >> 1;
+            }
+            elseif (($P*8)%8 == 7)
+            {
+	            $COLOR[ 1 ] = ($COLOR[ 1 ] & 0x1);
+            }
             $COLOR[1] = $PALETTE[$COLOR[1]+1];
         }
         else {

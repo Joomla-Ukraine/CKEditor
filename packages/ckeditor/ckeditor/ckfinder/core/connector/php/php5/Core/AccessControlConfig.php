@@ -10,7 +10,10 @@
  * modifying or distribute this file or part of its contents. The contents of
  * this file is part of the Source Code of CKFinder.
  */
-if (!defined('IN_CKFINDER')) exit;
+if (!defined('IN_CKFINDER'))
+{
+	exit;
+}
 
 /**
  * @package CKFinder
@@ -170,7 +173,9 @@ class CKFinder_Connector_Core_AccessControlConfig
                 }
 
                 if (array_key_exists($_currentPath . '*/', $this->_aclEntries))
-                $_computedMask = $this->mergePathComputedMask( $_computedMask, $resourceType, $_userRole, $_currentPath . '*/' );
+                {
+	                $_computedMask = $this->mergePathComputedMask($_computedMask, $resourceType, $_userRole, $_currentPath . '*/');
+                }
 
                 $_currentPath .= $_pathParts[$i] . '/';
             }
