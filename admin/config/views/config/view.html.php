@@ -29,11 +29,12 @@ class ConfigViewConfig extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
-		$db = JFactory::getDBO();
+		$app = JFactory::getApplication();
+		$db  = JFactory::getDBO();
 
 		if(!file_exists('components/com_ckeditor/config.xml'))
 		{
-			JError::raiseError(500, 'Form file missing.');
+			$app->enqueueMessage('Form file missing.', 'message');
 		}
 
 		$xml = file_get_contents('components/com_ckeditor/config.xml');

@@ -67,6 +67,7 @@ class ConfigController extends JControllerLegacy
 	{
 		JRequest::checkToken() or die('Invalid Token');
 
+		$app = JFactory::getApplication();
 		$db  = JFactory::getDBO();
 		$row = JTable::getInstance('extension');
 
@@ -80,7 +81,7 @@ class ConfigController extends JControllerLegacy
 		$db->setQuery($query);
 		$id = $db->loadResult();
 
-		$row->load(intval($id));
+		$row->load((int) $id);
 		$post = JRequest::get('post');
 
 		$toolbar = $post[ 'toolbarGroup' ];
@@ -102,17 +103,17 @@ class ConfigController extends JControllerLegacy
 
 		if(!$row->bind($post))
 		{
-			JError::raiseError(500, $row->getError());
+			$app->enqueueMessage($row->getError(), 'message');
 		}
 
 		if(!$row->check())
 		{
-			JError::raiseError(500, $row->getError());
+			$app->enqueueMessage($row->getError(), 'message');
 		}
 
 		if(!$row->store())
 		{
-			JError::raiseError(500, $row->getError());
+			$app->enqueueMessage($row->getError(), 'message');
 		}
 
 		$row->checkin();

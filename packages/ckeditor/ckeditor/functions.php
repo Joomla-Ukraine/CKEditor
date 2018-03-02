@@ -60,8 +60,8 @@ function checkKey($key, $licenseName)
 	{
 		if($key[ 0 ] == 'D' && $app->getName() == 'administrator')
 		{
-			JError::raiseNotice(100, JText::_('DEVELOPER_LICENSE_MESSAGE'));
-			JError::raiseNotice(100, JText::_('DEVELOPER_LICENSE_NAME_MESSAGE') . '<strong>' . $licenseName . '</strong>');
+			JFactory::getApplication()->enqueueMessage(JText::_('DEVELOPER_LICENSE_MESSAGE'), 'message');
+			JFactory::getApplication()->enqueueMessage(JText::_('DEVELOPER_LICENSE_NAME_MESSAGE') . '<strong>' . $licenseName . '</strong>', 'message');
 		}
 
 		return true;
