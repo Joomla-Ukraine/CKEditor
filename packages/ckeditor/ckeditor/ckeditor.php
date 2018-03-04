@@ -881,11 +881,7 @@ CKEDITOR.config.ignoreEmptyParagraph = true;
 
 		if($this->params->get('plaintext', 1) == 1)
 		{
-			$editor .= "
-CKEDITOR.config.pasteFilter = 'plain-text';
-CKEDITOR.config.clipboard_defaultContentType = 'text';
-CKEDITOR.config.forcePasteAsPlainText = true;			
-			";
+			$editor .= "CKEDITOR.config.forcePasteAsPlainText = true;";
 		}
 
 		if($this->params->get('keystrokes', 1) == 1)
