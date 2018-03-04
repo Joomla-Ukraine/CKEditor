@@ -233,6 +233,26 @@
             <option value="1">JEnabled</option>
         </field>
 
+        <field name="msword" type="radio" default="1" label="USE_MSWORD" description="USE_MSWORD_DESCRIPTION" class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="outlineblocks" type="radio" default="1" label="USE_OUTLINE_BLOCKS" description="USE_OUTLINE_BLOCKS_DESCRIPTION" class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="plaintext" type="radio" default="1" label="USE_PLAINTEXT" description="USE_PLAINTEXT_DESCRIPTION" class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="keystrokes" type="radio" default="1" label="USE_KEYSTROKES" description="USE_KEYSTROKES_DESCRIPTION" class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
     </fieldset>
 
     <fieldset name="custom_config">

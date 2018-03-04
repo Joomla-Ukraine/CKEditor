@@ -756,7 +756,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceFiles', ''));
 					$extensions = array_unique($extensions);
 
-					$results    = array();
+					$results = array();
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -774,7 +774,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceImages', ''));
 					$extensions = array_unique($extensions);
 
-					$results    = array();
+					$results = array();
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -792,7 +792,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceFlash', ''));
 					$extensions = array_unique($extensions);
 
-					$results    = array();
+					$results = array();
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -858,6 +858,106 @@ class plgEditorCKeditor extends JPlugin
 		}
 
 		$editor .= '});';
+
+		if($this->params->get('outlineblocks', 1) == 1)
+		{
+			$editor .= "CKEDITOR.config.startupOutlineBlocks = true;";
+		}
+
+		if($this->params->get('msword', 1) == 1)
+		{
+			$editor .= "
+CKEDITOR.config.pasteFromWordCleanupFile = '../filter/word.js';
+CKEDITOR.config.pasteFromWordPromptCleanup = true;
+CKEDITOR.config.pasteFromWordRemoveStyles = true;
+CKEDITOR.config.pasteFromWordNumberedHeadingToList = true;
+CKEDITOR.config.pasteFromWordPromptCleanup = true;
+CKEDITOR.config.pasteFromWord_heuristicsEdgeList = true;
+CKEDITOR.config.pasteFromWordRemoveFontStyles = true;
+CKEDITOR.config.format_tags = 'p;h2;h3;h4;h5;h6';
+CKEDITOR.config.ignoreEmptyParagraph = true;			
+			";
+		}
+
+		if($this->params->get('plaintext', 1) == 1)
+		{
+			$editor .= "
+CKEDITOR.config.pasteFilter = 'plain-text';
+CKEDITOR.config.clipboard_defaultContentType = 'text';
+CKEDITOR.config.forcePasteAsPlainText = true;			
+			";
+		}
+
+		if($this->params->get('keystrokes', 1) == 1)
+		{
+			$editor .= "
+CKEDITOR.config.keystrokes =
+[
+    [ CKEDITOR.CTRL + 81 /*Q*/, 'blockquote' ],
+    [ CKEDITOR.CTRL + 66 /*B*/, 'bold' ],
+    [ CKEDITOR.CTRL + 56 /*8*/, 'bulletedlist' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 56 /*8*/, 'bulletedListStyle' ],
+
+    // COMMAND FOR HEADINGS via button plugins
+    [ CKEDITOR.CTRL + 49 /*1*/, 'heading-h1' ],
+    [ CKEDITOR.CTRL + 50 /*2*/, 'heading-h2' ],
+    [ CKEDITOR.CTRL + 51 /*3*/, 'heading-h3' ],
+    [ CKEDITOR.CTRL + 52 /*4*/, 'heading-h4' ],
+    [ CKEDITOR.CTRL + 53 /*5*/, 'heading-h5' ],
+    [ CKEDITOR.CTRL + 54 /*6*/, 'heading-h6' ],
+    [ CKEDITOR.CTRL + 77 /*M*/, 'indent' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 77 /*M*/, 'outdent' ],
+    [ CKEDITOR.CTRL + 73 /*I*/, 'italic' ],
+    [ CKEDITOR.CTRL + 55 /*7*/, 'numberedlist' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 55 /*7*/, 'numberedListStyle' ],
+    [ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
+    [ CKEDITOR.CTRL + 32 /*SPACE*/, 'removeFormat' ],
+    [ CKEDITOR.CTRL + 65 /*A*/, 'selectall' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 88 /*X*/, 'strike' ],
+    [ CKEDITOR.CTRL + 188 /*COMMA*/, 'subscript' ],
+    [ CKEDITOR.CTRL + 190 /*PERIOD*/, 'superscript' ],
+    [ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
+    [ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
+
+    // Insert
+    [ CKEDITOR.ALT + 65 /*A*/, 'anchor' ],
+    [ CKEDITOR.ALT + 68 /*D*/, 'creatediv' ],
+    [ CKEDITOR.ALT + CKEDITOR.SHIFT + 68 /*D*/, 'editdiv' ],
+    [ CKEDITOR.CTRL + 57 /*9*/, 'image' ],
+    [ CKEDITOR.ALT + 73 /*I*/, 'image' ],
+    [ CKEDITOR.CTRL + 75 /*K*/, 'link' ],
+    [ CKEDITOR.ALT + 76 /*L*/, 'link' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 75 /*K*/, 'unlink' ],
+    [ CKEDITOR.ALT + CKEDITOR.SHIFT + 76 /*L*/, 'unlink' ],
+
+    [ CKEDITOR.ALT + 86 /*V*/, 'pastetext' ],
+    [ CKEDITOR.ALT + CKEDITOR.SHIFT + 86 /*V*/, 'pastefromword' ],
+
+    [ CKEDITOR.ALT + 67 /*C*/, 'specialchar' ],
+    [ CKEDITOR.ALT + 84 /*T*/, 'table' ],
+
+    // Other - dialogs, views, etc.
+    [ CKEDITOR.ALT + 8 /*Backspace*/, 'blur' ],
+
+    [ CKEDITOR.ALT + 77 /*M*/, 'contextMenu' ],
+	[ CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
+	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
+
+    [ CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 70 /*F*/, 'find' ],
+    [ CKEDITOR.ALT + 88 /*X*/, 'maximize' ],
+    [ CKEDITOR.CTRL + 113 /*F2*/, 'preview' ],
+    [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 80 /*P*/, 'print' ],
+    [ CKEDITOR.CTRL + 72 /*H*/, 'replace' ],
+    [ CKEDITOR.ALT + 83 /*S*/, 'scaytcheck' ],
+    [ CKEDITOR.ALT + 66 /*B*/, 'showblocks' ],
+    [ CKEDITOR.ALT + CKEDITOR.SHIFT + 84 /*T*/, 'showborders' ],
+    [ CKEDITOR.ALT + 90 /*Z*/, 'source' ],
+    [ CKEDITOR.ALT + 48 /*ZERO*/, 'toolbarCollapse' ],
+    [ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
+];		
+			";
+		}
 
 		//add custom javascript config from user,  very danger option
 		$string = $this->params->get('CKEditorCustomJs', '');
