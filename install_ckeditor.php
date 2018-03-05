@@ -61,6 +61,8 @@ class com_ckeditorInstallerScript
 	 * @return string
 	 *
 	 * @since 5.0
+	 * @throws \RuntimeException
+	 * @throws \InvalidArgumentException
 	 */
 	public function preflight($type, $parent)
 	{
