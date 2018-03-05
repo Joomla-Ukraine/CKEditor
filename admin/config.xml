@@ -204,6 +204,8 @@
             <option value="1">Uncompressed (slower)</option>
         </field>
 
+        <field name="cssbodyclass" type="text" default="css-editor" label="CSS_BODY_CLASS" />
+
         <field name="DivBased" type="radio" default="0" label="DIV_BASED" description="DIV_BASED_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
@@ -218,6 +220,11 @@
 
         <field name="Scayt" type="radio" default="0" label="SCAYT_AUTOSTART" description="SCAYT_AUTOSTART_DESCRIPTION"
                class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="disablespell" type="radio" default="1" label="USE_DISABLE_SPELL" class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
@@ -238,10 +245,6 @@
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="outlineblocks" type="radio" default="1" label="USE_OUTLINE_BLOCKS" description="USE_OUTLINE_BLOCKS_DESCRIPTION" class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
-        </field>
 
         <field name="plaintext" type="radio" default="1" label="USE_PLAINTEXT" description="USE_PLAINTEXT_DESCRIPTION" class="btn-group">
             <option value="0">JDisabled</option>
@@ -249,6 +252,11 @@
         </field>
 
         <field name="keystrokes" type="radio" default="1" label="USE_KEYSTROKES" description="USE_KEYSTROKES_DESCRIPTION" class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="outlineblocks" type="radio" default="1" label="USE_OUTLINE_BLOCKS" description="USE_OUTLINE_BLOCKS_DESCRIPTION" class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>

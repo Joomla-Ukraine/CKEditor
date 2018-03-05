@@ -23,10 +23,12 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.tooltip');
 
-JToolBarHelper::title(JText::_('CKEDITOR_CONFIGURATION'), 'CKEditorConfigIcon');
+JToolbarHelper::title(JText::_('CKEDITOR_CONFIGURATION'), 'equalizer config');
 JToolBarHelper::save();
 JToolBarHelper::apply();
+JToolbarHelper::divider();
 JToolBarHelper::cancel('cancel', JText::_('CLOSE'));
+JToolbarHelper::divider();
 
 JHTML::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
 JHTML::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
@@ -72,6 +74,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
                 setParams(p.id, false);
             }
         });
+
         $$('.icon-add').each(function (el) {
             var o = el.className.replace(/icon-(add|remove)/i, '').trim();
             if (o == 'users') return;
@@ -82,6 +85,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
                 });
             });
         });
+
         $$('.icon-remove').each(function (el) {
             var o = el.className.replace(/icon-(add|remove)/i, '').trim();
             el.addEvent('click', function () {
@@ -161,9 +165,10 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 		</dd>
 	</dl>
 <?php endif; ?>
+
 <form action="index.php" method="post" name="adminForm" class="form-validate form-horizontal">
-	<?php echo JHtml::_('form.token'); ?>
 	<?php
+	echo JHtml::_('form.token');
 
 	//echo JHtmlTabs::panel(JText :: _('BASIC_SETTINGS'), "basic-settings");
 	if($this->toolbar == 'advanced')
@@ -187,10 +192,6 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 			<a href="#file-browser-settings" data-toggle="tab"><?php echo JText::_('FILE_BROWSER_SETTINGS'); ?></a></li>
 		<li id="layout_tab"><a href="#layout-settings" data-toggle="tab"><?php echo JText::_('LAYOUT_SETTINGS'); ?></a>
 		</li>
-		<li id="license_information_tab">
-			<a href="#license-information-settings" data-toggle="tab"><?php echo JText::_('LICENSE_INFORMATION'); ?></a>
-		</li>
-
 	</ul>
 
 	<div class="tab-content">
@@ -322,6 +323,20 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('FILE_BROWSER_ACCESS'); ?></legend>
+							<?php if($this->form->getFieldset('license-information')): ?>
+								<?php foreach($this->form->getFieldset('license-information') as $field): ?>
+									<?php if($field->hidden): ?>
+										<?php echo $field->input; ?>
+									<?php else: ?>
+										<div class="control-group">
+											<div class="control-label"><?php echo $field->label; ?></div>
+											<div class="controls"><?php echo $field->input ?></div>
+										</div>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php else :
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
+							endif; ?>
 							<?php if($this->form->getFieldset('CKFinderSettings')): ?>
 								<?php foreach($this->form->getFieldset('CKFinderSettings') as $field): ?>
 									<?php if($field->hidden): ?>
@@ -531,29 +546,6 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<?php } ?>
 				</div>
 			</fieldset>
-		</div>
-		<div id="license-information-settings" class="tab-pane">
-			<div class="row-fluid">
-				<div class="span6">
-					<fieldset class="adminform form-horizontal">
-						<legend><?php echo JText::_('LICENSE_INFORMATION'); ?></legend>
-						<?php if($this->form->getFieldset('license-information')): ?>
-							<?php foreach($this->form->getFieldset('license-information') as $field): ?>
-								<?php if($field->hidden): ?>
-									<?php echo $field->input; ?>
-								<?php else: ?>
-									<div class="control-group">
-										<div class="control-label"><?php echo $field->label; ?></div>
-										<div class="controls"><?php echo $field->input ?></div>
-									</div>
-								<?php endif; ?>
-							<?php endforeach; ?>
-						<?php else :
-							echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
-						endif; ?>
-					</fieldset>
-				</div>
-			</div>
 		</div>
 	</div>
 	<input type="hidden" name="option" value="com_ckeditor" />
