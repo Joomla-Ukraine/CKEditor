@@ -862,8 +862,7 @@ class plgEditorCKeditor extends JPlugin
 		if($this->params->get('cssbodyclass') != '')
 		{
 			$editor .= "
-        CKEDITOR.config.bodyClass = '" . $this->params->get('cssbodyclass') . "';
-			";
+        CKEDITOR.config.bodyClass = '" . $this->params->get('cssbodyclass') . "';";
 		}
 
 		if($this->params->get('msword', 1) == 1)
@@ -880,10 +879,7 @@ class plgEditorCKeditor extends JPlugin
 		if($this->params->get('plaintext', 1) == 1)
 		{
 			$editor .= "
-        CKEDITOR.config.pasteFilter = 'plain-text';
-        //CKEDITOR.config.clipboard_defaultContentType = 'text';
-        CKEDITOR.config.forcePasteAsPlainText = true;
-			";
+        CKEDITOR.config.forcePasteAsPlainText = true;";
 		}
 
 		if($this->params->get('keystrokes', 1) == 1)

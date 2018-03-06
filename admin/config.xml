@@ -204,7 +204,7 @@
             <option value="1">Uncompressed (slower)</option>
         </field>
 
-        <field name="cssbodyclass" type="text" default="css-editor" label="CSS_BODY_CLASS" />
+        <field name="cssbodyclass" type="text" default="" label="CSS_BODY_CLASS" />
 
         <field name="DivBased" type="radio" default="0" label="DIV_BASED" description="DIV_BASED_DESCRIPTION"
                class="btn-group">
