@@ -137,8 +137,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 
                         if (o.hasClass('spacer')) {
                             items[i] = ';';
-                        }
-                        else {
+                        } else {
                             items[i] = o.id.replace(/[^A-Za-z]/gi, '');
                         }
                         i++;
@@ -185,12 +184,16 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 
 	<ul class="nav nav-tabs">
 		<li id="basic_tab" class="active">
-			<a href="#basic-settings" data-toggle="tab"><?php echo JText::_('BASIC_SETTINGS'); ?></a></li>
+			<a href="#basic-settings" data-toggle="tab"><?php echo JText::_('BASIC_SETTINGS'); ?></a>
+		</li>
 		<li id="advanced_tab">
-			<a href="#advanced-settings" data-toggle="tab"><?php echo JText::_('ADVANCED_SETTINGS'); ?></a></li>
+			<a href="#advanced-settings" data-toggle="tab"><?php echo JText::_('ADVANCED_SETTINGS'); ?></a>
+		</li>
 		<li id="file-browser_tab">
-			<a href="#file-browser-settings" data-toggle="tab"><?php echo JText::_('FILE_BROWSER_SETTINGS'); ?></a></li>
-		<li id="layout_tab"><a href="#layout-settings" data-toggle="tab"><?php echo JText::_('LAYOUT_SETTINGS'); ?></a>
+			<a href="#file-browser-settings" data-toggle="tab"><?php echo JText::_('FILE_BROWSER_SETTINGS'); ?></a>
+		</li>
+		<li id="layout_tab">
+			<a href="#layout-settings" data-toggle="tab"><?php echo JText::_('LAYOUT_SETTINGS'); ?></a>
 		</li>
 	</ul>
 
@@ -438,12 +441,12 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 		</div>
 		<div id="layout-settings" class="tab-pane">
 			<p><?php
-				$other = ($this->toolbar == 'advanced') ? 'basic' : 'advanced';
-				echo strtr(JText:: _('LAYOUT_EDIT'), array(
+				$other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
+				echo strtr(JText:: _('LAYOUT_EDIT'), [
 					'!type'    => '<b>' . JText:: _(!empty($this->toolbar) ? strtoupper($this->toolbar) : 'BASIC') . '</b>',
 					'!other'   => '<a href="' . $link . '">' . JText:: _($other) . '</a>',
 					'!default' => '<a href="' . $link1 . '">' . JText:: _('DEFAULT') . '</a>'
-				)); ?>
+				]); ?>
 			</p>
 			<fieldset>
 				<legend><?php echo ucfirst($this->toolbar) ?> Toolbar</legend>
@@ -478,16 +481,16 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 												<li class="sortableItem spacer">
 													<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
 												</li>
-											<?php
+												<?php
 											}
 
-											if($icon != ';' && $icon != '-')
+											if($icon !== ';' && $icon != '-')
 											{
 												$button = $this->allToolbars[ $icon ];
 												//if button exists
 												if($button)
 												{
-													$path = $button[ 'type' ] == 'command' ? 'components/com_ckeditor/config/views/config/images/' . $button[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $button[ 'icon' ];
+													$path = $button[ 'type' ] === 'command' ? 'components/com_ckeditor/config/views/config/images/' . $button[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $button[ 'icon' ];
 													?>
 													<li class="sortableItem" id="<?php echo $button[ 'name' ]; ?>">
 														<img src="<?php echo $path; ?>" alt="<?php echo $button[ 'title' ]; ?>" title="<?php echo $button[ 'title' ]; ?>" />
@@ -521,7 +524,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 										<li class="sortableItem spacer">
 											<img src="components/com_ckeditor/config/views/config/images/spacer.png" alt="<?php echo JText::_('SPACER'); ?>" title="<?php echo JText::_('SPACER'); ?>" />
 										</li>
-									<?php
+										<?php
 									}
 								}
 

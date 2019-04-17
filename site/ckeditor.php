@@ -30,7 +30,7 @@ define('CKE_CLASSES', CKE_LIBRARIES . '/classes');
 $jinput = JFactory::getApplication()->input;
 $task   = $jinput->get('task', '', 'STR');
 
-if($task == 'plugin' || $task == 'help')
+if($task === 'plugin' || $task === 'help')
 {
 	require_once __DIR__ . '/editor.php';
 

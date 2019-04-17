@@ -25,7 +25,7 @@ jimport('joomla.plugin.plugin');
 
 class plgEditorCKeditor extends JPlugin
 {
-	public $pluginsName = array();
+	public $pluginsName = [];
 
 	public $called = false;
 
@@ -137,7 +137,7 @@ class plgEditorCKeditor extends JPlugin
 		$app    = JFactory::getApplication();
 		$config = JFactory::getConfig();
 
-		if($app->getName() != 'site')
+		if($app->getName() !== 'site')
 		{
 			JHTML::_('behavior.modal', 'a.modal-button');
 		}
@@ -167,7 +167,7 @@ class plgEditorCKeditor extends JPlugin
 
 		$userid = $user->get('id');
 		$gid    = JAccess::getGroupsByUser($userid);
-		$access = $this->params->get('usergroup', array( '8' ));
+		$access = $this->params->get('usergroup', [ '8' ]);
 
 		$access_true = false;
 		if(is_array($access) && is_array($gid))
@@ -182,12 +182,9 @@ class plgEditorCKeditor extends JPlugin
 				}
 			}
 		}
-		else
+		elseif(is_array($gid) && in_array($access, $gid))
 		{
-			if(is_array($gid) && in_array($access, $gid))
-			{
-				$access_true = true;
-			}
+			$access_true = true;
 		}
 
 		$frontend = '';
@@ -253,13 +250,12 @@ class plgEditorCKeditor extends JPlugin
 		$customConfigPlugins = '';
 
 		$skin = $this->params->get('skin', 'moono');
-		if($skin == 'v2' || $skin == 'office2003')
+		if($skin === 'v2' || $skin === 'office2003')
 		{
 			$skin = 'moono';
 		}
 
 		$editor .= "<script>
-
         var editor_name = '" . $name . "';
         var attrstyle = document.getElementById('" . $id . "');
         var editorheight = (attrstyle.clientHeight+2);
@@ -286,16 +282,13 @@ class plgEditorCKeditor extends JPlugin
 			$editor .= ", height: '" . $this->params->get('CKEditorHeight', '') . "'";
 			$editor .= ", autoGrow_maxHeight: '" . $this->params->get('CKEditorHeight', '') . "'";
 		}
+		elseif($height)
+		{
+			$editor .= ", height: '" . $height . "'";
+		}
 		else
 		{
-			if($height)
-			{
-				$editor .= ", height: '" . $height . "'";
-			}
-			else
-			{
-				$editor .= ', height: editorheight';
-			}
+			$editor .= ', height: editorheight';
 		}
 
 		if($this->params->get('Color', '') != '')
@@ -310,39 +303,39 @@ class plgEditorCKeditor extends JPlugin
 		}
 
 		//array with all elements added in toolbar
-		$allElements = array();
-		if($this->params->get('toolbar' . $frontend, 'Full') != 'Full')
+		$allElements = [];
+		if($this->params->get('toolbar' . $frontend, 'Full') !== 'Full')
 		{
 			$toolbar = $this->params->get($this->params->get('toolbar' . $frontend, 'Full') . '_ToolBar', " 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'");
 
 			if(strpos($toolbar, '[') !== false || strpos($toolbar, ']') !== false)
 			{
-				$toolbar = str_replace(array(
+				$toolbar = str_replace([
 					'[[',
 					']]',
 					'[',
 					']'
-				), array(
+				], [
 					'[',
 					']',
 					'',
 					';'
-				), $toolbar);
+				], $toolbar);
 			}
 
-			$replace = array(
+			$replace = [
 				"'",
 				'`',
 				'"',
 				"\n"
-			);
+			];
 
-			$replacement = array(
+			$replacement = [
 				'',
 				'',
 				'',
 				''
-			);
+			];
 
 			$toolbar = str_replace($replace, $replacement, $toolbar);
 
@@ -366,13 +359,13 @@ class plgEditorCKeditor extends JPlugin
 
 			$data = '';
 
-			$toolbar = str_replace(array(
+			$toolbar = str_replace([
 				'/,;,/',
 				',;,/'
-			), array(
+			], [
 				'/',
 				',/'
-			), $toolbar);
+			], $toolbar);
 
 			foreach(explode(';', $toolbar) AS $menu)
 			{
@@ -380,17 +373,17 @@ class plgEditorCKeditor extends JPlugin
 				{
 					$data .= '[';
 
-					$tmpArray = array();
+					$tmpArray = [];
 					foreach(explode(',', $menu) AS $key => $value)
 					{
 						$allElements[] = trim($value);
-						if($value != '' && trim($value) != '/')
+						if($value != '' && trim($value) !== '/')
 						{
 							$tmpArray[] = "'" . trim($value) . "'";
 						}
-						elseif(trim($value) == '/')
+						elseif(trim($value) === '/')
 						{
-							if($data[ strlen($data) - 1 ] == '[' && $key < 2)
+							if($data[ strlen($data) - 1 ] === '[' && $key < 2)
 							{
 								$data[ strlen($data) - 1 ] = ']';
 								$data                      .= ",'" . trim($value) . "',[";
@@ -405,13 +398,13 @@ class plgEditorCKeditor extends JPlugin
 					$data .= implode(',', $tmpArray);
 
 					//correct data formating -> change ',]'' to ']' and '[,' to '['
-					$data = preg_replace(array(
+					$data = preg_replace([
 						"#,[^'\[]#",
 						"#\[,#"
-					), array(
+					], [
 						']',
 						'['
-					), $data);
+					], $data);
 
 					$data .= '],';
 				}
@@ -477,16 +470,13 @@ class plgEditorCKeditor extends JPlugin
 					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css" . $this->buildVersion . "'";
 				}
 			}
+			elseif(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
+			{
+				$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css" . $this->buildVersion . "'";
+			}
 			else
 			{
-				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
-				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css" . $this->buildVersion . "'";
-				}
-				else
-				{
-					$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css" . $this->buildVersion . "'";
-				}
+				$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css" . $this->buildVersion . "'";
 			}
 		}
 
@@ -497,9 +487,10 @@ class plgEditorCKeditor extends JPlugin
 
 		if($this->params->get('ckfinder', '1') == 1)
 		{
-			$userid = $user->get('id');
-			$gid    = JAccess::getGroupsByUser($userid);
-			$access = $this->params->get('username_access', array( '8' ));
+			$userid      = $user->get('id');
+			$gid         = JAccess::getGroupsByUser($userid);
+			$access      = $this->params->get('username_access', [ '8' ]);
+			$user_access = $this->params->get('user_access_folder', [ '2' ]);
 
 			$access_true   = false;
 			$sessionActive = false;
@@ -526,15 +517,30 @@ class plgEditorCKeditor extends JPlugin
 					}
 				}
 			}
-			else
+			elseif(is_array($gid) && in_array($access, $gid))
 			{
-				if(is_array($gid) && in_array($access, $gid))
-				{
-					$access_true = true;
-				}
+				$access_true = true;
 			}
 
-			if($access_true && $session->getState() == 'active')
+			$user_access_true = false;
+			if(is_array($user_access) && is_array($gid))
+			{
+				foreach($gid AS $key => $val)
+				{
+					if(in_array($val, $user_access))
+					{
+						$user_access_true = true;
+
+						break;
+					}
+				}
+			}
+			elseif(is_array($gid) && in_array($user_access, $gid))
+			{
+				$user_access_true = true;
+			}
+
+			if($access_true && $session->getState() === 'active')
 			{
 				$sessionActive = true;
 				$session->set('LicenseName', $this->params->get('CKFinderLicenseName', ''));
@@ -580,13 +586,29 @@ class plgEditorCKeditor extends JPlugin
 				}
 
 				$saveDir = $this->params->get('CKFinderSaveImages', 'media/ckfinder/images');
-				$saveDir = str_replace(array(
+				$saveDir = str_replace([
 					'$id',
 					'$username'
-				), array(
+				], [
 					$user->id,
 					$user->username
-				), $saveDir);
+				], $saveDir);
+
+				if($user_access_true)
+				{
+					$saveDir = $saveDir . '/upload/' . $user->id;
+					$this->_make_dir($saveDir);
+
+					$user_folders = (array) $this->params->get('user_folders');
+					foreach($user_folders as $uf)
+					{
+						if($uf->user_folder)
+						{
+							$this->_make_dir($saveDir . '/' . $uf->user_folder);
+							$this->_make_dir($saveDir . '/' . $uf->user_folder . '/' . date('Y/m'));
+						}
+					}
+				}
 
 				$session->set('CKFinderImagesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
@@ -594,7 +616,7 @@ class plgEditorCKeditor extends JPlugin
 				$chmod = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
 				$old   = umask(0);
 
-				if($saveDir != 'media/ckfinder/images' && $saveDir != '')
+				if($saveDir !== 'media/ckfinder/images' && $saveDir != '')
 				{
 					$dirs = explode('/', $saveDir);
 					$path = CKFINDER_PATH_BASE;
@@ -602,7 +624,7 @@ class plgEditorCKeditor extends JPlugin
 					foreach($dirs AS $dir)
 					{
 						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod, $chmod))
+						if(!is_dir($path) && !mkdir($path, $chmod, $chmod) && !is_dir($path))
 						{
 							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
 						}
@@ -611,12 +633,12 @@ class plgEditorCKeditor extends JPlugin
 				else
 				{
 					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/images';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir(CKFINDER_PATH_BASE . '/media/ckfinder', $chmod))
+					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
 					{
 						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
 					}
 
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod))
+					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
 					{
 						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
 					}
@@ -625,25 +647,31 @@ class plgEditorCKeditor extends JPlugin
 				//configure save path for flash files
 				//crete necessary folders if they don't exists
 				$saveDir = $this->params->get('CKFinderSaveFlash', 'media/ckfinder/flash');
-				$saveDir = str_replace(array(
+				$saveDir = str_replace([
 					'$id',
 					'$username'
-				), array(
+				], [
 					$user->id,
 					$user->username
-				), $saveDir);
+				], $saveDir);
+
+				if($user_access_true)
+				{
+					$saveDir = $saveDir . '/upload/' . $user->id;
+					$this->_make_dir($saveDir);
+				}
 
 				$session->set('CKFinderFlashPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFlashUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-				if($saveDir != 'media/ckfinder/flash' && $saveDir != '')
+				if($saveDir !== 'media/ckfinder/flash' && $saveDir != '')
 				{
 					$dirs = explode('/', $saveDir);
 					$path = CKFINDER_PATH_BASE;
 					foreach($dirs AS $dir)
 					{
 						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod))
+						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
 						{
 							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
 						}
@@ -652,12 +680,12 @@ class plgEditorCKeditor extends JPlugin
 				else
 				{
 					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/flash';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir(CKFINDER_PATH_BASE . '/media/ckfinder', $chmod))
+					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
 					{
 						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
 					}
 
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod))
+					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
 					{
 						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
 					}
@@ -666,25 +694,31 @@ class plgEditorCKeditor extends JPlugin
 				//configure save path for files
 				//crete necessary folders if they don't exists
 				$saveDir = $this->params->get('CKFinderSaveFiles', 'media/ckfinder/files');
-				$saveDir = str_replace(array(
+				$saveDir = str_replace([
 					'$id',
 					'$username'
-				), array(
+				], [
 					$user->id,
 					$user->username
-				), $saveDir);
+				], $saveDir);
+
+				if($user_access_true)
+				{
+					$saveDir = $saveDir . '/upload/' . $user->id;
+					$this->_make_dir($saveDir);
+				}
 
 				$session->set('CKFinderFilesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-				if($saveDir != 'media/ckfinder/files' && $saveDir != '')
+				if($saveDir !== 'media/ckfinder/files' && $saveDir != '')
 				{
 					$dirs = explode('/', $saveDir);
 					$path = CKFINDER_PATH_BASE;
 					foreach($dirs AS $dir)
 					{
 						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod))
+						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
 						{
 							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
 						}
@@ -694,12 +728,12 @@ class plgEditorCKeditor extends JPlugin
 				{
 					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/files';
 
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir(CKFINDER_PATH_BASE . '/media/ckfinder', $chmod))
+					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
 					{
 						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
 					}
 
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod))
+					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
 					{
 						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
 					}
@@ -709,25 +743,31 @@ class plgEditorCKeditor extends JPlugin
 				//crete necessary folders if they don't exists
 				$saveDir = $this->params->get('CKFinderSaveThumbs', 'media/ckfinder/_thumbs');
 
-				$saveDir = str_replace(array(
+				$saveDir = str_replace([
 					'$id',
 					'$username'
-				), array(
+				], [
 					$user->id,
 					$user->username
-				), $saveDir);
+				], $saveDir);
+
+				if($user_access_true)
+				{
+					$saveDir = $saveDir . '/upload/' . $user->id;
+					$this->_make_dir($saveDir);
+				}
 
 				$session->set('CKFinderThumbsPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
 				$session->set('CKFinderThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-				if($saveDir != 'media/ckfinder/_thumbs' && $saveDir != '')
+				if($saveDir !== 'media/ckfinder/_thumbs' && $saveDir != '')
 				{
 					$dirs = explode('/', $saveDir);
 					$path = CKFINDER_PATH_BASE;
 					foreach($dirs AS $dir)
 					{
 						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod))
+						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
 						{
 							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
 						}
@@ -736,12 +776,12 @@ class plgEditorCKeditor extends JPlugin
 				else
 				{
 					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/_thumbs';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir(CKFINDER_PATH_BASE . '/media/ckfinder', $chmod))
+					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
 					{
 						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
 					}
 
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod))
+					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
 					{
 						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
 					}
@@ -756,7 +796,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceFiles', ''));
 					$extensions = array_unique($extensions);
 
-					$results = array();
+					$results = [];
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -774,7 +814,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceImages', ''));
 					$extensions = array_unique($extensions);
 
-					$results = array();
+					$results = [];
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -792,7 +832,7 @@ class plgEditorCKeditor extends JPlugin
 					$extensions = explode(',', $this->params->get('CKFinderResourceFlash', ''));
 					$extensions = array_unique($extensions);
 
-					$results = array();
+					$results = [];
 					foreach($extensions AS $extension)
 					{
 						if($extension)
@@ -847,11 +887,11 @@ class plgEditorCKeditor extends JPlugin
 				}
 
 				//plugins settings
-				$plugins = array(
+				$plugins = [
 					'imageresize' => $this->params->get('CKFinderImageResize', 1),
 					'fileedit'    => $this->params->get('CKFinderFileEdit', 1),
 					'zip'         => $this->params->get('CKFinderZip', 1),
-				);
+				];
 
 				$session->set('CKFinderSettingsPlugins', $plugins);
 			}
@@ -872,14 +912,13 @@ class plgEditorCKeditor extends JPlugin
         CKEDITOR.config.pasteFromWordPromptCleanup = true;
         CKEDITOR.config.pasteFromWordNumberedHeadingToList = true;
         CKEDITOR.config.pasteFromWordPromptCleanup = true;
-        CKEDITOR.config.pasteFromWordRemoveFontStyles = true;
-			";
+        CKEDITOR.config.pasteFromWordRemoveFontStyles = true;";
 		}
 
 		if($this->params->get('plaintext', 1) == 1)
 		{
-			$editor .= "
-        CKEDITOR.config.forcePasteAsPlainText = true;";
+			$editor .= '
+        CKEDITOR.config.forcePasteAsPlainText = true;';
 		}
 
 		if($this->params->get('keystrokes', 1) == 1)
@@ -893,7 +932,6 @@ class plgEditorCKeditor extends JPlugin
             [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 56 /*8*/, 'bulletedListStyle' ],
 
             // COMMAND FOR HEADINGS via button plugins
-            [ CKEDITOR.CTRL + 49 /*1*/, 'heading-h1' ],
             [ CKEDITOR.CTRL + 50 /*2*/, 'heading-h2' ],
             [ CKEDITOR.CTRL + 51 /*3*/, 'heading-h3' ],
             [ CKEDITOR.CTRL + 52 /*4*/, 'heading-h4' ],
@@ -949,26 +987,24 @@ class plgEditorCKeditor extends JPlugin
             [ CKEDITOR.ALT + 90 /*Z*/, 'source' ],
             [ CKEDITOR.ALT + 48 /*ZERO*/, 'toolbarCollapse' ],
             [ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
-        ];
-			";
+        ];";
 		}
 
 		$editor .= "
         CKEDITOR.config.format_tags = 'p;h2;h3;h4;h5;h6';
         CKEDITOR.config.ignoreEmptyParagraph = false;
-        CKEDITOR.config.fillEmptyBlocks = false;
-        ";
+        CKEDITOR.config.fillEmptyBlocks = false;";
 
 		if($this->params->get('outlineblocks', 1) == 1)
 		{
-			$editor .= "
-			CKEDITOR.config.startupOutlineBlocks = true;";
+			$editor .= '
+			CKEDITOR.config.startupOutlineBlocks = true;';
 		}
 
 		if($this->params->get('disablespell', 1) == 1)
 		{
-			$editor .= "
-			CKEDITOR.config.disableNativeSpellChecker = false;";
+			$editor .= '
+			CKEDITOR.config.disableNativeSpellChecker = false;';
 		}
 
 		//add custom javascript config from user,  very danger option
@@ -1010,8 +1046,7 @@ class plgEditorCKeditor extends JPlugin
     		ev.editor.dataProcessor.writer.setRules( 'pre',	{
     			indent: pre_formater
     		});
-    	});
-        ";
+    	});";
 
 		return $txt;
 	}
@@ -1030,10 +1065,10 @@ class plgEditorCKeditor extends JPlugin
 	{
 		$return = '';
 
-		$args = array(
+		$args = [
 			'name'  => $name,
 			'event' => 'onGetInsertMethod'
-		);
+		];
 
 		$results = (array) $this->update($args);
 
@@ -1090,5 +1125,37 @@ class plgEditorCKeditor extends JPlugin
 	private function _toogleButton($name)
 	{
 		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
+	}
+
+	/**
+	 * @param     $dir
+	 * @param int $mode
+	 *
+	 * @return bool
+	 *
+	 * @since 5.0
+	 */
+	private function _make_dir($dir, $mode = 0777)
+	{
+		if(@mkdir($dir, $mode) || is_dir($dir))
+		{
+			if(!file_exists($indexfile = $dir . '/index.html'))
+			{
+				$indexcontent = '<!DOCTYPE html><title></title>';
+				$file         = fopen($indexfile, 'wb');
+
+				fwrite($file, $indexcontent);
+				fclose($file);
+			}
+
+			return true;
+		}
+
+		if(!$this->_make_dir(dirname($dir)))
+		{
+			return false;
+		}
+
+		return @mkdir($dir, $mode);
 	}
 }

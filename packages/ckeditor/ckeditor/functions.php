@@ -38,10 +38,10 @@ function checkPackageLicense($licenseKey, $licenseName)
 		$auth        = checkKey($packageKey, $licenseName);
 	}
 
-	return array(
+	return [
 		'authenticate' => $auth,
 		'key'          => $ckfinderKey
-	);
+	];
 }
 
 /**
@@ -60,8 +60,10 @@ function checkKey($key, $licenseName)
 	{
 		if($key[ 0 ] == 'D' && $app->getName() == 'administrator')
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('DEVELOPER_LICENSE_MESSAGE'), 'message');
-			JFactory::getApplication()->enqueueMessage(JText::_('DEVELOPER_LICENSE_NAME_MESSAGE') . '<strong>' . $licenseName . '</strong>', 'message');
+			JFactory::getApplication()
+			        ->enqueueMessage(JText::_('DEVELOPER_LICENSE_MESSAGE'), 'message');
+			JFactory::getApplication()
+			        ->enqueueMessage(JText::_('DEVELOPER_LICENSE_NAME_MESSAGE') . '<strong>' . $licenseName . '</strong>', 'message');
 		}
 
 		return true;

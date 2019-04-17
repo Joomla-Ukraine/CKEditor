@@ -56,14 +56,16 @@ class JContentEditorBridge extends JObject
 			{
 				case 'plugin':
 					$plugin = JRequest::getVar('plugin', 'cmd');
-					JFactory::getApplication()->enqueueMessage(JText::_('PLUGIN_NOT_FOUND'), 'message');
+					JFactory::getApplication()
+					        ->enqueueMessage(JText::_('PLUGIN_NOT_FOUND'), 'message');
 					exit ();
 					break;
 			}
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('NO_TASK'), 'message');
+			JFactory::getApplication()
+			        ->enqueueMessage(JText::_('NO_TASK'), 'message');
 		}
 	}
 }

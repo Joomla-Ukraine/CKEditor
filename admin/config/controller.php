@@ -30,7 +30,7 @@ class ConfigController extends JControllerLegacy
 	 *
 	 * @param array $default
 	 */
-	public function __construct($default = array())
+	public function __construct($default = [])
 	{
 		parent::__construct($default);
 		$this->registerTask('apply', 'save');
@@ -75,9 +75,7 @@ class ConfigController extends JControllerLegacy
 
 		$client = JRequest::getWord('client', 'site');
 
-		$query = 'SELECT extension_id'
-			. ' FROM #__extensions'
-			. ' WHERE element = "ckeditor"';
+		$query = 'SELECT extension_id' . ' FROM #__extensions' . ' WHERE element = "ckeditor"';
 		$db->setQuery($query);
 		$id = $db->loadResult();
 

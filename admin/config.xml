@@ -1,64 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <fieldset name="basic" class="btn-group">
+    <fieldset name="basic"
+              class="btn-group">
 
-        <field name="usergroup" multiple="multiple" default="1|6|7|2|3|4|5|10|12|8" type="usergroup"
-               label="User Group Access" description="" size="12"/>
+        <field name="usergroup"
+               multiple="multiple"
+               default="1|6|7|2|3|4|5|10|12|8"
+               type="usergroup"
+               label="User Group Access"
+               description=""
+               size="12" />
 
-        <field name="toolbar" type="list" default="Advanced" label="ADMINISTRATOR_TOOLBAR"
+        <field name="toolbar"
+               type="list"
+               default="Advanced"
+               label="ADMINISTRATOR_TOOLBAR"
                description="CHOOSE_TOOLBAR_FOR_ADMINISTATOR">
             <option value="Full">FULL</option>
             <option value="Advanced">ADVANCED</option>
             <option value="Basic">BASIC</option>
         </field>
 
-        <field name="toolbar_frontEnd" type="list" default="Basic" label="FRONTEND_TOOLBAR"
+        <field name="toolbar_frontEnd"
+               type="list"
+               default="Basic"
+               label="FRONTEND_TOOLBAR"
                description="CHOOSE_TOOLBAR">
             <option value="Full">FULL</option>
             <option value="Advanced">ADVANCED</option>
             <option value="Basic">BASIC</option>
         </field>
 
-        <field name="skin" type="list" default="moono" label="SKIN" description="SET_SKIN">
+        <field name="skin"
+               type="list"
+               default="moono"
+               label="SKIN"
+               description="SET_SKIN">
             <option value="moono">moono</option>
         </field>
 
-        <field name="CKEditorWidth" type="text" default="" label="EDITOR_WIDTH" description="EDITOR_WIDTH_DESCRIPTION"/>
+        <field name="CKEditorWidth"
+               type="text"
+               default=""
+               label="EDITOR_WIDTH"
+               description="EDITOR_WIDTH_DESCRIPTION" />
 
-        <field name="CKEditorHeight" type="text" default="" label="EDITOR_HEIGHT"
-               description="EDITOR_HEIGHT_DESCRIPTION"/>
+        <field name="CKEditorHeight"
+               type="text"
+               default=""
+               label="EDITOR_HEIGHT"
+               description="EDITOR_HEIGHT_DESCRIPTION" />
 
-        <field name="CKEditorAutoGrow" type="radio" default="0" label="AUTO_GROW" description="AUTO_GROW_DESCRIPTION"
+        <field name="CKEditorAutoGrow"
+               type="radio"
+               default="0"
+               label="AUTO_GROW"
+               description="AUTO_GROW_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="CKEditorTableResize" type="radio" default="1" label="TABLERESIZE"
-               description="TABLERESIZE_DESCRIPTION" class="btn-group">
+        <field name="CKEditorTableResize"
+               type="radio"
+               default="1"
+               label="TABLERESIZE"
+               description="TABLERESIZE_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="jumtgallery" type="text" default="images/gallery/" label="FOLDER_GALLERY_PLG" size="80"/>
+        <field name="jumtgallery"
+               type="text"
+               default="images/gallery/"
+               label="FOLDER_GALLERY_PLG"
+               size="80" />
 
-        <field name="Basic_ToolBar" default="" type="hidden" label="Basic ToolBar"
-               description="Change Basic toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar"/>
+        <field name="Basic_ToolBar"
+               default=""
+               type="hidden"
+               label="Basic ToolBar"
+               description="Change Basic toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar" />
 
-        <field name="Advanced_ToolBar" default="" type="hidden" label="Advanced Toolbar"
-               description="Change advanced toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar"/>
+        <field name="Advanced_ToolBar"
+               default=""
+               type="hidden"
+               label="Advanced Toolbar"
+               description="Change advanced toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar" />
 
     </fieldset>
 
-    <fieldset name="language" class="btn-group">
+    <fieldset name="language"
+              class="btn-group">
 
-        <field name="CKEditorAutoLang" type="radio" default="1" label="AUTO_DETECT_LANGUAGE"
-               description="AUTO_DETECT_LANGUAGE_DESCRPTION" class="btn-group">
+        <field name="CKEditorAutoLang"
+               type="radio"
+               default="1"
+               label="AUTO_DETECT_LANGUAGE"
+               description="AUTO_DETECT_LANGUAGE_DESCRPTION"
+               class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="language" type="list" default="en" label="USER_INTERFACE_LANGUAGE"
+        <field name="language"
+               type="list"
+               default="en"
+               label="USER_INTERFACE_LANGUAGE"
                description="USER_INTERFACE_LANGUAGE_DESCRIPTION">
             <option value="af">Afrikaans</option>
             <option value="ar">Arabic</option>
@@ -120,143 +169,245 @@
             <option value="vi">Vietnamese</option>
         </field>
 
-        <field name="CKEditorLangDir" type="radio" default="0" label="LANGUAGE_DIRECTION"
-               description="LANGUAGE_DIRECTION_DESCRIPTION" class="btn-group">
+        <field name="CKEditorLangDir"
+               type="radio"
+               default="0"
+               label="LANGUAGE_DIRECTION"
+               description="LANGUAGE_DIRECTION_DESCRIPTION"
+               class="btn-group">
             <option value="0">LEFT_TO_RIGHT</option>
             <option value="1">RIGHT_TO_LEFT</option>
         </field>
 
     </fieldset>
 
-    <fieldset name="formatting" class="btn-group">
+    <fieldset name="formatting"
+              class="btn-group">
 
-        <field name="CKEditorIndent" type="radio" default="1" label="INDENT_THE_ELEMENT_CONTENTS" class="btn-group">
-            <option value="0">JNo</option>
-            <option value="1">JYes</option>
-        </field>
-
-        <field name="CKEditorBreakBeforeOpener" type="radio" default="1" label="BREAK_LINE_BEFORE_THE_OPENING_TAG"
+        <field name="CKEditorIndent"
+               type="radio"
+               default="1"
+               label="INDENT_THE_ELEMENT_CONTENTS"
                class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="CKEditorBreakAfterOpener" type="radio" default="1" label="BREAK_LINE_AFTER_THE_OPENING_TAG"
+        <field name="CKEditorBreakBeforeOpener"
+               type="radio"
+               default="1"
+               label="BREAK_LINE_BEFORE_THE_OPENING_TAG"
                class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="CKEditorBreakBeforeCloser" type="radio" default="0" label="BREAK_LINE_BEFORE_THE_CLOSING_TAG"
+        <field name="CKEditorBreakAfterOpener"
+               type="radio"
+               default="1"
+               label="BREAK_LINE_AFTER_THE_OPENING_TAG"
                class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="CKEditorBreakAfterCloser" type="radio" default="1" label="BREAK_LINE_AFTER_THE_CLOSING_TAG"
+        <field name="CKEditorBreakBeforeCloser"
+               type="radio"
+               default="0"
+               label="BREAK_LINE_BEFORE_THE_CLOSING_TAG"
                class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="CKEditorPre" type="radio" default="0" label="INDENT_PRE" class="btn-group">
+        <field name="CKEditorBreakAfterCloser"
+               type="radio"
+               default="1"
+               label="BREAK_LINE_AFTER_THE_CLOSING_TAG"
+               class="btn-group">
+            <option value="0">JNo</option>
+            <option value="1">JYes</option>
+        </field>
+
+        <field name="CKEditorPre"
+               type="radio"
+               default="0"
+               label="INDENT_PRE"
+               class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
     </fieldset>
 
-    <fieldset name="advanced" class="btn-group">
+    <fieldset name="advanced"
+              class="btn-group">
 
-        <field name="Color" type="text" default="" label="USER_INTERFACE_COLOR"
-               description="USER_INTERFACE_COLOR_DESCRIPTION"/>
+        <field name="Color"
+               type="text"
+               default=""
+               label="USER_INTERFACE_COLOR"
+               description="USER_INTERFACE_COLOR_DESCRIPTION" />
 
-        <field name="enterMode" type="list" default="1" label="ENTER_MODE" description="ENTER_MODE_DESCRIPTION">
+        <field name="enterMode"
+               type="list"
+               default="1"
+               label="ENTER_MODE"
+               description="ENTER_MODE_DESCRIPTION">
             <option value="1">P_ELEMENTS</option>
             <option value="2">BR_ELEMENTS</option>
             <option value="3">DIV_ELEMENTS</option>
         </field>
 
-        <field name="shiftEnterMode" type="list" default="2" label="SHIFT_ENTER_MODE"
+        <field name="shiftEnterMode"
+               type="list"
+               default="2"
+               label="SHIFT_ENTER_MODE"
                description="SHIFT_ENTER_MODE_DESCRIPTION">
             <option value="1">P_ELEMENTS</option>
             <option value="2">BR_ELEMENTS</option>
             <option value="3">DIV_ELEMENTS</option>
         </field>
 
-        <field name="templateCss" type="radio" default="0" label="USE_TEMPLATE_CSS"
-               description="USE_TEMPLATE_CSS_DESCRIPTION" class="btn-group">
+        <field name="templateCss"
+               type="radio"
+               default="0"
+               label="USE_TEMPLATE_CSS"
+               description="USE_TEMPLATE_CSS_DESCRIPTION"
+               class="btn-group">
             <option value="0">JNo</option>
             <option value="1">JYes</option>
         </field>
 
-        <field name="style" type="text" default="" label="STYLES_DEFINITION_FILE"
-               description="STYLES_DEFINITION_FILE_DESCRIPTION"/>
+        <field name="style"
+               type="text"
+               default=""
+               label="STYLES_DEFINITION_FILE"
+               description="STYLES_DEFINITION_FILE_DESCRIPTION" />
 
-        <field name="template" type="text" default="" label="TEMPLATES_DEFINITION_FILE"
-               description="TEMPLATES_DEFINITION_FILE_DESCRIPTION"/>
+        <field name="template"
+               type="text"
+               default=""
+               label="TEMPLATES_DEFINITION_FILE"
+               description="TEMPLATES_DEFINITION_FILE_DESCRIPTION" />
 
-        <field name="css" type="text" default="" label="CSS_FILES" description="CSS_FILES_DESCRIPTION"/>
+        <field name="css"
+               type="text"
+               default=""
+               label="CSS_FILES"
+               description="CSS_FILES_DESCRIPTION" />
 
-        <field name="CKEditorJs" type="radio" default="0" label="LOAD_METHOD" description="LOAD_METHOD_DESCRIPTION"
+        <field name="CKEditorJs"
+               type="radio"
+               default="0"
+               label="LOAD_METHOD"
+               description="LOAD_METHOD_DESCRIPTION"
                class="btn-group">
             <option value="0">Minified (recommended)</option>
             <option value="1">Uncompressed (slower)</option>
         </field>
 
-        <field name="cssbodyclass" type="text" default="" label="CSS_BODY_CLASS" />
+        <field name="cssbodyclass"
+               type="text"
+               default=""
+               label="CSS_BODY_CLASS" />
 
-        <field name="DivBased" type="radio" default="0" label="DIV_BASED" description="DIV_BASED_DESCRIPTION"
+        <field name="DivBased"
+               type="radio"
+               default="0"
+               label="DIV_BASED"
+               description="DIV_BASED_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="LinkBrowserUrl" type="radio" default="1" label="LINK_BROWSER_URL"
-               description="LINK_BROWSER_URL_DESCRIPTION" class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
-        </field>
-
-        <field name="Scayt" type="radio" default="0" label="SCAYT_AUTOSTART" description="SCAYT_AUTOSTART_DESCRIPTION"
+        <field name="LinkBrowserUrl"
+               type="radio"
+               default="1"
+               label="LINK_BROWSER_URL"
+               description="LINK_BROWSER_URL_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="disablespell" type="radio" default="1" label="USE_DISABLE_SPELL" class="btn-group">
+        <field name="Scayt"
+               type="radio"
+               default="0"
+               label="SCAYT_AUTOSTART"
+               description="SCAYT_AUTOSTART_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="Entities" type="radio" default="1" label="USE_HTML_ENTITIES"
-               description="USE_HTML_ENTITIES_DESCRIPTION" class="btn-group">
+        <field name="disablespell"
+               type="radio"
+               default="1"
+               label="USE_DISABLE_SPELL"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="ACF" type="radio" default="0" label="USE_ACF" description="USE_ACF_DESCRIPTION" class="btn-group">
+        <field name="Entities"
+               type="radio"
+               default="1"
+               label="USE_HTML_ENTITIES"
+               description="USE_HTML_ENTITIES_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="msword" type="radio" default="1" label="USE_MSWORD" description="USE_MSWORD_DESCRIPTION" class="btn-group">
+        <field name="ACF"
+               type="radio"
+               default="0"
+               label="USE_ACF"
+               description="USE_ACF_DESCRIPTION"
+               class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
+        </field>
+
+        <field name="msword"
+               type="radio"
+               default="1"
+               label="USE_MSWORD"
+               description="USE_MSWORD_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
 
-        <field name="plaintext" type="radio" default="1" label="USE_PLAINTEXT" description="USE_PLAINTEXT_DESCRIPTION" class="btn-group">
+        <field name="plaintext"
+               type="radio"
+               default="1"
+               label="USE_PLAINTEXT"
+               description="USE_PLAINTEXT_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="keystrokes" type="radio" default="1" label="USE_KEYSTROKES" description="USE_KEYSTROKES_DESCRIPTION" class="btn-group">
+        <field name="keystrokes"
+               type="radio"
+               default="1"
+               label="USE_KEYSTROKES"
+               description="USE_KEYSTROKES_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="outlineblocks" type="radio" default="1" label="USE_OUTLINE_BLOCKS" description="USE_OUTLINE_BLOCKS_DESCRIPTION" class="btn-group">
+        <field name="outlineblocks"
+               type="radio"
+               default="1"
+               label="USE_OUTLINE_BLOCKS"
+               description="USE_OUTLINE_BLOCKS_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
@@ -265,105 +416,208 @@
 
     <fieldset name="custom_config">
 
-        <field name="CKEditorCustomJs" type="textarea" rows="60" cols="60" label="CUSTOM_JS"
-               description="CUSTOM_JS_DESCRIPTION" class="inputbox span12"/>
+        <field name="CKEditorCustomJs"
+               type="textarea"
+               rows="60"
+               cols="60"
+               label="CUSTOM_JS"
+               description="CUSTOM_JS_DESCRIPTION"
+               class="inputbox span12" />
 
     </fieldset>
 
     <fieldset name="CKFinderSettings">
 
-        <field name="ckfinder" type="radio" default="1" label="CKFINDER" description="CKFINDER_DESCRIPTION"
+        <field name="ckfinder"
+               type="radio"
+               default="1"
+               label="CKFINDER"
+               description="CKFINDER_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="CKFinderPathType" type="radio" default="0" label="CKFINDER_URLS_TYPE"
-               description="CKFINDER_URLS_TYPE_DESCRIPTION" class="btn-group">
+        <field name="CKFinderPathType"
+               type="radio"
+               default="0"
+               label="CKFINDER_URLS_TYPE"
+               description="CKFINDER_URLS_TYPE_DESCRIPTION"
+               class="btn-group">
             <option value="0">Absolute</option>
             <option value="1">Relative</option>
         </field>
 
-        <field name="username_access" multiple="multiple" default="1|6|7|2|3|4|5|10|12|8" type="usergroup"
-               label="CKFINDER_USERS" description="CKFINDER_USERS_DESCRIPTION" size="12"/>
+        <field name="username_access"
+               multiple="multiple"
+               default="1|6|7|2|3|4|5|10|12|8"
+               type="usergroup"
+               label="CKFINDER_USERS"
+               description="CKFINDER_USERS_DESCRIPTION"
+               size="12"
+        />
+
+        <field name="user_access_folder"
+               multiple="multiple"
+               default="1|6|7|2|3|4|5|10|12|8"
+               type="usergroup"
+               label="Add access to User Groups folder"
+               size="12"
+        />
+
+        <field
+		        name="user_folders"
+		        type="subform"
+		        multiple="true"
+		        class="span4"
+		        label="Create spesific user Image folders"
+		        layout="joomla.form.field.subform.repeatable-table"
+        >
+            <form>
+                <field
+                        name="user_folder"
+                        type="text"
+                        label="User folder"
+                        required="true"
+                />
+            </form>
+        </field>
+
 
     </fieldset>
 
     <fieldset name="CKFinderSettingsLicense">
 
-        <field name="CKFinderLicenseName" type="text" default="" label="LICENSE_NAME"
-               description="LICENSE_NAME_DESCRIPTION"/>
+        <field name="CKFinderLicenseName"
+               type="text"
+               default=""
+               label="LICENSE_NAME"
+               description="LICENSE_NAME_DESCRIPTION" />
 
-        <field name="CKFinderLicenseKey" type="text" default="" label="LICENSE_KEY"
-               description="LICENSE_KEY_DESCRIPTION"/>
+        <field name="CKFinderLicenseKey"
+               type="text"
+               default=""
+               label="LICENSE_KEY"
+               description="LICENSE_KEY_DESCRIPTION" />
 
     </fieldset>
 
     <fieldset name="CKFinderSettingsResources">
 
-        <field name="CKFinderSaveFiles" type="text" default="media/files" label="FILES_PATH"
-               description="FILES_PATH_DESCRIPTION"/>
+        <field name="CKFinderSaveFiles"
+               type="text"
+               default="media/files"
+               label="FILES_PATH"
+               description="FILES_PATH_DESCRIPTION" />
 
-        <field name="CKFinderSaveImages" type="text" default="media/images" label="IMAGES_PATH"
-               description="IMAGES_PATH_DESCRIPTION"/>
+        <field name="CKFinderSaveImages"
+               type="text"
+               default="media/images"
+               label="IMAGES_PATH"
+               description="IMAGES_PATH_DESCRIPTION" />
 
-        <field name="CKFinderSaveFlash" type="text" default="media/flash" label="FLASH_PATH"
-               description="FLASH_PATH_DESCRIPTION"/>
+        <field name="CKFinderSaveFlash"
+               type="text"
+               default="media/flash"
+               label="FLASH_PATH"
+               description="FLASH_PATH_DESCRIPTION" />
 
-        <field name="CKFinderSaveThumbs" type="text" default="media/_thumbs" label="THUMBNAILS_PATH"
-               description="THUMBNAILS_PATH_DESCRIPTION"/>
+        <field name="CKFinderSaveThumbs"
+               type="text"
+               default="media/_thumbs"
+               label="THUMBNAILS_PATH"
+               description="THUMBNAILS_PATH_DESCRIPTION" />
 
-        <field name="CKFinderResourceFiles" type="text" label="FILES_EXTENSIONS"
-               description="FILES_EXTENSIONS_DESCRIPTION"/>
+        <field name="CKFinderResourceFiles"
+               type="text"
+               label="FILES_EXTENSIONS"
+               description="FILES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderResourceImages" type="text" label="IMAGES_EXTENSIONS"
-               description="IMAGES_EXTENSIONS_DESCRIPTION"/>
+        <field name="CKFinderResourceImages"
+               type="text"
+               label="IMAGES_EXTENSIONS"
+               description="IMAGES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderResourceFlash" type="text" label="FLASH_EXTENSIONS"
-               description="FLASH_EXTENSIONS_DESCRIPTION"/>
+        <field name="CKFinderResourceFlash"
+               type="text"
+               label="FLASH_EXTENSIONS"
+               description="FLASH_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderMaxFilesSize" type="text" default="8M" label="MAX_FILES_SIZE"
-               description="MAX_FILES_SIZE_DESCRIPTION"/>
+        <field name="CKFinderMaxFilesSize"
+               type="text"
+               default="8M"
+               label="MAX_FILES_SIZE"
+               description="MAX_FILES_SIZE_DESCRIPTION" />
 
-        <field name="CKFinderMaxImagesSize" type="text" default="8M" label="MAX_IMAGES_SIZE"
-               description="MAX_IMAGES_SIZE_DESCRIPTION"/>
+        <field name="CKFinderMaxImagesSize"
+               type="text"
+               default="8M"
+               label="MAX_IMAGES_SIZE"
+               description="MAX_IMAGES_SIZE_DESCRIPTION" />
 
-        <field name="CKFinderMaxFlashSize" type="text" default="8M" label="MAX_FLASH_SIZE"
-               description="MAX_FLASH_SIZE_DESCRIPTION"/>
+        <field name="CKFinderMaxFlashSize"
+               type="text"
+               default="8M"
+               label="MAX_FLASH_SIZE"
+               description="MAX_FLASH_SIZE_DESCRIPTION" />
 
     </fieldset>
 
     <fieldset name="CKFinderSettingsImages">
 
-        <field name="CKFinderMaxImageWidth" type="text" label="MAX_IMAGE_WIDTH"
-               description="MAX_IMAGE_WIDTH_DESCRIPTION" default="1600"/>
+        <field name="CKFinderMaxImageWidth"
+               type="text"
+               label="MAX_IMAGE_WIDTH"
+               description="MAX_IMAGE_WIDTH_DESCRIPTION"
+               default="1600" />
 
-        <field name="CKFinderMaxImageHeight" type="text" label="MAX_IMAGE_HEIGHT"
-               description="MAX_IMAGE_HEIGHT_DESCRIPTION" default="1200"/>
+        <field name="CKFinderMaxImageHeight"
+               type="text"
+               label="MAX_IMAGE_HEIGHT"
+               description="MAX_IMAGE_HEIGHT_DESCRIPTION"
+               default="1200" />
 
-        <field name="CKFinderMaxThumbnailWidth" type="text" label="THUMBNAIL_WIDTH"
-               description="THUMBNAIL_WIDTH_DESCRIPTION" default="100"/>
+        <field name="CKFinderMaxThumbnailWidth"
+               type="text"
+               label="THUMBNAIL_WIDTH"
+               description="THUMBNAIL_WIDTH_DESCRIPTION"
+               default="100" />
 
-        <field name="CKFinderMaxThumbnailHeight" type="text" label="THUMBNAIL_HEIGHT"
-               description="THUMBNAIL_HEIGHT_DESCRIPTION" default="100"/>
+        <field name="CKFinderMaxThumbnailHeight"
+               type="text"
+               label="THUMBNAIL_HEIGHT"
+               description="THUMBNAIL_HEIGHT_DESCRIPTION"
+               default="100" />
 
     </fieldset>
 
     <fieldset name="CKFinderSettingsPlugins">
 
-        <field name="CKFinderFileEdit" type="radio" default="1" label="FILE_EDIT_PLUGIN"
-               description="FILE_EDIT_PLUGIN_DESCRIPTION" class="btn-group">
+        <field name="CKFinderFileEdit"
+               type="radio"
+               default="1"
+               label="FILE_EDIT_PLUGIN"
+               description="FILE_EDIT_PLUGIN_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="CKFinderImageResize" type="radio" default="1" label="IMAGE_RESIZE_PLUGIN"
-               description="IMAGE_RESIZE_PLUGIN_DESCRIPTION" class="btn-group">
+        <field name="CKFinderImageResize"
+               type="radio"
+               default="1"
+               label="IMAGE_RESIZE_PLUGIN"
+               description="IMAGE_RESIZE_PLUGIN_DESCRIPTION"
+               class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
         </field>
 
-        <field name="CKFinderZip" type="radio" default="1" label="ZIP_PLUGIN" description="ZIP_PLUGIN_DESCRIPTION"
+        <field name="CKFinderZip"
+               type="radio"
+               default="1"
+               label="ZIP_PLUGIN"
+               description="ZIP_PLUGIN_DESCRIPTION"
                class="btn-group">
             <option value="0">JDisabled</option>
             <option value="1">JEnabled</option>
@@ -373,18 +627,29 @@
 
     <fieldset name="CKFinderSettingsChmod">
 
-        <field name="CKFinderSettingsChmod" type="text" label="CHMOD_SETTINGS" description="CHMOD_SETTINGS_DESCRIPTION"
-               default="0755"/>
+        <field name="CKFinderSettingsChmod"
+               type="text"
+               label="CHMOD_SETTINGS"
+               description="CHMOD_SETTINGS_DESCRIPTION"
+               default="0755" />
 
     </fieldset>
 
     <fieldset name="license-information">
 
-        <field name="PackageLicenseName" type="text" default="" label="LICENSE_NAME"
-               description="LICENSE_NAME_DESCRIPTION" size="80"/>
+        <field name="PackageLicenseName"
+               type="text"
+               default=""
+               label="LICENSE_NAME"
+               description="LICENSE_NAME_DESCRIPTION"
+               size="80" />
 
-        <field name="PackageLicenseKey" type="text" default="" label="LICENSE_KEY" description="LICENSE_KEY_DESCRIPTION"
-               size="80"/>
+        <field name="PackageLicenseKey"
+               type="text"
+               default=""
+               label="LICENSE_KEY"
+               description="LICENSE_KEY_DESCRIPTION"
+               size="80" />
 
     </fieldset>
 </config>

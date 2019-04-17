@@ -23,9 +23,9 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT . '/config/controller.php';
 
-$controller = new ConfigController(array(
+$controller = new ConfigController([
 	'base_path' => JPATH_COMPONENT . '/config'
-));
+]);
 
 $jinput = JFactory::getApplication()->input;
 $task   = $jinput->get('task', '', 'STR');

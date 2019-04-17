@@ -23,12 +23,13 @@ else
 {
 	$mainframe = JFactory::getApplication('site');
 }
+
 $mainframe->initialise();
 
 function CheckAuthentication()
 {
 	$session = JFactory::getSession();
-	if($session->getState() == 'active' && $session->get('CKFinderAccess') == true)
+	if($session->getState() === 'active' && $session->get('CKFinderAccess') == true)
 	{
 		if($session->get('LicenseName') != '' && $session->get('LicenseKey') != '')
 		{
@@ -51,7 +52,7 @@ $session = JFactory::getSession();
 $baseUrl = 'cache/';
 $baseDir = JPATH_BASE . '/cache';
 
-$config[ 'Thumbnails' ] = Array(
+$config[ 'Thumbnails' ] = [
 	'url'          => $session->get('CKFinderThumbsUrl') ? $session->get('CKFinderThumbsUrl') : $baseUrl . '_thumbs',
 	'directory'    => $session->get('CKFinderThumbsPath') ? $session->get('CKFinderThumbsPath') : $baseDir . '_thumbs',
 	'enabled'      => true,
@@ -60,17 +61,17 @@ $config[ 'Thumbnails' ] = Array(
 	'maxHeight'    => $session->get('CKFinderMaxThumbnailHeight') ? $session->get('CKFinderMaxThumbnailHeight') : 180,
 	'bmpSupported' => false,
 	'quality'      => 75
-);
+];
 
-$config[ 'Images' ] = Array(
+$config[ 'Images' ] = [
 	'maxWidth'  => $session->get('CKFinderMaxImageWidth') ? $session->get('CKFinderMaxImageWidth') : 1600,
 	'maxHeight' => $session->get('CKFinderMaxImageHeight') ? $session->get('CKFinderMaxImageHeight') : 1200,
 	'quality'   => 75
-);
+];
 
 $config[ 'RoleSessionVar' ] = 'CKFinder_UserRole';
 
-$config[ 'AccessControl' ][] = Array(
+$config[ 'AccessControl' ][] = [
 	'role'         => '*',
 	'resourceType' => '*',
 	'folder'       => '/',
@@ -84,11 +85,11 @@ $config[ 'AccessControl' ][] = Array(
 	'fileUpload' => true,
 	'fileRename' => true,
 	'fileDelete' => true
-);
+];
 
 $config[ 'DefaultResourceTypes' ] = '';
 
-$config[ 'ResourceType' ][] = Array(
+$config[ 'ResourceType' ][] = [
 	'name'              => 'Files',
 	// Single quotes not allowed
 	'url'               => $session->get('CKFinderFilesUrl') ? $session->get('CKFinderFilesUrl') : $baseUrl . 'files',
@@ -96,25 +97,25 @@ $config[ 'ResourceType' ][] = Array(
 	'maxSize'           => $session->get('CKFinderMaxFilesSize') ? $session->get('CKFinderMaxFilesSize') : 0,
 	'allowedExtensions' => $session->get('CKFinderResourceFiles') ? $session->get('CKFinderResourceFiles') : '7z,aiff,asf,avi,bmp,csv,doc,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,zip',
 	'deniedExtensions'  => ''
-);
+];
 
-$config[ 'ResourceType' ][] = Array(
+$config[ 'ResourceType' ][] = [
 	'name'              => 'Images',
 	'url'               => $session->get('CKFinderImagesUrl') ? $session->get('CKFinderImagesUrl') : $baseUrl . 'images',
 	'directory'         => $session->get('CKFinderImagesPath') ? $session->get('CKFinderImagesPath') : $baseDir . 'images',
 	'maxSize'           => $session->get('CKFinderMaxImagesSize') ? $session->get('CKFinderMaxImagesSize') : 0,
 	'allowedExtensions' => $session->get('CKFinderResourceImages') ? $session->get('CKFinderResourceImages') : 'bmp,gif,jpeg,jpg,png',
 	'deniedExtensions'  => ''
-);
+];
 
-$config[ 'ResourceType' ][] = Array(
+$config[ 'ResourceType' ][] = [
 	'name'              => 'Flash',
 	'url'               => $session->get('CKFinderFlashUrl') ? $session->get('CKFinderFlashUrl') : $baseUrl . 'flash',
 	'directory'         => $session->get('CKFinderFlashPath') ? $session->get('CKFinderFlashPath') : $baseDir . 'flash',
 	'maxSize'           => $session->get('CKFinderMaxFlashSize') ? $session->get('CKFinderMaxFlashSize') : 0,
 	'allowedExtensions' => $session->get('CKFinderResourceFlash') ? $session->get('CKFinderResourceFlash') : 'swf,flv',
 	'deniedExtensions'  => ''
-);
+];
 
 /*
 Due to security issues with Apache modules, it is recommended to leave the
@@ -144,6 +145,7 @@ If enabled, CKFinder will disallow creating folders and uploading files that con
 in their names, that are not safe under IIS web server.
 */
 $config[ 'DisallowUnsafeCharacters' ] = false;
+
 /*
 If you have iconv enabled (visit http://php.net/iconv for more information),
 you can use this directive to specify the encoding of file names in your
@@ -179,29 +181,29 @@ $config[ 'CheckSizeAfterScaling' ] = true;
 For security, HTML is allowed in the first Kb of data for files having the
 following extensions only.
  */
-$config[ 'HtmlExtensions' ] = array(
+$config[ 'HtmlExtensions' ] = [
 	'html',
 	'htm',
 	'xml',
 	'js'
-);
+];
 
 /*
 Folders to not display in CKFinder, no matter what their location is.
 No paths are accepted, only the folder name.
 The * and ? wildcards are accepted.
  */
-$config[ 'HideFolders' ] = Array(
+$config[ 'HideFolders' ] = [
 	'.svn',
 	'CVS'
-);
+];
 
 /*
 Files to not display in CKFinder, no matter what their location is.
 No paths are accepted, only the file name, including extension.
 The * and ? wildcards are accepted.
  */
-$config[ 'HideFiles' ] = Array( '.*' );
+$config[ 'HideFiles' ] = [ '.*' ];
 
 /*
 After a file is uploaded, sometimes it is required to change its permissions

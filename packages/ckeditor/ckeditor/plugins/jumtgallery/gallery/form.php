@@ -41,12 +41,12 @@ else
 	$editor_area = preg_replace("#jform\[(.*?)\]#is", "jform_\\1", $editor_area);
 }
 
-$mainframe->initialise();
-
 $language = mb_strtolower($lang->getTag());
 $doc      = JFactory::getDocument();
+$session  = JFactory::getSession();
+$db       = JFactory::getDBO();
 
-if($user->get('id') < 1)
+if($session->getState() != 'active')
 {
 	?>
 	<!DOCTYPE html>
@@ -74,25 +74,27 @@ if($user->get('id') < 1)
 jimport('joomla.form.form');
 jimport('joomla.utilities.simplexml');
 
-$xml  = file_get_contents('components/com_ckeditor/config.xml');
-$xml  = str_replace(array(
+$xml = file_get_contents('components/com_ckeditor/config.xml');
+$xml = str_replace(array(
 	'<config>',
 	'</config>'
 ), array(
 	'<form>',
 	'</form>'
 ), $xml);
+
 $form = new jForm('adminFormCKEditor');
+
 $form->load($xml);
 
 $lists = array();
-$row   = JTable::getInstance('extension');
 
-$db    = JFactory::getDBO();
+$row = JTable::getInstance('extension');
+
 $query = 'SELECT extension_id FROM #__extensions WHERE element = "ckeditor"';
 $db->setQuery($query);
 $id = $db->loadResult();
-$row->load(intval($id));
+$row->load((int) $id);
 $formData = new JRegistry($row->params, 'xml');
 
 $rootfolder = $formData[ 'jumtgallery' ];
@@ -103,16 +105,12 @@ $rootfolder = $formData[ 'jumtgallery' ];
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php echo JText::_('PLG_JUMULTITHUMB_GALLERY_INSERT_TAG'); ?></title>
-
 	<link href="<?php echo JURI::root(true); ?>/../../../../../../../administrator/templates/isis/css/template.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo JURI::base(); ?>assets/jqueryFileTree.css" rel="stylesheet" type="text/css" />
-
 	<script src="<?php echo JURI::base(true); ?>/../../../../../../../media/jui/js/jquery.min.js"></script>
 	<script src="<?php echo JURI::base(); ?>assets/jqueryFileTree.js?v3"></script>
-
 	<script>
         jQuery.noConflict();
-
         jQuery(document).ready(function () {
             jQuery('.selects').fileTree({
                 root: '<?php echo $rootfolder; ?>',
@@ -182,13 +180,15 @@ $rootfolder = $formData[ 'jumtgallery' ];
         }
 	</script>
 
-	<style>body {
+	<style>
+		body {
 			background: transparent;
 		}
 
 		fieldset {
 			margin: 5px 0 !important;
-		}</style>
+		}
+	</style>
 </head>
 <body>
 <form class="form-horizontal">

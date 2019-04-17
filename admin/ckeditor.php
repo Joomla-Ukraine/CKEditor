@@ -29,7 +29,7 @@ define('CKE_CLASSES', CKE_LIBRARIES . '/classes');
 
 $task = JRequest::getCmd('task');
 
-if($task == 'plugin' || $task == 'help')
+if($task === 'plugin' || $task === 'help')
 {
 	require_once __DIR__ . '/editor.php';
 

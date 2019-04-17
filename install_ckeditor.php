@@ -60,9 +60,9 @@ class com_ckeditorInstallerScript
 	 *
 	 * @return string
 	 *
-	 * @since 5.0
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
+	 * @since 5.0
 	 */
 	public function preflight($type, $parent)
 	{
@@ -75,9 +75,9 @@ class com_ckeditorInstallerScript
 		$source   = $installer->getPath('source');
 		$packages = $source . '/packages';
 
-		$folders = array(
+		$folders = [
 			JPATH_SITE . '/plugins/editors/ckeditor'
-		);
+		];
 
 		$html = '';
 
