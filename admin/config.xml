@@ -426,19 +426,19 @@
 
     </fieldset>
 
-    <fieldset name="CKFinderSettings">
+    <fieldset name="FilesSettings">
 
-        <field name="ckfinder"
-               type="radio"
-               default="1"
-               label="CKFINDER"
-               description="CKFINDER_DESCRIPTION"
-               class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
+        <field name="filemanagers"
+               type="list"
+               default="0"
+               label="FILEMANAGER"
+               description="FILEMANAGER_DESCRIPTION">
+            <option value="0">JSELECT</option>
+            <option value="1">CKFinder</option>
+            <option value="2">RESPONSIVE filemanager</option>
         </field>
 
-        <field name="CKFinderPathType"
+        <field name="FilesPathType"
                type="radio"
                default="0"
                label="CKFINDER_URLS_TYPE"
@@ -475,10 +475,10 @@
         >
             <form>
                 <field
-                        name="user_folder"
-                        type="text"
-                        label="User folder"
-                        required="true"
+		                name="user_folder"
+		                type="text"
+		                label="User folder"
+		                required="true"
                 />
             </form>
         </field>
@@ -486,104 +486,71 @@
 
     </fieldset>
 
-    <fieldset name="CKFinderSettingsLicense">
+    <fieldset name="FilesSettingsResources">
 
-        <field name="CKFinderLicenseName"
+        <field name="FilesSaveFiles"
                type="text"
-               default=""
-               label="LICENSE_NAME"
-               description="LICENSE_NAME_DESCRIPTION" />
-
-        <field name="CKFinderLicenseKey"
-               type="text"
-               default=""
-               label="LICENSE_KEY"
-               description="LICENSE_KEY_DESCRIPTION" />
-
-    </fieldset>
-
-    <fieldset name="CKFinderSettingsResources">
-
-        <field name="CKFinderSaveFiles"
-               type="text"
-               default="media/files"
+               default="files"
                label="FILES_PATH"
                description="FILES_PATH_DESCRIPTION" />
 
-        <field name="CKFinderSaveImages"
+        <field name="FilesSaveImages"
                type="text"
-               default="media/images"
+               default="images"
                label="IMAGES_PATH"
                description="IMAGES_PATH_DESCRIPTION" />
 
-        <field name="CKFinderSaveFlash"
+        <field name="FilesSaveThumbs"
                type="text"
-               default="media/flash"
-               label="FLASH_PATH"
-               description="FLASH_PATH_DESCRIPTION" />
-
-        <field name="CKFinderSaveThumbs"
-               type="text"
-               default="media/_thumbs"
+               default="cache/_thumbs"
                label="THUMBNAILS_PATH"
                description="THUMBNAILS_PATH_DESCRIPTION" />
 
-        <field name="CKFinderResourceFiles"
+        <field name="FilesResourceFiles"
                type="text"
                label="FILES_EXTENSIONS"
                description="FILES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderResourceImages"
+        <field name="FilesResourceImages"
                type="text"
                label="IMAGES_EXTENSIONS"
                description="IMAGES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderResourceFlash"
-               type="text"
-               label="FLASH_EXTENSIONS"
-               description="FLASH_EXTENSIONS_DESCRIPTION" />
-
-        <field name="CKFinderMaxFilesSize"
+        <field name="FilesMaxFilesSize"
                type="text"
                default="8M"
                label="MAX_FILES_SIZE"
                description="MAX_FILES_SIZE_DESCRIPTION" />
 
-        <field name="CKFinderMaxImagesSize"
+        <field name="FilesMaxImagesSize"
                type="text"
                default="8M"
                label="MAX_IMAGES_SIZE"
                description="MAX_IMAGES_SIZE_DESCRIPTION" />
 
-        <field name="CKFinderMaxFlashSize"
-               type="text"
-               default="8M"
-               label="MAX_FLASH_SIZE"
-               description="MAX_FLASH_SIZE_DESCRIPTION" />
-
     </fieldset>
 
-    <fieldset name="CKFinderSettingsImages">
+    <fieldset name="FilesSettingsImages">
 
-        <field name="CKFinderMaxImageWidth"
+        <field name="FilesMaxImageWidth"
                type="text"
                label="MAX_IMAGE_WIDTH"
                description="MAX_IMAGE_WIDTH_DESCRIPTION"
                default="1600" />
 
-        <field name="CKFinderMaxImageHeight"
+        <field name="FilesMaxImageHeight"
                type="text"
                label="MAX_IMAGE_HEIGHT"
                description="MAX_IMAGE_HEIGHT_DESCRIPTION"
                default="1200" />
 
-        <field name="CKFinderMaxThumbnailWidth"
+        <field name="FilesMaxThumbnailWidth"
                type="text"
                label="THUMBNAIL_WIDTH"
                description="THUMBNAIL_WIDTH_DESCRIPTION"
                default="100" />
 
-        <field name="CKFinderMaxThumbnailHeight"
+        <field name="FilesMaxThumbnailHeight"
                type="text"
                label="THUMBNAIL_HEIGHT"
                description="THUMBNAIL_HEIGHT_DESCRIPTION"
@@ -596,6 +563,7 @@
         <field name="CKFinderFileEdit"
                type="radio"
                default="1"
+               showon="filemanagers:1"
                label="FILE_EDIT_PLUGIN"
                description="FILE_EDIT_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -606,6 +574,7 @@
         <field name="CKFinderImageResize"
                type="radio"
                default="1"
+               showon="filemanagers:1"
                label="IMAGE_RESIZE_PLUGIN"
                description="IMAGE_RESIZE_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -616,6 +585,7 @@
         <field name="CKFinderZip"
                type="radio"
                default="1"
+               showon="filemanagers:1"
                label="ZIP_PLUGIN"
                description="ZIP_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -625,9 +595,9 @@
 
     </fieldset>
 
-    <fieldset name="CKFinderSettingsChmod">
+    <fieldset name="FilesSettingsChmod">
 
-        <field name="CKFinderSettingsChmod"
+        <field name="FilesSettingsChmod"
                type="text"
                label="CHMOD_SETTINGS"
                description="CHMOD_SETTINGS_DESCRIPTION"
@@ -635,11 +605,12 @@
 
     </fieldset>
 
-    <fieldset name="license-information">
+    <fieldset name="CKFinderLicenseInformation">
 
         <field name="PackageLicenseName"
                type="text"
                default=""
+               showon="filemanagers:1"
                label="LICENSE_NAME"
                description="LICENSE_NAME_DESCRIPTION"
                size="80" />
@@ -647,6 +618,7 @@
         <field name="PackageLicenseKey"
                type="text"
                default=""
+               showon="filemanagers:1"
                label="LICENSE_KEY"
                description="LICENSE_KEY_DESCRIPTION"
                size="80" />

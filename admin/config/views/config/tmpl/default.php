@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -19,9 +19,9 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 
 JToolbarHelper::title(JText::_('CKEDITOR_CONFIGURATION'), 'equalizer config');
 JToolBarHelper::save();
@@ -30,8 +30,14 @@ JToolbarHelper::divider();
 JToolBarHelper::cancel('cancel', JText::_('CLOSE'));
 JToolbarHelper::divider();
 
-JHTML::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
-JHTML::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
+JHtml::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
+JHtml::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
+
+JHtml::_('jquery.framework');
+JHtml::_('script', 'jui/cms.js', [
+	'version'  => 'auto',
+	'relative' => true
+]);
 
 include_once '../plugins/editors/ckeditor/functions.php';
 
@@ -307,9 +313,10 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 		</div>
 		<?php
 		//      echo JHtmlTabs::panel(JText :: _('FILE_BROWSER_SETTINGS'), "file-browser-settings");
-		$ckfinder_found = file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/ckfinder/ckfinder.php') || file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/ckfinder/ckfinder/ckfinder.php');
+		$ckfinder_found = file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/filemanagers/ckfinder/ckfinder.php');
 		?>
 		<div id="file-browser-settings" class="tab-pane">
+
 			<?php if(!$ckfinder_found): ?>
 				<div style="border:1px #666666 solid; padding: 10px;">
 					<?php echo JText::_('CKFINDER_NOT_INSTALL'); ?>
@@ -321,27 +328,14 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					</ul>
 				</div>
 			<?php endif; ?>
+
 			<?php if($ckfinder_found): ?>
+
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
-							<legend><?php echo JText::_('FILE_BROWSER_ACCESS'); ?></legend>
-							<?php if($this->form->getFieldset('license-information')): ?>
-								<?php foreach($this->form->getFieldset('license-information') as $field): ?>
-									<?php if($field->hidden): ?>
-										<?php echo $field->input; ?>
-									<?php else: ?>
-										<div class="control-group">
-											<div class="control-label"><?php echo $field->label; ?></div>
-											<div class="controls"><?php echo $field->input ?></div>
-										</div>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php else :
-								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
-							endif; ?>
-							<?php if($this->form->getFieldset('CKFinderSettings')): ?>
-								<?php foreach($this->form->getFieldset('CKFinderSettings') as $field): ?>
+							<?php if($this->form->getFieldset('FilesSettings')): ?>
+								<?php foreach($this->form->getFieldset('FilesSettings') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -354,15 +348,39 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 							<?php else :
 								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
+
+						</fieldset>
+					</div>
+					<div class="span6">
+						<fieldset class="adminform form-horizontal">
+							<?php if($this->form->getFieldset('CKFinderLicenseInformation')): ?>
+								<?php foreach($this->form->getFieldset('CKFinderLicenseInformation') as $field): ?>
+									<?php $dataShowOn = ''; ?>
+									<?php if($field->showon) : ?>
+										<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+									<?php endif; ?>
+									<?php if($field->hidden): ?>
+										<?php echo $field->input; ?>
+									<?php else: ?>
+										<div class="control-group"<?php echo $dataShowOn; ?>>
+											<div class="control-label"><?php echo $field->label; ?></div>
+											<div class="controls"><?php echo $field->input ?></div>
+										</div>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php else :
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
+							endif; ?>
 						</fieldset>
 					</div>
 				</div>
+
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('RESOURCE_TYPES_CONFIGURATION'); ?></legend>
-							<?php if($this->form->getFieldset('CKFinderSettingsResources')): ?>
-								<?php foreach($this->form->getFieldset('CKFinderSettingsResources') as $field): ?>
+							<?php if($this->form->getFieldset('FilesSettingsResources')): ?>
+								<?php foreach($this->form->getFieldset('FilesSettingsResources') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -380,8 +398,8 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('IMAGE_DIMENSIONS'); ?></legend>
-							<?php if($this->form->getFieldset('CKFinderSettingsImages')): ?>
-								<?php foreach($this->form->getFieldset('CKFinderSettingsImages') as $field): ?>
+							<?php if($this->form->getFieldset('FilesSettingsImages')): ?>
+								<?php foreach($this->form->getFieldset('FilesSettingsImages') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -397,16 +415,21 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						</fieldset>
 					</div>
 				</div>
+
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('PLUGINS_SETTINGS'); ?></legend>
 							<?php if($this->form->getFieldset('CKFinderSettingsPlugins')): ?>
 								<?php foreach($this->form->getFieldset('CKFinderSettingsPlugins') as $field): ?>
+									<?php $dataShowOn = ''; ?>
+									<?php if($field->showon) : ?>
+										<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+									<?php endif; ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
-										<div class="control-group">
+										<div class="control-group"<?php echo $dataShowOn; ?>>
 											<div class="control-label"><?php echo $field->label; ?></div>
 											<div class="controls"><?php echo $field->input ?></div>
 										</div>
@@ -420,8 +443,8 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('CHMOD_SETTINGS_HEAD'); ?></legend>
-							<?php if($this->form->getFieldset('CKFinderSettingsChmod')) : ?>
-								<?php foreach($this->form->getFieldset('CKFinderSettingsChmod') as $field): ?>
+							<?php if($this->form->getFieldset('FilesSettingsChmod')) : ?>
+								<?php foreach($this->form->getFieldset('FilesSettingsChmod') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -437,8 +460,11 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						</fieldset>
 					</div>
 				</div>
+
 			<?php endif; ?>
+
 		</div>
+
 		<div id="layout-settings" class="tab-pane">
 			<p><?php
 				$other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';

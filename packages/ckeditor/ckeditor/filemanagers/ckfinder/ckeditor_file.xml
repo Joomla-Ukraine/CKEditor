@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="file" version="3.3" method="upgrade">
+	<name>CKEditor - patch</name>
+	<creationDate>22.04.2019</creationDate>
+	<author>Joomla! Ukraine</author>
+	<authorEmail>denys@joomla-ua.org</authorEmail>
+	<authorUrl>https://joomla-ua.org</authorUrl>
+	<copyright>Copyright (C) 2008-2018 Joomla! Ukraine. All rights reserved</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.4.1</version>
+	<description></description>
+
+	<fileset>
+		<files target="plugins/editors/ckeditor/ckfinder">
+			<file writable="yes">config.php</file>
+			<file>ckeditor_file.xml</file>
+		</files>
+	</fileset>
+
+	<update>http://joomla-ua.org/update/editor/ckeditor-file.xml</update>
+	<updateservers>
+		<server type="extension" priority="1" name="ckeditor_file">http://joomla-ua.org/update/editor/ckeditor-file.xml</server>
+	</updateservers>
+
+</extension>

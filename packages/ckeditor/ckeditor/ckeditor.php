@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -19,30 +19,45 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 
-class plgEditorCKeditor extends JPlugin
+class plgEditorCKeditor extends CMSPlugin
 {
-	public $pluginsName = [];
+	protected $pluginsName = [];
 
-	public $called = false;
+	protected $called = false;
 
-	public $buildVersion = '?v=@version@';
+	protected $buildVersion;
 
 	/**
 	 * plgEditorCKeditor constructor.
 	 *
 	 * @param $subject
 	 * @param $config
+	 *
+	 * @since 5.0
 	 */
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		$language = JFactory::getLanguage();
-		$language->load('com_ckeditor', JPATH_ADMINISTRATOR, 'en-GB', true);
+		$this->app     = Factory::getApplication();
+		$this->config  = Factory::getConfig();
+		$this->session = Factory::getSession();
+		$this->user    = Factory::getUser();
+		$this->db      = Factory::getDBO();
+
+		$this->language      = Factory::getLanguage();
+		$this->language->load('com_ckeditor', JPATH_ADMINISTRATOR, 'en-GB', true);
+
+		$this->buildVersion = '?v=@version@-' . date('YmdH');
 	}
 
 	/**
@@ -53,20 +68,20 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	public function onInit()
 	{
-		$load = "<script>window.CKEDITOR_BASEPATH='" . JURI::root() . "plugins/editors/ckeditor/ckeditor/';</script>";
+		$load = "<script>window.CKEDITOR_BASEPATH='" . Uri::root() . "plugins/editors/ckeditor/ckeditor/';</script>";
 
 		if($this->params->get('CKEditorJs', 0) == 1 && is_dir('../plugins/editors/ckeditor/ckeditor/_source/') && file_exists('../plugins/editors/ckeditor/ckeditor/ckeditor_source.js'))
 		{
-			$load .= '<script src="' . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor_source.js' . $this->buildVersion . '"></script>';
+			$load .= '<script src="' . Uri::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor_source.js' . $this->buildVersion . '"></script>';
 		}
 		else
 		{
-			$load .= '<script src="' . JURI::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor.js' . $this->buildVersion . '"></script>';
+			$load .= '<script src="' . Uri::root(true) . '/plugins/editors/ckeditor/ckeditor/ckeditor.js' . $this->buildVersion . '"></script>';
 		}
 
 		//set base href to works with default joomla editor
 		$load .= '<script>';
-		$load .= "CKEDITOR.config.baseHref = '" . JURI::root() . "';";
+		$load .= "CKEDITOR.config.baseHref = '" . Uri::root() . "';";
 
 		if($this->params->get('LinkBrowserUrl', 1) == 0)
 		{
@@ -79,7 +94,6 @@ class plgEditorCKeditor extends JPlugin
 
 		//iterate in ckeditor/plugins directory and add add external to all plugins added by user
 		$pluginsPath = '';
-
 		foreach(glob(__DIR__ . '/plugins/*', GLOB_ONLYDIR) AS $dir)
 		{
 			$this->pluginsName[] = basename($dir);
@@ -134,22 +148,15 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
-		$app    = JFactory::getApplication();
-		$config = JFactory::getConfig();
-
-		if($app->getName() !== 'site')
+		if($this->app->getName() !== 'site')
 		{
-			JHTML::_('behavior.modal', 'a.modal-button');
+			HTMLHelper::_('behavior.modal', 'a.modal-button');
 		}
 
-		setcookie('ckfinder_app', $app->getClientId(), strtotime('+' . $config->get('lifetime') . ' minutes'), '/');
+		setcookie('ckfinder_app', $this->app->getClientId(), strtotime('+' . $this->config->get('lifetime') . ' minutes'), '/');
 
-		$session = JFactory::getSession();
-		$user    = JFactory::getUser();
-		$db      = JFactory::getDBO();
-
-		$db->setQuery('SELECT template FROM #__template_styles WHERE home = 1 AND client_id=' . $app->getClientId());
-		$templateName = $db->loadResult();
+		$this->db->setQuery('SELECT template FROM #__template_styles WHERE home = 1 AND client_id=' . $this->app->getClientId());
+		$templateName = $this->db->loadResult();
 
 		$_width = '';
 		if($width)
@@ -165,8 +172,8 @@ class plgEditorCKeditor extends JPlugin
 
 		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '"' . ($_width ? ' style="' . $_width . $_height . '"' : '') . '>' . $content . '</textarea>';
 
-		$userid = $user->get('id');
-		$gid    = JAccess::getGroupsByUser($userid);
+		$userid = $this->user->get('id');
+		$gid    = Access::getGroupsByUser($userid);
 		$access = $this->params->get('usergroup', [ '8' ]);
 
 		$access_true = false;
@@ -193,40 +200,28 @@ class plgEditorCKeditor extends JPlugin
 			$frontend = '_frontEnd';
 		}
 
+		$language = "defaultLanguage: '" . $this->params->get('language', 'en') . "',";
 		if($this->params->get('CKEditorAutoLang', 0) == 0)
 		{
 			$language = "language: '" . $this->params->get('language', 'en') . "',";
 		}
-		else
-		{
-			$language = "defaultLanguage: '" . $this->params->get('language', 'en') . "',";
-		}
 
+		$txtDirection = "contentsLangDirection: 'ltr',";
 		if($this->params->get('CKEditorLangDir', 0) == 1)
 		{
 			$txtDirection = "contentsLangDirection: 'rtl',";
 		}
-		else
-		{
-			$txtDirection = "contentsLangDirection: 'ltr',";
-		}
 
+		$scayt = 'scayt_autoStartup: true,';
 		if($this->params->get('Scayt', 0) == 0)
 		{
 			$scayt = 'scayt_autoStartup: false,';
 		}
-		else
-		{
-			$scayt = 'scayt_autoStartup: true,';
-		}
 
+		$entities = 'entities: true,';
 		if($this->params->get('Entities', 1) == 0)
 		{
 			$entities = 'entities: false,';
-		}
-		else
-		{
-			$entities = 'entities: true,';
 		}
 
 		$autogrow = '';
@@ -248,17 +243,16 @@ class plgEditorCKeditor extends JPlugin
 		}
 
 		$customConfigPlugins = '';
-
-		$skin = $this->params->get('skin', 'moono');
+		$skin                = $this->params->get('skin', 'moono');
 		if($skin === 'v2' || $skin === 'office2003')
 		{
 			$skin = 'moono';
 		}
 
 		$editor .= "<script>
-        var editor_name = '" . $name . "';
-        var attrstyle = document.getElementById('" . $id . "');
-        var editorheight = (attrstyle.clientHeight+2);
+        var editor_name = '" . $name . "',
+        attrstyle = document.getElementById('" . $id . "'),
+        editorheight = (attrstyle.clientHeight+2);
 
 		CKEDITOR.replace('" . $name . "', {
 			resize_minWidth: '200',
@@ -272,7 +266,7 @@ class plgEditorCKeditor extends JPlugin
 			shiftEnterMode: ' . $this->params->get('shiftEnterMode', '2') . '
 		';
 
-		if($this->params->get('CKEditorWidth', '') > 0 && $this->params->get('CKEditorWidth', '') != '100%')
+		if($this->params->get('CKEditorWidth', '') > 0 && $this->params->get('CKEditorWidth', '') !== '100%')
 		{
 			$editor .= ", width: '" . $this->params->get('CKEditorWidth', '') . "'";
 		}
@@ -282,7 +276,8 @@ class plgEditorCKeditor extends JPlugin
 			$editor .= ", height: '" . $this->params->get('CKEditorHeight', '') . "'";
 			$editor .= ", autoGrow_maxHeight: '" . $this->params->get('CKEditorHeight', '') . "'";
 		}
-		elseif($height)
+
+		if($height)
 		{
 			$editor .= ", height: '" . $height . "'";
 		}
@@ -291,7 +286,7 @@ class plgEditorCKeditor extends JPlugin
 			$editor .= ', height: editorheight';
 		}
 
-		if($this->params->get('Color', '') != '')
+		if($this->params->get('Color', '') !== '')
 		{
 			$editor .= ", uiColor: '" . $this->params->get('Color', '') . "'";
 		}
@@ -369,7 +364,7 @@ class plgEditorCKeditor extends JPlugin
 
 			foreach(explode(';', $toolbar) AS $menu)
 			{
-				if($menu != '')
+				if($menu !== '')
 				{
 					$data .= '[';
 
@@ -377,7 +372,7 @@ class plgEditorCKeditor extends JPlugin
 					foreach(explode(',', $menu) AS $key => $value)
 					{
 						$allElements[] = trim($value);
-						if($value != '' && trim($value) !== '/')
+						if($value !== '' && trim($value) !== '/')
 						{
 							$tmpArray[] = "'" . trim($value) . "'";
 						}
@@ -396,8 +391,6 @@ class plgEditorCKeditor extends JPlugin
 					}
 
 					$data .= implode(',', $tmpArray);
-
-					//correct data formating -> change ',]'' to ']' and '[,' to '['
 					$data = preg_replace([
 						"#,[^'\[]#",
 						"#\[,#"
@@ -417,10 +410,10 @@ class plgEditorCKeditor extends JPlugin
 		$style_file = trim($this->params->get('style', ''));
 
 		//set style
-		if($style_file != '' && file_exists(__DIR__ . '/styles/' . $style_file))
+		if($style_file !== '' && file_exists(__DIR__ . '/styles/' . $style_file))
 		{
-			$editor .= ",stylesCombo_stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
-			$editor .= ",stylesSet: 'default:" . JURI::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
+			$editor .= ",stylesCombo_stylesSet: 'default:" . Uri::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
+			$editor .= ",stylesSet: 'default:" . Uri::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
 			$style  = true;
 		}
 
@@ -428,9 +421,9 @@ class plgEditorCKeditor extends JPlugin
 		$template_file = trim($this->params->get('template', ''));
 
 		//set template
-		if($template_file != '' && file_exists(__DIR__ . '/templates/' . $template_file))
+		if($template_file !== '' && file_exists(__DIR__ . '/templates/' . $template_file))
 		{
-			$editor   .= ",templates_files: ['" . JURI::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
+			$editor   .= ",templates_files: ['" . Uri::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
 			$editor   .= ",templates: 'default'";
 			$template = true;
 		}
@@ -445,64 +438,62 @@ class plgEditorCKeditor extends JPlugin
 		//set css files
 		$css       = '';
 		$css_files = trim($this->params->get('css', ''));
-
-		if($css_files != '')
+		if($css_files !== '')
 		{
 			foreach(explode(';', $css_files) AS $file)
 			{
 				if(file_exists(__DIR__ . '/css/' . trim($file)))
 				{
-					$css .= ", '" . JURI::root() . 'plugins/editors/ckeditor/css/' . trim($file) . $this->buildVersion . "'";
+					$css .= ", '" . Uri::root() . 'plugins/editors/ckeditor/css/' . trim($file) . $this->buildVersion . "'";
 				}
 			}
 		}
 
 		if($this->params->get('templateCss', 0) == 1 && $templateName != null)
 		{
-			if($app->getClientId() == 1)
+			if($this->app->getClientId() == 1)
 			{
 				if(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/editor.css" . $this->buildVersion . "'";
+					$css .= ", '" . Uri::root() . "administrator/templates/$templateName/css/editor.css" . $this->buildVersion . "'";
 				}
 				else
 				{
-					$css .= ", '" . JURI::root() . "administrator/templates/$templateName/css/template.css" . $this->buildVersion . "'";
+					$css .= ", '" . Uri::root() . "administrator/templates/$templateName/css/template.css" . $this->buildVersion . "'";
 				}
 			}
 			elseif(file_exists(JPATH_BASE . "/templates/$templateName/css/editor.css"))
 			{
-				$css .= ", '" . JURI::root() . "templates/$templateName/css/editor.css" . $this->buildVersion . "'";
+				$css .= ", '" . Uri::root() . "templates/$templateName/css/editor.css" . $this->buildVersion . "'";
 			}
 			else
 			{
-				$css .= ", '" . JURI::root() . "templates/$templateName/css/template.css" . $this->buildVersion . "'";
+				$css .= ", '" . Uri::root() . "templates/$templateName/css/template.css" . $this->buildVersion . "'";
 			}
 		}
 
-		if($css != '')
+		if($css !== '')
 		{
-			$editor .= ",contentsCss:  [ '" . JURI::root() . "plugins/editors/ckeditor/ckeditor/contents.css' {$css} ]";
+			$editor .= ",contentsCss:  [ '" . Uri::root() . "plugins/editors/ckeditor/ckeditor/contents.css' {$css} ]";
 		}
 
-		if($this->params->get('ckfinder', '1') == 1)
+		if($this->params->get('filemanagers', '0') > 0)
 		{
-			$userid      = $user->get('id');
-			$gid         = JAccess::getGroupsByUser($userid);
+			$userid      = $this->user->get('id');
+			$gid         = Access::getGroupsByUser($userid);
 			$access      = $this->params->get('username_access', [ '8' ]);
 			$user_access = $this->params->get('user_access_folder', [ '2' ]);
 
 			$access_true   = false;
 			$sessionActive = false;
-			$session->set('CKFinderAccess', false); //default false - user can't use CKFinder
+			$this->session->set('FilesAccess', false); //default false - user can't use CKFinder
 
-			if($this->params->get('CKFinderPathType', 0) == 1)
+			$prefix = Uri::base();
+			$base_prefix = Uri::base();
+			if($this->params->get('FilesPathType', 0) == 1)
 			{
 				$prefix = '';
-			}
-			else
-			{
-				$prefix = JURI::root();
+				$base_prefix = '/';
 			}
 
 			if(is_array($access) && is_array($gid))
@@ -540,351 +531,88 @@ class plgEditorCKeditor extends JPlugin
 				$user_access_true = true;
 			}
 
-			if($access_true && $session->getState() === 'active')
+			if($access_true && $this->session->getState() === 'active')
 			{
 				$sessionActive = true;
-				$session->set('LicenseName', $this->params->get('CKFinderLicenseName', ''));
-				$session->set('LicenseKey', $this->params->get('CKFinderLicenseKey', ''));
-				$session->set('CKFinderAccess', true); //user can use CKFinder
 
-				//set used sessions variables to default values
-				$session->set('CKFinderMaxFilesSize', null);
-				$session->set('CKFinderMaxFlashSize', null);
-				$session->set('CKFinderMaxImagesSize', null);
-				$session->set('CKFinderResourceFiles', null);
-				$session->set('CKFinderResourceImages', null);
-				$session->set('CKFinderResourceFlash', null);
-				$session->set('CKFinderMaxImageWidth', null);
-				$session->set('CKFinderMaxImageHeight', null);
-				$session->set('CKFinderMaxThumbnailWidth', null);
-				$session->set('CKFinderMaxThumbnailHeight', null);
-				$session->set('CKFinderSettingsPlugins', null);
+				$this->session->set('FilesAccess', true);
+				$this->session->set('FilesMaxFilesSize', null);
+				$this->session->set('FilesMaxImagesSize', null);
+				$this->session->set('FilesResourceFiles', null);
+				$this->session->set('FilesResourceImages', null);
+				$this->session->set('FilesMaxImageWidth', null);
+				$this->session->set('FilesMaxImageHeight', null);
+				$this->session->set('FilesMaxThumbnailWidth', null);
+				$this->session->set('FilesMaxThumbnailHeight', null);
+				$this->session->set('CKFinderSettingsPlugins', null);
+			}
+		}
+
+		if($this->params->get('filemanagers', '0') == 1)
+		{
+			if($access_true && $this->session->getState() === 'active')
+			{
+				$this->session->set('LicenseName', $this->params->get('CKFinderLicenseName', ''));
+				$this->session->set('LicenseKey', $this->params->get('CKFinderLicenseKey', ''));
 			}
 
 			// if user can use CKFinder  display button
-			if($access_true && $session->get('CKFinderAccess') && $this->params->get('ckfinder', '0') != 0)
+			if($access_true && $this->session->get('FilesAccess'))
 			{
-				if(file_exists(JPATH_BASE . '/../plugins//editors/ckeditor/ckfinder/ckfinder/ckfinder.php'))
-				{
-					$ckfinder_path = 'plugins/editors/ckeditor/ckfinder/ckfinder/';
-				}
-				else
-				{
-					$ckfinder_path = 'plugins/editors/ckeditor/ckfinder/';
-				}
+				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/filemanagers/ckfinder/';
 
-				$editor .= ",filebrowserBrowseUrl: '" . JURI::root() . $ckfinder_path . "ckfinder.html',
-					filebrowserImageBrowseUrl: '" . JURI::root() . $ckfinder_path . "ckfinder.html?Type=Images',
-					filebrowserFlashBrowseUrl: '" . JURI::root() . $ckfinder_path . "ckfinder.html?Type=Flash',
-					filebrowserUploadUrl: '" . JURI::root() . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files',
-					filebrowserImageUploadUrl: '" . JURI::root() . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Images',
-					filebrowserFlashUploadUrl: '" . JURI::root() . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Flash'";
+				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "ckfinder.html',
+					filebrowserImageBrowseUrl: '" . $ckfinder_path . "ckfinder.html?Type=Images',
+					filebrowserFlashBrowseUrl: '" . $ckfinder_path . "ckfinder.html?Type=Files',
+					filebrowserUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files',
+					filebrowserImageUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Images',
+					filebrowserFlashUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files'";
 
 				if(!defined('CKFINDER_PATH_BASE'))
 				{
 					define('CKFINDER_PATH_BASE', str_replace('/administrator', '', JPATH_BASE));
 				}
 
-				$saveDir = $this->params->get('CKFinderSaveImages', 'media/ckfinder/images');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$user->id,
-					$user->username
-				], $saveDir);
+				$saveDir = $this->params->get('FilesSaveImages', 'images');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
 
-				if($user_access_true)
-				{
-					$saveDir = $saveDir . '/upload/' . $user->id;
-					$this->_make_dir($saveDir);
+				$this->session->set('FilesImagesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
+				$this->session->set('FilesImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-					$user_folders = (array) $this->params->get('user_folders');
-					foreach($user_folders as $uf)
-					{
-						if($uf->user_folder)
-						{
-							$this->_make_dir($saveDir . '/' . $uf->user_folder);
-							$this->_make_dir($saveDir . '/' . $uf->user_folder . '/' . date('Y/m'));
-						}
-					}
-				}
-
-				$session->set('CKFinderImagesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
-				$session->set('CKFinderImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
-
-				$chmod = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
+				$chmod = octdec(trim($this->params->get('FilesSettingsChmod', '0755')));
 				$old   = umask(0);
 
-				if($saveDir !== 'media/ckfinder/images' && $saveDir != '')
-				{
-					$dirs = explode('/', $saveDir);
-					$path = CKFINDER_PATH_BASE;
-
-					foreach($dirs AS $dir)
-					{
-						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod, $chmod) && !is_dir($path))
-						{
-							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
-						}
-					}
-				}
-				else
-				{
-					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/images';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
-					{
-						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
-					}
-
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
-					{
-						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
-					}
-				}
-
-				//configure save path for flash files
-				//crete necessary folders if they don't exists
-				$saveDir = $this->params->get('CKFinderSaveFlash', 'media/ckfinder/flash');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$user->id,
-					$user->username
-				], $saveDir);
-
-				if($user_access_true)
-				{
-					$saveDir = $saveDir . '/upload/' . $user->id;
-					$this->_make_dir($saveDir);
-				}
-
-				$session->set('CKFinderFlashPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
-				$session->set('CKFinderFlashUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
-
-				if($saveDir !== 'media/ckfinder/flash' && $saveDir != '')
-				{
-					$dirs = explode('/', $saveDir);
-					$path = CKFINDER_PATH_BASE;
-					foreach($dirs AS $dir)
-					{
-						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
-						{
-							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
-						}
-					}
-				}
-				else
-				{
-					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/flash';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
-					{
-						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
-					}
-
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
-					{
-						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
-					}
-				}
+				$this->_saveDir($saveDir, CKFINDER_PATH_BASE, 'images', $chmod);
 
 				//configure save path for files
-				//crete necessary folders if they don't exists
-				$saveDir = $this->params->get('CKFinderSaveFiles', 'media/ckfinder/files');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$user->id,
-					$user->username
-				], $saveDir);
+				$saveDir = $this->params->get('FilesSaveFiles', 'files');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
 
-				if($user_access_true)
-				{
-					$saveDir = $saveDir . '/upload/' . $user->id;
-					$this->_make_dir($saveDir);
-				}
+				$this->session->set('FilesFilesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
+				$this->session->set('FilesFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-				$session->set('CKFinderFilesPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
-				$session->set('CKFinderFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
-
-				if($saveDir !== 'media/ckfinder/files' && $saveDir != '')
-				{
-					$dirs = explode('/', $saveDir);
-					$path = CKFINDER_PATH_BASE;
-					foreach($dirs AS $dir)
-					{
-						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
-						{
-							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
-						}
-					}
-				}
-				else
-				{
-					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/files';
-
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
-					{
-						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
-					}
-
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
-					{
-						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
-					}
-				}
+				$this->_saveDir($saveDir, CKFINDER_PATH_BASE, 'files', $chmod);
 
 				//configure save path for thumbnails
-				//crete necessary folders if they don't exists
-				$saveDir = $this->params->get('CKFinderSaveThumbs', 'media/ckfinder/_thumbs');
+				$saveDir = $this->params->get('FilesSaveThumbs', 'cache/_thumbs');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
 
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$user->id,
-					$user->username
-				], $saveDir);
+				$this->session->set('FilesThumbsPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
+				$this->session->set('FilesThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
 
-				if($user_access_true)
-				{
-					$saveDir = $saveDir . '/upload/' . $user->id;
-					$this->_make_dir($saveDir);
-				}
-
-				$session->set('CKFinderThumbsPath', CKFINDER_PATH_BASE . '/' . $saveDir . '/');
-				$session->set('CKFinderThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
-
-				if($saveDir !== 'media/ckfinder/_thumbs' && $saveDir != '')
-				{
-					$dirs = explode('/', $saveDir);
-					$path = CKFINDER_PATH_BASE;
-					foreach($dirs AS $dir)
-					{
-						$path = $path . '/' . $dir;
-						if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
-						{
-							$app->enqueueMessage('Creating ' . $path . ' failed', 'message');
-						}
-					}
-				}
-				else
-				{
-					$saveDir = CKFINDER_PATH_BASE . '/media/ckfinder/_thumbs';
-					if(!is_dir(CKFINDER_PATH_BASE . '/media/ckfinder') && !mkdir($concurrentDirectory = CKFINDER_PATH_BASE . '/media/ckfinder', $chmod) && !is_dir($concurrentDirectory))
-					{
-						$app->enqueueMessage('Creating ' . CKFINDER_PATH_BASE . '/media/ckfinder failed', 'message');
-					}
-
-					if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
-					{
-						$app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
-					}
-				}
+				$this->_saveDir($saveDir, CKFINDER_PATH_BASE, 'cache/_thumbs', $chmod);
 
 				//return old umask settings
 				umask($old);
 
-				//settings for Resource Files
-				if($this->params->get('CKFinderResourceFiles', ''))
-				{
-					$extensions = explode(',', $this->params->get('CKFinderResourceFiles', ''));
-					$extensions = array_unique($extensions);
-
-					$results = [];
-					foreach($extensions AS $extension)
-					{
-						if($extension)
-						{
-							$results[] = $extension;
-						}
-					}
-
-					$session->set('CKFinderResourceFiles', implode(',', $results));
-				}
-
-				//settings for Resource Images
-				if($this->params->get('CKFinderResourceImages', ''))
-				{
-					$extensions = explode(',', $this->params->get('CKFinderResourceImages', ''));
-					$extensions = array_unique($extensions);
-
-					$results = [];
-					foreach($extensions AS $extension)
-					{
-						if($extension)
-						{
-							$results[] = $extension;
-						}
-					}
-
-					$session->set('CKFinderResourceImages', implode(',', $results));
-				}
-
-				//settings for Resource Flash
-				if($this->params->get('CKFinderResourceFlash', ''))
-				{
-					$extensions = explode(',', $this->params->get('CKFinderResourceFlash', ''));
-					$extensions = array_unique($extensions);
-
-					$results = [];
-					foreach($extensions AS $extension)
-					{
-						if($extension)
-						{
-							$results[] = $extension;
-						}
-					}
-
-					$session->set('CKFinderResourceFlash', implode(',', $results));
-				}
-
-				//set max Flash files size
-				if($this->params->get('CKFinderMaxFlashSize', ''))
-				{
-					$session->set('CKFinderMaxFlashSize', $this->params->get('CKFinderMaxFlashSize'));
-				}
-
-				//set max Images files size
-				if($this->params->get('CKFinderMaxImagesSize', ''))
-				{
-					$session->set('CKFinderMaxImagesSize', $this->params->get('CKFinderMaxImagesSize'));
-				}
-
-				//set max Files files size
-				if($this->params->get('CKFinderMaxFilesSize', ''))
-				{
-					$session->set('CKFinderMaxFilesSize', $this->params->get('CKFinderMaxFilesSize'));
-				}
-
-				//set max image width
-				if((int) $this->params->get('CKFinderMaxImageWidth', 0))
-				{
-					$session->set('CKFinderMaxImageWidth', (int) $this->params->get('CKFinderMaxImageWidth', 0));
-				}
-
-				//set max image height
-				if((int) $this->params->get('CKFinderMaxImageHeight', 0))
-				{
-					$session->set('CKFinderMaxImageHeight', (int) $this->params->get('CKFinderMaxImageHeight', 0));
-				}
-
-				//set max thumbnail width
-				if((int) $this->params->get('CKFinderMaxThumbnailWidth', 0))
-				{
-					$session->set('CKFinderMaxThumbnailWidth', (int) $this->params->get('CKFinderMaxThumbnailWidth', 0));
-				}
-
-				//set max thumbnail height
-				if((int) $this->params->get('CKFinderMaxThumbnailHeight', 0))
-				{
-					$session->set('CKFinderMaxThumbnailHeight', (int) $this->params->get('CKFinderMaxThumbnailHeight', 0));
-				}
+				$this->_resourceFiles($this->session, $this->params);
+				$this->_resourceImages($this->session, $this->params);
+				$this->_maxFilesSize($this->session, $this->params);
+				$this->_maxImagesSize($this->session, $this->params);
+				$this->_maxImageWidth($this->session, $this->params);
+				$this->_maxImageHeight($this->session, $this->params);
+				$this->_maxThumbnailHWidth($this->session, $this->params);
+				$this->_maxThumbnailHeight($this->session, $this->params);
 
 				//plugins settings
 				$plugins = [
@@ -893,13 +621,82 @@ class plgEditorCKeditor extends JPlugin
 					'zip'         => $this->params->get('CKFinderZip', 1),
 				];
 
-				$session->set('CKFinderSettingsPlugins', $plugins);
+				$this->session->set('CKFinderSettingsPlugins', $plugins);
+			}
+		}
+
+		if($this->params->get('filemanagers', '0') == 2)
+		{
+			// if user can use Responsive filemanager  display button
+			if($access_true && $this->session->get('FilesAccess'))
+			{
+				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/filemanagers/responsivefilemanager/';
+
+				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "dialog.php?type=2&editor=ckeditor&fldr=',
+				filebrowserImageBrowseUrl: '" . $ckfinder_path . "dialog.php?type=1&editor=ckeditor&fldr=',
+				filebrowserFlashBrowseUrl: '" . $ckfinder_path . "dialog.php?type=2&editor=ckeditor&fldr=',
+				filebrowserUploadUrl: '" . $ckfinder_path . "dialog.php?type=2&editor=ckeditor&fldr=',					
+				filebrowserImageUploadUrl: '" . $ckfinder_path . "dialog.php?type=1&editor=ckeditor&fldr=',
+				filebrowserFlashUploadUrl: '" . $ckfinder_path . "dialog.php?type=2&editor=ckeditor&fldr='";
+
+
+				$prefix = Uri::base();
+				$base_prefix = '';
+				if($this->params->get('FilesPathType', 0) == 1)
+				{
+					$prefix = '';
+					$base_prefix = '/';
+				}
+
+				$this->session->set('FilesBaseUrl', $base_prefix);
+				$this->session->set('FilesLang', str_replace('-', '_', $this->language->getTag()));
+
+				$saveDir = $this->params->get('FilesSaveImages', 'images');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
+
+				$this->session->set('FilesImagesPath', '../../../../../' . $saveDir . '/');
+				$this->session->set('FilesImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
+
+				$chmod = octdec(trim($this->params->get('FilesSettingsChmod', '0755')));
+				$old   = umask(0);
+
+				$this->_saveDir($saveDir, JPATH_BASE, 'images', $chmod);
+
+				//configure save path for files
+				$saveDir = $this->params->get('FilesSaveFiles', 'files');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
+
+				$this->session->set('FilesFilesPath', '../../../../../' . $saveDir . '/');
+				$this->session->set('FilesFilesUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
+
+				$this->_saveDir($saveDir, JPATH_BASE, 'files', $chmod);
+
+				//configure save path for thumbnails
+				$saveDir = $this->params->get('FilesSaveThumbs', 'cache/_thumbs');
+				$saveDir = $this->_userFolder($saveDir, $user_access_true);
+
+				$this->session->set('FilesThumbsPath', $saveDir);
+				$this->session->set('FilesThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir, '/')) . '/');
+
+				$this->_saveDir($saveDir, JPATH_BASE, 'cache/_thumbs', $chmod);
+
+				//return old umask settings
+				umask($old);
+
+				$this->_resourceFiles($this->session, $this->params);
+				$this->_resourceImages($this->session, $this->params);
+				$this->_maxFilesSize($this->session, $this->params);
+				$this->_maxImagesSize($this->session, $this->params);
+				$this->_maxImageWidth($this->session, $this->params);
+				$this->_maxImageHeight($this->session, $this->params);
+				$this->_maxThumbnailHWidth($this->session, $this->params);
+				$this->_maxThumbnailHeight($this->session, $this->params);
 			}
 		}
 
 		$editor .= '});';
 
-		if($this->params->get('cssbodyclass') != '')
+		if($this->params->get('cssbodyclass') !== '')
 		{
 			$editor .= "
         CKEDITOR.config.bodyClass = '" . $this->params->get('cssbodyclass') . "';";
@@ -931,7 +728,6 @@ class plgEditorCKeditor extends JPlugin
             [ CKEDITOR.CTRL + 56 /*8*/, 'bulletedlist' ],
             [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 56 /*8*/, 'bulletedListStyle' ],
 
-            // COMMAND FOR HEADINGS via button plugins
             [ CKEDITOR.CTRL + 50 /*2*/, 'heading-h2' ],
             [ CKEDITOR.CTRL + 51 /*3*/, 'heading-h3' ],
             [ CKEDITOR.CTRL + 52 /*4*/, 'heading-h4' ],
@@ -950,8 +746,6 @@ class plgEditorCKeditor extends JPlugin
             [ CKEDITOR.CTRL + 190 /*PERIOD*/, 'superscript' ],
             [ CKEDITOR.CTRL + 85 /*U*/, 'underline' ],
             [ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
-
-            // Insert
             [ CKEDITOR.ALT + 65 /*A*/, 'anchor' ],
             [ CKEDITOR.ALT + 68 /*D*/, 'creatediv' ],
             [ CKEDITOR.ALT + CKEDITOR.SHIFT + 68 /*D*/, 'editdiv' ],
@@ -961,29 +755,17 @@ class plgEditorCKeditor extends JPlugin
             [ CKEDITOR.ALT + 76 /*L*/, 'link' ],
             [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 75 /*K*/, 'unlink' ],
             [ CKEDITOR.ALT + CKEDITOR.SHIFT + 76 /*L*/, 'unlink' ],
-
             [ CKEDITOR.ALT + 86 /*V*/, 'pastetext' ],
             [ CKEDITOR.ALT + CKEDITOR.SHIFT + 86 /*V*/, 'pastefromword' ],
-
-            [ CKEDITOR.ALT + 67 /*C*/, 'specialchar' ],
             [ CKEDITOR.ALT + 84 /*T*/, 'table' ],
-
-            // Other - dialogs, views, etc.
             [ CKEDITOR.ALT + 8 /*Backspace*/, 'blur' ],
-
             [ CKEDITOR.ALT + 77 /*M*/, 'contextMenu' ],
         	[ CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
         	[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' ],
-
             [ CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' ],
             [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 70 /*F*/, 'find' ],
             [ CKEDITOR.ALT + 88 /*X*/, 'maximize' ],
-            [ CKEDITOR.CTRL + 113 /*F2*/, 'preview' ],
-            [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 80 /*P*/, 'print' ],
             [ CKEDITOR.CTRL + 72 /*H*/, 'replace' ],
-            [ CKEDITOR.ALT + 83 /*S*/, 'scaytcheck' ],
-            [ CKEDITOR.ALT + 66 /*B*/, 'showblocks' ],
-            [ CKEDITOR.ALT + CKEDITOR.SHIFT + 84 /*T*/, 'showborders' ],
             [ CKEDITOR.ALT + 90 /*Z*/, 'source' ],
             [ CKEDITOR.ALT + 48 /*ZERO*/, 'toolbarCollapse' ],
             [ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
@@ -1007,7 +789,6 @@ class plgEditorCKeditor extends JPlugin
 			CKEDITOR.config.disableNativeSpellChecker = false;';
 		}
 
-		//add custom javascript config from user,  very danger option
 		$string = $this->params->get('CKEditorCustomJs', '');
 		$reg    = "#/\*.+\*/#Us";
 		$string = preg_replace($reg, '', $string);
@@ -1038,17 +819,192 @@ class plgEditorCKeditor extends JPlugin
     		formater['breakAfterOpen'] = " . $this->params->get('CKEditorBreakAfterOpener', 1) . ";
     		formater['breakBeforeClose'] = " . $this->params->get('CKEditorBreakBeforeCloser', 0) . ";
     		formater['breakAfterClose'] = " . $this->params->get('CKEditorBreakAfterCloser', 1) . ';
-    		var pre_formater = ' . $this->params->get('CKEditorPre', 0) . ";
-    		var dtd = CKEDITOR.dtd;
+    		
+    		var pre_formater = ' . $this->params->get('CKEditorPre', 0) . ",
+    		dtd = CKEDITOR.dtd;
+    		
     		for ( var e in CKEDITOR.tools.extend( {}, dtd.\$nonBodyContent, dtd.\$block, dtd.\$listItem, dtd.\$tableContent ) ) {
     			ev.editor.dataProcessor.writer.setRules( e, formater);
     		}
+    		
     		ev.editor.dataProcessor.writer.setRules( 'pre',	{
     			indent: pre_formater
     		});
     	});";
 
 		return $txt;
+	}
+
+	/**
+	 * @param $root
+	 * @param $folder
+	 * @param $chmod
+	 *
+	 *
+	 * @since 5.0
+	 */
+	private function _saveDir($saveDir, $root, $folder, $chmod)
+	{
+		if($saveDir !== $folder && $saveDir !== '')
+		{
+			$dirs = explode('/', $saveDir);
+			$path = $root;
+
+			foreach($dirs AS $dir)
+			{
+				$path = $path . '/' . $dir;
+				if(!is_dir($path) && !mkdir($path, $chmod) && !is_dir($path))
+				{
+					$this->app->enqueueMessage('Creating ' . $path . ' failed', 'message');
+				}
+			}
+		}
+		else
+		{
+			$saveDir = $root . '/' . $folder;
+			if(!is_dir($root) && !mkdir($concurrentDirectory = $root, $chmod) && !is_dir($concurrentDirectory))
+			{
+				$this->app->enqueueMessage('Creating ' . $root . ' failed', 'message');
+			}
+
+			if(!is_dir($saveDir) && !mkdir($saveDir, $chmod) && !is_dir($saveDir))
+			{
+				$this->app->enqueueMessage('Creating ' . $saveDir . ' failed', 'message');
+			}
+		}
+	}
+
+	private function _userFolder($dir, $access)
+	{
+		if($access)
+		{
+			$dir = str_replace([
+				'$id',
+				'$username'
+			], [
+				$this->user->id,
+				$this->user->username
+			], $dir);
+
+			$dir = $dir . '/upload/' . $this->user->id;
+			$this->_make_dir($dir);
+
+			$user_folders = (array) $this->params->get('user_folders');
+			foreach($user_folders as $uf)
+			{
+				if($uf->user_folder)
+				{
+					$this->_make_dir($dir . '/' . $uf->user_folder);
+					$this->_make_dir($dir . '/' . $uf->user_folder . '/' . date('Y/m'));
+				}
+			}
+		}
+
+		return $dir;
+	}
+
+	private function _resourceFiles($session, $param)
+	{
+		if($param->get('FilesResourceFiles', ''))
+		{
+			$extensions = explode(',', $param->get('FilesResourceFiles', ''));
+			$extensions = array_unique($extensions);
+
+			$results = [];
+			foreach($extensions AS $extension)
+			{
+				if($extension)
+				{
+					$results[] = $extension;
+				}
+			}
+
+			return $session->set('FilesResourceFiles', implode(',', $results));
+		}
+
+		return false;
+	}
+
+	private function _maxFilesSize($session, $param)
+	{
+		if($param->get('FilesMaxFilesSize', ''))
+		{
+			return $session->set('FilesMaxFilesSize', $param->get('FilesMaxFilesSize'));
+		}
+
+		return false;
+	}
+
+	private function _maxImagesSize($session, $param)
+	{
+		if($param->get('FilesMaxImagesSize', ''))
+		{
+			return $session->set('FilesMaxImagesSize', $param->get('FilesMaxImagesSize'));
+		}
+
+		return false;
+	}
+
+	private function _maxImageWidth($session, $param)
+	{
+		if((int) $param->get('FilesMaxImageWidth', 0))
+		{
+			return $session->set('FilesMaxImageWidth', $param->get('FilesMaxImageWidth', 0));
+		}
+
+		return false;
+	}
+
+	private function _maxImageHeight($session, $param)
+	{
+		if((int) $param->get('FilesMaxImageHeight', 0))
+		{
+			return $session->set('FilesMaxImageHeight', $param->get('FilesMaxImageHeight', 0));
+		}
+
+		return false;
+	}
+
+	private function _maxThumbnailHWidth($session, $param)
+	{
+		if((int) $param->get('FilesMaxThumbnailWidth', 0))
+		{
+			return $session->set('FilesMaxThumbnailWidth', $param->get('FilesMaxThumbnailWidth', 0));
+		}
+
+		return false;
+	}
+
+	private function _maxThumbnailHeight($session, $param)
+	{
+		if((int) $param->get('FilesMaxThumbnailHeight', 0))
+		{
+			return $session->set('FilesMaxThumbnailHeight', $param->get('FilesMaxThumbnailHeight', 0));
+		}
+
+		return false;
+	}
+
+	private function _resourceImages($session, $param)
+	{
+		if($param->get('FilesResourceImages', ''))
+		{
+			$extensions = explode(',', $param->get('FilesResourceImages', ''));
+			$extensions = array_unique($extensions);
+
+			$results = [];
+			foreach($extensions AS $extension)
+			{
+				if($extension)
+				{
+					$results[] = $extension;
+				}
+			}
+
+			return $session->set('FilesResourceImages', implode(',', $results));
+		}
+
+		return false;
 	}
 
 	/**
@@ -1086,7 +1042,7 @@ class plgEditorCKeditor extends JPlugin
 		if(is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-			$return  .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			$return  .= LayoutHelper::render('joomla.editors.buttons', $buttons);
 			$return  = '<div style="clear:both;">' . $return . '</div>';
 		}
 
@@ -1102,8 +1058,8 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		$document = JFactory::getDocument();
-		$url      = str_replace('administrator/', '', JURI::base());
+		$document = Factory::getDocument();
+		$url      = str_replace('administrator/', '', Uri::base());
 		$js       = "function jInsertEditorText( text,editor ) {text = text.replace( /<img src=\"/, '<img src=\"" . $url . "' ); CKEDITOR.instances[editor].insertHtml( text);}";
 
 		if(!$this->called)
@@ -1124,7 +1080,7 @@ class plgEditorCKeditor extends JPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
 	}
 
 	/**

@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -19,7 +19,7 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die ;
 
 jimport('joomla.application.component.view');
 jimport('joomla.form.form');
@@ -444,13 +444,6 @@ class ConfigViewConfig extends JViewLegacy
 				'title' => 'Image',
 				'row'   => 2
 			],
-			'Flash'          => [
-				'name'  => 'Flash',
-				'icon'  => '../images/flash.png',
-				'type'  => 'command',
-				'title' => 'Flash',
-				'row'   => 2
-			],
 			'Table'          => [
 				'name'  => 'Table',
 				'icon'  => '../images/table.png',
@@ -581,7 +574,7 @@ class ConfigViewConfig extends JViewLegacy
 		{
 			if($default == 'true')
 			{
-				$param = str_replace(' ', '', 'Source,;,Save,NewPage,Preview,;,Templates,;,Cut,Copy,Paste,PasteText,PasteFromWord,;,Print,SpellChecker,Scayt,;,Undo,Redo,;,Find,Replace,;,SelectAll,RemoveFormat,;,/,Bold,Italic,Underline,Strike,;,Subscript,Superscript,;,NumberedList,BulletedList,;,Outdent,Indent,Blockquote,;,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,;,BidiLtr,BidiRtl,;,Link,Unlink,Anchor,;,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,/,Styles,;,Format,;,Font,;,FontSize,TextColor,BGColor,;,Maximize,ShowBlocks,;,ReadMore,;,About');
+				$param = str_replace(' ', '', 'Source,;,Save,NewPage,Preview,;,Templates,;,Cut,Copy,Paste,PasteText,PasteFromWord,;,Print,SpellChecker,Scayt,;,Undo,Redo,;,Find,Replace,;,SelectAll,RemoveFormat,;,/,Bold,Italic,Underline,Strike,;,Subscript,Superscript,;,NumberedList,BulletedList,;,Outdent,Indent,Blockquote,;,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,;,BidiLtr,BidiRtl,;,Link,Unlink,Anchor,;,Image,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,/,Styles,;,Format,;,Font,;,FontSize,TextColor,BGColor,;,Maximize,ShowBlocks,;,ReadMore,;,About');
 				$this->assignRef('usedToolbars', $param);
 			}
 			else
