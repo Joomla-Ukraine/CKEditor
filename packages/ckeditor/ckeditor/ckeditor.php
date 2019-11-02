@@ -521,18 +521,17 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3MaxImageHeight', null);
 					$this->session->set('CKFinder3MaxThumbnailWidth', null);
 					$this->session->set('CKFinder3MaxThumbnailHeight', null);
-					$this->session->set('CKFinder3SettingsPlugins', null);
 					$this->session->set('CKFinder3SettingsChmod', null);
 					$this->session->set('CKFinder3HideFolders', null);
 				}
 
-				$ckfinder_path = 'plugins/editors/ckeditor/ckfinder/';
+				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/ckfinder/';
 				$chmod         = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
 
-				$editor .= ",filebrowserBrowseUrl: '" . Uri::root() . $ckfinder_path . "ckfinder.html',
-					filebrowserImageBrowseUrl: '" . Uri::root() . $ckfinder_path . "ckfinder.html?Type=Images',
-					filebrowserUploadUrl: '" . Uri::root() . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files',
-					filebrowserImageUploadUrl: '" . Uri::root() . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Images'";
+				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "ckfinder.html',
+					filebrowserImageBrowseUrl: '" . $ckfinder_path . "ckfinder.html?Type=Images',
+					filebrowserUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files',
+					filebrowserImageUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Images'";
 
 				if(!defined('CKFINDER_PATH_BASE'))
 				{
@@ -542,6 +541,7 @@ class plgEditorCKeditor extends CMSPlugin
 					], '', JPATH_BASE));
 				}
 
+				// Save Images
 				$saveDir = $this->params->get('CKFinderSaveImages', 'images');
 				if($user_folder_access_true)
 				{
@@ -568,8 +568,8 @@ class plgEditorCKeditor extends CMSPlugin
 				}
 
 				$this->session->set('CKFinder3ImagesPath', $saveDir);
-				$this->session->set('CKFinder3ImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
 
+				// Save Files
 				$saveDir = $this->params->get('CKFinderSaveFiles', 'files');
 				if($user_folder_access_true)
 				{
@@ -585,6 +585,9 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->_make_dir($saveDir, $chmod);
 				}
 
+				$this->session->set('CKFinder3FilesPath', $saveDir);
+
+				// Save Thumbs
 				$saveDir = $this->params->get('CKFinderSaveThumbs', 'cache/_thumbs');
 				if($user_folder_access_true)
 				{
@@ -601,8 +604,8 @@ class plgEditorCKeditor extends CMSPlugin
 				}
 
 				$this->session->set('CKFinder3ThumbsPath', $saveDir);
-				$this->session->set('CKFinder3ThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
 
+				// Resource Files
 				if($this->params->get('CKFinderResourceFiles', 'files'))
 				{
 					$extensions = explode(',', $this->params->get('CKFinderResourceFiles', ''));
@@ -620,6 +623,7 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3ResourceFiles', implode(',', $results));
 				}
 
+				// Resource Images
 				if($this->params->get('CKFinderResourceImages', ''))
 				{
 					$extensions = explode(',', $this->params->get('CKFinderResourceImages', ''));
@@ -637,22 +641,26 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3ResourceImages', implode(',', $results));
 				}
 
+				// License
 				if($this->params->get('CKFinderLicenseName') && $this->params->get('CKFinderLicenseKey'))
 				{
 					$this->session->set('CKFinder3LicenseName', trim($this->params->get('CKFinderLicenseName')));
 					$this->session->set('CKFinder3LicenseKey', trim($this->params->get('CKFinderLicenseKey')));
 				}
 
+				// Chmod
 				if($this->params->get('CKFinderSettingsChmod', '0755'))
 				{
 					$this->session->set('CKFinder3SettingsChmod', $chmod);
 				}
 
+				// Hide Folders
 				if($this->params->get('CKFinderHideFolders', ''))
 				{
 					$this->session->set('CKFinder3HideFolders', $this->params->get('CKFinderHideFolders'));
 				}
 
+				// Uploads Size
 				if($this->params->get('CKFinderMaxImagesSize', ''))
 				{
 					$this->session->set('CKFinder3MaxImagesSize', $this->params->get('CKFinderMaxImagesSize'));
@@ -663,6 +671,7 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3MaxFilesSize', $this->params->get('CKFinderMaxFilesSize'));
 				}
 
+				// Image Size
 				if((int) $this->params->get('CKFinderMaxImageWidth', 0))
 				{
 					$this->session->set('CKFinder3MaxImageWidth', (int) $this->params->get('CKFinderMaxImageWidth', 0));
@@ -673,6 +682,7 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3MaxImageHeight', (int) $this->params->get('CKFinderMaxImageHeight', 0));
 				}
 
+				// Thumbnail Size
 				if((int) $this->params->get('CKFinderMaxThumbnailWidth', 0))
 				{
 					$this->session->set('CKFinder3MaxThumbnailWidth', (int) $this->params->get('CKFinderMaxThumbnailWidth', 0));
@@ -682,14 +692,6 @@ class plgEditorCKeditor extends CMSPlugin
 				{
 					$this->session->set('CKFinder3MaxThumbnailHeight', (int) $this->params->get('CKFinderMaxThumbnailHeight', 0));
 				}
-
-				$plugins = [
-					'imageresize' => $this->params->get('CKFinderImageResize', 1),
-					'fileedit'    => $this->params->get('CKFinderFileEdit', 1),
-					'zip'         => $this->params->get('CKFinderZip', 1),
-				];
-
-				$this->session->set('CKFinder3SettingsPlugins', $plugins);
 			}
 		}
 

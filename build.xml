@@ -2,7 +2,7 @@
 
 <project name="ckeditor" default="dist" basedir=".">
 
-    <property name="VERSION" value="5.16.1"/>
+    <property name="VERSION" value="5.16.2"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>
@@ -123,8 +123,8 @@
         <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml.dist"/>
         <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.functional.xml.dist"/>
         <delete file="${temp_ckfinder}/microsoft/azure-storage/phpdoc.dist.xml"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/readme.md"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/README.md"/>
         <delete dir="${temp_ckfinder}/microsoft/azure-storage/build"/>
         <delete dir="${temp_ckfinder}/microsoft/azure-storage/samples"/>
 
@@ -138,15 +138,35 @@
         <delete file="${temp_ckfinder}/mtdowling/jmespath.php/composer.json"/>
         <delete file="${temp_ckfinder}/mtdowling/jmespath.php/CHANGELOG.md"/>
         <delete file="${temp_ckfinder}/mtdowling/jmespath.php/LICENSE"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/README.md"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/README.rst"/>
         <delete file="${temp_ckfinder}/mtdowling/jmespath.php/phpunit.xml.dist"/>
         <delete file="${temp_ckfinder}/mtdowling/jmespath.php/Makefile"/>
 
         <delete file="${temp_ckfinder}/pimple/pimple/composer.json"/>
         <delete file="${temp_ckfinder}/pimple/pimple/CHANGELOG"/>
         <delete file="${temp_ckfinder}/pimple/pimple/LICENSE"/>
-        <delete file="${temp_ckfinder}/pimple/pimple/README.md"/>
+        <delete file="${temp_ckfinder}/pimple/pimple/README.rst"/>
         <delete file="${temp_ckfinder}/pimple/pimple/phpunit.xml.dist"/>
+
+        <delete file="${temp_ckfinder}/psr/cache/composer.json"/>
+        <delete file="${temp_ckfinder}/psr/cache/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/psr/cache/LICENSE.txt"/>
+        <delete file="${temp_ckfinder}/psr/cache/readme.md"/>
+        <delete file="${temp_ckfinder}/psr/container/composer.json"/>
+        <delete file="${temp_ckfinder}/psr/container/LICENSE"/>
+        <delete file="${temp_ckfinder}/psr/container/README.md"/>
+        <delete file="${temp_ckfinder}/psr/http-message/composer.json"/>
+        <delete file="${temp_ckfinder}/psr/http-message/LICENSE"/>
+        <delete file="${temp_ckfinder}/psr/http-message/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/psr/http-message/README.md"/>
+        <delete dir="${temp_ckfinder}/psr/http-message/docs"/>
+        <delete file="${temp_ckfinder}/psr/log/composer.json"/>
+        <delete file="${temp_ckfinder}/psr/log/LICENSE"/>
+        <delete file="${temp_ckfinder}/psr/log/README.md"/>
+
+        <delete file="${temp_ckfinder}/ralouphie/getallheaders/composer.json"/>
+        <delete file="${temp_ckfinder}/ralouphie/getallheaders/LICENSE"/>
+        <delete file="${temp_ckfinder}/ralouphie/getallheaders/README.md"/>
 
     </target>
 
