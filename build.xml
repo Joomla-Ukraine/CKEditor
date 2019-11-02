@@ -12,6 +12,8 @@
 
     <property name="temp" value="temp"/>
 
+    <property name="temp_ckfinder" value="temp/packages/ckeditor/ckeditor/ckfinder/core/connector/php/vendor"/>
+
     <property name="dist" value="dist"/>
 
     <property name="filename" value="com_ckeditor_v${VERSION}.zip"/>
@@ -48,6 +50,56 @@
             </fileset>
         </copy>
 
+        <delete file="${temp_ckfinder}/aws/aws-sdk-php/composer.json"/>
+        <delete file="${temp_ckfinder}/aws/aws-sdk-php/NOTICE.md"/>
+        <delete file="${temp_ckfinder}/aws/aws-sdk-php/LICENSE.md"/>
+        <delete file="${temp_ckfinder}/aws/aws-sdk-php/README.md"/>
+        <delete file="${temp_ckfinder}/aws/aws-sdk-php/phpstan.neon"/>
+
+        <delete file="${temp_ckfinder}/cksource/ckfinder/composer.json"/>
+        <delete file="${temp_ckfinder}/cksource/ckfinder/composer.lock"/>
+        <delete file="${temp_ckfinder}/cksource/ckfinder/license.txt"/>
+        <delete file="${temp_ckfinder}/cksource/ckfinder/README.md"/>
+        <delete file="${temp_ckfinder}/cksource/ckfinder/phpunit.xml.dist"/>
+        <delete dir="${temp_ckfinder}/cksource/ckfinder/dev"/>
+        <delete dir="${temp_ckfinder}/cksource/ckfinder/userfiles"/>
+
+        <delete file="${temp_ckfinder}/composer/instaled.json"/>
+        <delete file="${temp_ckfinder}/composer/LICENSE"/>
+
+        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/composer.json"/>
+        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/LICENSE.md"/>
+        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/README.md"/>
+        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/phpunit.xml.dist"/>
+
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/composer.json"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/LICENSE"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/README.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/Makefile"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/Dockerfile"/>
+        <delete dir="${temp_ckfinder}/guzzlehttp/guzzle/docs"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/composer.json"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/LICENSE"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/README.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/promises/Makefile"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/composer.json"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/LICENSE"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/README.md"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/guzzlehttp/psr7/Makefile"/>
+
+        <delete file="${temp_ckfinder}/monolog/monolog/composer.json"/>
+        <delete file="${temp_ckfinder}/monolog/monolog/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/monolog/monolog/LICENSE"/>
+        <delete file="${temp_ckfinder}/monolog/monolog/README.md"/>
+        <delete file="${temp_ckfinder}/monolog/monolog/phpunit.xml.dist"/>
+        <delete dir="${temp_ckfinder}/monolog/monolog/doc"/>
     </target>
 
     <target name="replace">
