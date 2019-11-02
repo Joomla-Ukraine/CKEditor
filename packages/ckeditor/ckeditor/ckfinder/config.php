@@ -67,15 +67,13 @@ $config[ 'images' ] = [
 	]
 ];
 
-//'baseUrl'            => str_replace('plugins/editors/ckeditor/ckfinder/core/connector/php', '', Uri::base(true)),
-
 $config[ 'backends' ][] = [
 	'name'               => 'default',
 	'adapter'            => 'local',
 	'baseUrl'            => '',
 	//  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
 	'chmodFiles'         => 0777,
-	'chmodFolders'       => 0755,
+	'chmodFolders'       => $session->get('CKFinder3SettingsChmod') ? trim($session->get('CKFinder3SettingsChmod')) : 0755,
 	'filesystemEncoding' => 'UTF-8'
 ];
 

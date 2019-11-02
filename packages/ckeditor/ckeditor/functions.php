@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -56,9 +56,9 @@ function checkKey($key, $licenseName)
 {
 	$app = JFactory::getApplication();
 
-	if(strlen($key) == 15 && ($key[ 0 ] == 'C' || $key[ 0 ] == 'D') && $key[ 13 ] == 'K' && ((int) (ord($key[ 10 ]) . ord($key[ 11 ])) % 3 == 0) && ((int) (ord($key[ 6 ]) . ord($key[ 7 ])) % 2 == 0) && $key[ 6 ] != '0' && $key[ 7 ] != '0' && $key[ 10 ] != '0' && $key[ 11 ] != '0')
+	if(strlen($key) == 15 && ($key[ 0 ] === 'C' || $key[ 0 ] === 'D') && $key[ 13 ] === 'K' && ((int) (ord($key[ 10 ]) . ord($key[ 11 ])) % 3 == 0) && ((int) (ord($key[ 6 ]) . ord($key[ 7 ])) % 2 == 0) && $key[ 6 ] != '0' && $key[ 7 ] != '0' && $key[ 10 ] != '0' && $key[ 11 ] != '0')
 	{
-		if($key[ 0 ] == 'D' && $app->getName() == 'administrator')
+		if($key[ 0 ] == 'D' && $app->getName() === 'administrator')
 		{
 			JFactory::getApplication()
 			        ->enqueueMessage(JText::_('DEVELOPER_LICENSE_MESSAGE'), 'message');

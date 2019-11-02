@@ -34,6 +34,7 @@ class ConfigController extends JControllerLegacy
 	public function __construct($default = [])
 	{
 		parent::__construct($default);
+
 		$this->registerTask('apply', 'save');
 	}
 
@@ -88,7 +89,7 @@ class ConfigController extends JControllerLegacy
 		array_shift($_POST);
 
 		$post[ 'params' ] = $_POST;
-		if($toolbar == 'advanced')
+		if($toolbar === 'advanced')
 		{
 			$post[ 'params' ][ 'Advanced_ToolBar' ] = $post[ 'rows' ];
 		}

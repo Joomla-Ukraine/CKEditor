@@ -33,7 +33,7 @@ class plgEditorCKeditor extends CMSPlugin
 {
 	public $pluginsName = [];
 	public $called = false;
-	public $buildVersion = '?v=5.16.0';
+	public $buildVersion = '?v=5.14.1';
 
 	/**
 	 * plgEditorCKeditor constructor.
@@ -144,6 +144,32 @@ class plgEditorCKeditor extends CMSPlugin
 
 		setcookie('ckfinder_app', $this->app->getClientId(), strtotime('+' . $this->config->get('lifetime') . ' minutes'), '/');
 
+		/*
+		 * Access to editor and filemanager
+		 */
+		$userid        = $this->user->get('id');
+		$gid           = Access::getGroupsByUser($userid);
+		$access_editor = $this->params->get('usergroup');
+
+		// Access to editor
+		$access_true = false;
+		if(is_array($access_editor) && is_array($gid))
+		{
+			foreach($gid AS $key => $val)
+			{
+				if(in_array($val, $access_editor))
+				{
+					$access_true = true;
+
+					break;
+				}
+			}
+		}
+		elseif(is_array($gid) && in_array($access_editor, $gid))
+		{
+			$access_true = true;
+		}
+
 		$this->db->setQuery('SELECT template FROM #__template_styles WHERE home = 1 AND client_id=' . $this->app->getClientId());
 		$templateName = $this->db->loadResult();
 
@@ -160,28 +186,6 @@ class plgEditorCKeditor extends CMSPlugin
 		}
 
 		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '"' . ($_width ? ' style="' . $_width . $_height . '"' : '') . '>' . $content . '</textarea>';
-
-		$userid = $this->user->get('id');
-		$gid    = Access::getGroupsByUser($userid);
-		$access = $this->params->get('usergroup', [ '8' ]);
-
-		$access_true = false;
-		if(is_array($access) && is_array($gid))
-		{
-			foreach($gid AS $key => $val)
-			{
-				if(in_array($val, $access))
-				{
-					$access_true = true;
-
-					break;
-				}
-			}
-		}
-		elseif(is_array($gid) && in_array($access, $gid))
-		{
-			$access_true = true;
-		}
 
 		$frontend = '';
 		if(!strpos(JPATH_BASE, 'administrator') && !$access_true)
@@ -285,7 +289,6 @@ class plgEditorCKeditor extends CMSPlugin
 		{
 			$editor .= ', allowedContent: true';
 		}
-
 
 		if($this->params->get('toolbar' . $frontend, 'Full') !== 'Full')
 		{
@@ -452,42 +455,18 @@ class plgEditorCKeditor extends CMSPlugin
 
 		if($this->params->get('ckfinder', '1') == 1)
 		{
-			$userid      = $this->user->get('id');
-			$gid         = Access::getGroupsByUser($userid);
-			$access      = $this->params->get('username_access', [ '8' ]);
-			$user_access = $this->params->get('user_access_folder', [ '2' ]);
-			$access_true = false;
 			$this->session->set('CKFinder3Access', false);
 
-			$prefix = Uri::root();
-			if($this->params->get('CKFinderPathType', 0) == 1)
-			{
-				$prefix = '';
-			}
+			$username_access    = $this->params->get('username_access', [ '8' ]);
+			$user_access_folder = $this->params->get('user_access_folder', [ '2' ]);
 
-			if(is_array($access) && is_array($gid))
-			{
-				foreach($gid AS $key => $val)
-				{
-					if(in_array($val, $access))
-					{
-						$access_true = true;
-
-						break;
-					}
-				}
-			}
-			elseif(is_array($gid) && in_array($access, $gid))
-			{
-				$access_true = true;
-			}
-
+			// Access to CKFinder
 			$user_access_true = false;
-			if(is_array($user_access) && is_array($gid))
+			if(is_array($username_access) && is_array($gid))
 			{
-				foreach($gid as $key => $val)
+				foreach($username_access as $key => $val)
 				{
-					if(in_array($val, $user_access))
+					if(in_array($val, $gid))
 					{
 						$user_access_true = true;
 
@@ -495,30 +474,59 @@ class plgEditorCKeditor extends CMSPlugin
 					}
 				}
 			}
-			elseif(is_array($gid) && in_array($user_access, $gid))
+			elseif(is_array($gid) && in_array($username_access, $gid))
 			{
 				$user_access_true = true;
 			}
 
-			if($access_true && $this->session->getState() === 'active')
+			// Access only to user folder
+			$user_folder_access_true = false;
+			if(is_array($user_access_folder) && is_array($gid))
 			{
-				$this->session->set('CKFinder3LicenseName', null);
-				$this->session->set('CKFinder3LicenseKey', null);
-				$this->session->set('CKFinder3Access', true); //user can use CKFinder
-				$this->session->set('CKFinder3MaxFilesSize', null);
-				$this->session->set('CKFinder3MaxImagesSize', null);
-				$this->session->set('CKFinder3ResourceFiles', null);
-				$this->session->set('CKFinder3ResourceImages', null);
-				$this->session->set('CKFinder3MaxImageWidth', null);
-				$this->session->set('CKFinder3MaxImageHeight', null);
-				$this->session->set('CKFinder3MaxThumbnailWidth', null);
-				$this->session->set('CKFinder3MaxThumbnailHeight', null);
-				$this->session->set('CKFinder3SettingsPlugins', null);
+				foreach($user_access_folder as $key => $val)
+				{
+					if(in_array($val, $gid))
+					{
+						$user_folder_access_true = true;
+
+						break;
+					}
+				}
+			}
+			elseif(is_array($gid) && in_array($username_access, $gid))
+			{
+				$user_folder_access_true = true;
 			}
 
-			if($access_true && $this->session->get('CKFinder3Access') && $this->params->get('ckfinder', '0') != 0)
+			// Prefix URL
+			$prefix = Uri::root();
+			if($this->params->get('CKFinderPathType', 0) == 1)
 			{
+				$prefix = '';
+			}
+
+			// Enable CKFinder
+			if($user_access_true && $this->params->get('ckfinder', '0') == 1)
+			{
+				if($this->session->getState() === 'active')
+				{
+					$this->session->set('CKFinder3LicenseName', null);
+					$this->session->set('CKFinder3LicenseKey', null);
+					$this->session->set('CKFinder3Access', true); //user can use CKFinder
+					$this->session->set('CKFinder3MaxFilesSize', null);
+					$this->session->set('CKFinder3MaxImagesSize', null);
+					$this->session->set('CKFinder3ResourceFiles', null);
+					$this->session->set('CKFinder3ResourceImages', null);
+					$this->session->set('CKFinder3MaxImageWidth', null);
+					$this->session->set('CKFinder3MaxImageHeight', null);
+					$this->session->set('CKFinder3MaxThumbnailWidth', null);
+					$this->session->set('CKFinder3MaxThumbnailHeight', null);
+					$this->session->set('CKFinder3SettingsPlugins', null);
+					$this->session->set('CKFinder3SettingsChmod', null);
+				}
+
 				$ckfinder_path = 'plugins/editors/ckeditor/ckfinder/';
+				$chmod         = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
 
 				$editor .= ",filebrowserBrowseUrl: '" . Uri::root() . $ckfinder_path . "ckfinder.html',
 					filebrowserImageBrowseUrl: '" . Uri::root() . $ckfinder_path . "ckfinder.html?Type=Images',
@@ -528,9 +536,9 @@ class plgEditorCKeditor extends CMSPlugin
 				if(!defined('CKFINDER_PATH_BASE'))
 				{
 					define('CKFINDER_PATH_BASE', str_replace([
-							'\administrator',
-							'/administrator'
-						], '', JPATH_BASE));
+						'\administrator',
+						'/administrator'
+					], '', JPATH_BASE));
 				}
 
 				$saveDir = $this->params->get('CKFinderSaveImages', 'images');
@@ -542,27 +550,24 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->user->username
 				], $saveDir);
 
-				if($user_access_true)
+				if($user_folder_access_true === true)
 				{
 					$saveDir .= '/upload/' . $this->user->id;
-					$this->_make_dir($saveDir);
+					$this->_make_dir($saveDir, $chmod);
 
 					$user_folders = (array) $this->params->get('user_folders');
 					foreach($user_folders as $uf)
 					{
 						if($uf->user_folder)
 						{
-							$this->_make_dir($saveDir . '/' . $uf->user_folder);
-							$this->_make_dir($saveDir . '/' . $uf->user_folder . '/' . date('Y/m'));
+							$this->_make_dir($saveDir . '/' . $uf->user_folder, $chmod);
+							$this->_make_dir($saveDir . '/' . $uf->user_folder . '/' . date('Y/m'), $chmod);
 						}
 					}
 				}
 
 				$this->session->set('CKFinder3ImagesPath', $saveDir);
 				$this->session->set('CKFinder3ImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
-
-				$chmod = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
-				$old   = umask(0);
 
 				$saveDir = $this->params->get('CKFinderSaveFiles', 'files');
 				$saveDir = str_replace([
@@ -573,10 +578,10 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->user->username
 				], $saveDir);
 
-				if($user_access_true)
+				if($user_folder_access_true === true)
 				{
 					$saveDir .= '/upload/' . $this->user->id;
-					$this->_make_dir($saveDir);
+					$this->_make_dir($saveDir, $chmod);
 				}
 
 				$saveDir = $this->params->get('CKFinderSaveThumbs', 'cache/_thumbs');
@@ -588,16 +593,14 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->user->username
 				], $saveDir);
 
-				if($user_access_true)
+				if($user_folder_access_true === true)
 				{
 					$saveDir .= '/upload/' . $this->user->id;
-					$this->_make_dir($saveDir);
+					$this->_make_dir($saveDir, $chmod);
 				}
 
 				$this->session->set('CKFinder3ThumbsPath', $saveDir);
 				$this->session->set('CKFinder3ThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
-
-				umask($old);
 
 				if($this->params->get('CKFinderResourceFiles', 'files'))
 				{
@@ -637,6 +640,11 @@ class plgEditorCKeditor extends CMSPlugin
 				{
 					$this->session->set('CKFinder3LicenseName', trim($this->params->get('CKFinderLicenseName')));
 					$this->session->set('CKFinder3LicenseKey', trim($this->params->get('CKFinderLicenseKey')));
+				}
+
+				if($this->params->get('CKFinderSettingsChmod', '0755'))
+				{
+					$this->session->set('CKFinder3SettingsChmod', $chmod);
 				}
 
 				if($this->params->get('CKFinderMaxImagesSize', ''))

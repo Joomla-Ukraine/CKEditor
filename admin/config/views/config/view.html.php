@@ -65,7 +65,7 @@ class ConfigViewConfig extends JViewLegacy
 		$id = $db->loadResult();
 
 		// load the row from the db table
-		$row->load(intval($id));
+		$row->load((int) $id);
 
 		$xml = JPATH_BASE . '/components/com_ckeditor/config.xml';
 		if(!file_exists($xml))
