@@ -50,8 +50,8 @@
                         }
                     ],
                     onOk: function () {
-                        var editor = this.getParentEditor();
-                        var content = this.getValueOf('jusocPlugin', 'jusoc_code');
+                        var editor = this.getParentEditor(),
+                            content = this.getValueOf('jusocPlugin', 'jusoc_code');
 
                         if (content.length > 0) {
                             var realElement = CKEDITOR.dom.element.createFromHtml('<p><p>');
@@ -70,5 +70,6 @@ function convert(str) {
     str = str.replace(/&/g, "&amp;");
     str = str.replace(/>/g, "&gt;");
     str = str.replace(/</g, "&lt;");
+
     return str;
 }

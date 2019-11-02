@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -20,7 +20,7 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') or die('Restricted access');
 
 define('CKE_PATH', JPATH_PLUGINS . '/editors/ckeditor');
 define('CKE_PLUGINS', CKE_PATH . '/plugins');

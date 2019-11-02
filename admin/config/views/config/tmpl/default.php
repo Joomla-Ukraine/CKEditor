@@ -2,12 +2,13 @@
 /**
  * CKEditor for Joomla!
  *
- * @version       5.x
- * @package       CKEditor
- * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
- * @license       LICENSE.md
+ * @version        5.x
+ * @package        CKEditor
+ * @author         Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C)  2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @license        GNU General Public License version 2 or later
  *
+ * @since          5.0
  **/
 
 /*
@@ -21,7 +22,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
+JHTML::_('behavior.tooltip');
 
 JToolbarHelper::title(JText::_('CKEDITOR_CONFIGURATION'), 'equalizer config');
 JToolBarHelper::save();
@@ -30,19 +31,25 @@ JToolbarHelper::divider();
 JToolBarHelper::cancel('cancel', JText::_('CLOSE'));
 JToolbarHelper::divider();
 
-JHtml::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
-JHtml::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
-
-JHtml::_('jquery.framework');
-JHtml::_('script', 'jui/cms.js', [
-	'version'  => 'auto',
-	'relative' => true
-]);
+JHTML::stylesheet('administrator/components/com_ckeditor/config/views/config/css/config.css');
+JHTML::script('administrator/components/com_ckeditor/config/views/config/js/core.js');
 
 include_once '../plugins/editors/ckeditor/functions.php';
 
 // clean item data
 JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
+
+$ckfinder_found = file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/ckfinder/config.php');
+$link           = JRoute::_('index.php?option=com_ckeditor&cid=advanced#layout-settings');
+$link1          = JRoute::_('index.php?option=com_ckeditor&cid=basic&default=true#layout-settings');
+
+if($this->toolbar === 'advanced')
+{
+	$link  = JRoute::_('index.php?option=com_ckeditor&cid=basic#layout-settings');
+	$link1 = JRoute::_('index.php?option=com_ckeditor&cid=advanced&default=true#layout-settings');
+}
+
+$other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
 
 ?>
 <script type="text/javascript">
@@ -76,14 +83,14 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
         });
 
         $$('div[id^=plugin_params_]', $$('plugin_params')).each(function (p) {
-            if (typeof p.style != 'undefined' && p.style.display == 'none') {
+            if (typeof p.style != 'undefined' && p.style.display === 'none') {
                 setParams(p.id, false);
             }
         });
 
         $$('.icon-add').each(function (el) {
             var o = el.className.replace(/icon-(add|remove)/i, '').trim();
-            if (o == 'users') return;
+            if (o === 'users') return;
             el.addEvent('click', function () {
                 var s = $(o) || [];
                 $each(s.options, function (n) {
@@ -95,15 +102,16 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
         $$('.icon-remove').each(function (el) {
             var o = el.className.replace(/icon-(add|remove)/i, '').trim();
             el.addEvent('click', function () {
-                var s = $(o) || [];
-                if (o == 'users') {
-                    for (var i = s.length - 1; i >= 0; i--) {
+                var i,
+                    s = $(o) || [];
+                if (o === 'users') {
+                    for (i = s.length - 1; i >= 0; i--) {
                         if (s.options[i].selected) {
                             s.options[i] = null;
                         }
                     }
                 } else {
-                    for (var i = 0; i < s.length; i++) {
+                    for (i = 0; i < s.length; i++) {
                         s.options[i].selected = false;
                     }
                 }
@@ -128,17 +136,17 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 
         var form = document.adminForm, items = [], i = 0;
         // Cancel button
-        if (pressbutton == "cancelEdit") {
+        if (pressbutton === "cancelEdit") {
             submitform(pressbutton);
             return;
         }
         // validation
-        if (form.name.value == "") {
+        if (form.name.value === "") {
             alert("<?php echo JText::_('GROUP_MUST_HAVE_A_NAME', true); ?>");
         } else {
             // Serialize group layout
             $('groupLayout').getElements('ul.sortableRow').each(function (el) {
-                if ($(el).getElements('li.sortableItem').length != 0) {
+                if ($(el).getElements('li.sortableItem').length !== 0) {
                     $(el).getElements('li.sortableItem').each(function (o) {
 
                         if (o.hasClass('spacer')) {
@@ -172,22 +180,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 <?php endif; ?>
 
 <form action="index.php" method="post" name="adminForm" class="form-validate form-horizontal">
-	<?php
-	echo JHtml::_('form.token');
-
-	//echo JHtmlTabs::panel(JText :: _('BASIC_SETTINGS'), "basic-settings");
-	if($this->toolbar == 'advanced')
-	{
-		$link  = JRoute::_('index.php?option=com_ckeditor&cid=basic#layout-settings');
-		$link1 = JRoute::_('index.php?option=com_ckeditor&cid=advanced&default=true#layout-settings');
-	}
-	else
-	{
-		$link  = JRoute::_('index.php?option=com_ckeditor&cid=advanced#layout-settings');
-		$link1 = JRoute::_('index.php?option=com_ckeditor&cid=basic&default=true#layout-settings');
-	}
-	?>
-
+	<?php echo JHtml::_('form.token'); ?>
 	<ul class="nav nav-tabs">
 		<li id="basic_tab" class="active">
 			<a href="#basic-settings" data-toggle="tab"><?php echo JText::_('BASIC_SETTINGS'); ?></a>
@@ -311,12 +304,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 				</div>
 			</div>
 		</div>
-		<?php
-		//      echo JHtmlTabs::panel(JText :: _('FILE_BROWSER_SETTINGS'), "file-browser-settings");
-		$ckfinder_found = file_exists(JPATH_BASE . '/../plugins/editors/ckeditor/filemanagers/ckfinder/ckfinder.php');
-		?>
 		<div id="file-browser-settings" class="tab-pane">
-
 			<?php if(!$ckfinder_found): ?>
 				<div style="border:1px #666666 solid; padding: 10px;">
 					<?php echo JText::_('CKFINDER_NOT_INSTALL'); ?>
@@ -328,14 +316,27 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					</ul>
 				</div>
 			<?php endif; ?>
-
 			<?php if($ckfinder_found): ?>
-
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
-							<?php if($this->form->getFieldset('FilesSettings')): ?>
-								<?php foreach($this->form->getFieldset('FilesSettings') as $field): ?>
+							<legend><?php echo JText::_('FILE_BROWSER_ACCESS'); ?></legend>
+							<?php if($this->form->getFieldset('CKFinderSettingsLicense')): ?>
+								<?php foreach($this->form->getFieldset('CKFinderSettingsLicense') as $field): ?>
+									<?php if($field->hidden): ?>
+										<?php echo $field->input; ?>
+									<?php else: ?>
+										<div class="control-group">
+											<div class="control-label"><?php echo $field->label; ?></div>
+											<div class="controls"><?php echo $field->input ?></div>
+										</div>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php else :
+								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
+							endif; ?>
+							<?php if($this->form->getFieldset('CKFinderSettings')): ?>
+								<?php foreach($this->form->getFieldset('CKFinderSettings') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -348,39 +349,15 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 							<?php else :
 								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
-
-						</fieldset>
-					</div>
-					<div class="span6">
-						<fieldset class="adminform form-horizontal">
-							<?php if($this->form->getFieldset('CKFinderLicenseInformation')): ?>
-								<?php foreach($this->form->getFieldset('CKFinderLicenseInformation') as $field): ?>
-									<?php $dataShowOn = ''; ?>
-									<?php if($field->showon) : ?>
-										<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
-									<?php endif; ?>
-									<?php if($field->hidden): ?>
-										<?php echo $field->input; ?>
-									<?php else: ?>
-										<div class="control-group"<?php echo $dataShowOn; ?>>
-											<div class="control-label"><?php echo $field->label; ?></div>
-											<div class="controls"><?php echo $field->input ?></div>
-										</div>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php else :
-								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS') . '</div>';
-							endif; ?>
 						</fieldset>
 					</div>
 				</div>
-
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('RESOURCE_TYPES_CONFIGURATION'); ?></legend>
-							<?php if($this->form->getFieldset('FilesSettingsResources')): ?>
-								<?php foreach($this->form->getFieldset('FilesSettingsResources') as $field): ?>
+							<?php if($this->form->getFieldset('CKFinderSettingsResources')): ?>
+								<?php foreach($this->form->getFieldset('CKFinderSettingsResources') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -398,8 +375,8 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('IMAGE_DIMENSIONS'); ?></legend>
-							<?php if($this->form->getFieldset('FilesSettingsImages')): ?>
-								<?php foreach($this->form->getFieldset('FilesSettingsImages') as $field): ?>
+							<?php if($this->form->getFieldset('CKFinderSettingsImages')): ?>
+								<?php foreach($this->form->getFieldset('CKFinderSettingsImages') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -415,21 +392,16 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						</fieldset>
 					</div>
 				</div>
-
 				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('PLUGINS_SETTINGS'); ?></legend>
 							<?php if($this->form->getFieldset('CKFinderSettingsPlugins')): ?>
 								<?php foreach($this->form->getFieldset('CKFinderSettingsPlugins') as $field): ?>
-									<?php $dataShowOn = ''; ?>
-									<?php if($field->showon) : ?>
-										<?php $dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
-									<?php endif; ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
-										<div class="control-group"<?php echo $dataShowOn; ?>>
+										<div class="control-group">
 											<div class="control-label"><?php echo $field->label; ?></div>
 											<div class="controls"><?php echo $field->input ?></div>
 										</div>
@@ -443,8 +415,8 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('CHMOD_SETTINGS_HEAD'); ?></legend>
-							<?php if($this->form->getFieldset('FilesSettingsChmod')) : ?>
-								<?php foreach($this->form->getFieldset('FilesSettingsChmod') as $field): ?>
+							<?php if($this->form->getFieldset('CKFinderSettingsChmod')) : ?>
+								<?php foreach($this->form->getFieldset('CKFinderSettingsChmod') as $field): ?>
 									<?php if($field->hidden): ?>
 										<?php echo $field->input; ?>
 									<?php else: ?>
@@ -460,19 +432,17 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						</fieldset>
 					</div>
 				</div>
-
 			<?php endif; ?>
-
 		</div>
-
 		<div id="layout-settings" class="tab-pane">
-			<p><?php
-				$other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
+			<p>
+				<?php
 				echo strtr(JText:: _('LAYOUT_EDIT'), [
 					'!type'    => '<b>' . JText:: _(!empty($this->toolbar) ? strtoupper($this->toolbar) : 'BASIC') . '</b>',
 					'!other'   => '<a href="' . $link . '">' . JText:: _($other) . '</a>',
 					'!default' => '<a href="' . $link1 . '">' . JText:: _('DEFAULT') . '</a>'
-				]); ?>
+				]);
+				?>
 			</p>
 			<fieldset>
 				<legend><?php echo ucfirst($this->toolbar) ?> Toolbar</legend>
@@ -485,7 +455,6 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 						?>
 						<div>
 							<ul class="sortableRow">
-								<!--<li class="sortableListDiv">-->
 								<?php
 								$spacer = file_exists(JPATH_BASE . '/components/com_ckeditor/config/views/config/images/spacer.png');
 								for($x = 0; $x < $many; $x++)
@@ -501,7 +470,7 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 												continue;
 											}
 
-											if($spacer && ($icon == ';' || $icon == '-'))
+											if($spacer && ($icon === ';' || $icon === '-'))
 											{
 												?>
 												<li class="sortableItem spacer">
@@ -510,19 +479,14 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 												<?php
 											}
 
-											if($icon !== ';' && $icon != '-')
+											if($icon !== ';' && $icon != '-' && $button = $this->allToolbars[ $icon ])
 											{
-												$button = $this->allToolbars[ $icon ];
-												//if button exists
-												if($button)
-												{
-													$path = $button[ 'type' ] === 'command' ? 'components/com_ckeditor/config/views/config/images/' . $button[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $button[ 'icon' ];
-													?>
-													<li class="sortableItem" id="<?php echo $button[ 'name' ]; ?>">
-														<img src="<?php echo $path; ?>" alt="<?php echo $button[ 'title' ]; ?>" title="<?php echo $button[ 'title' ]; ?>" />
-													</li>
-													<?php
-												}
+												$path = $button[ 'type' ] === 'command' ? 'components/com_ckeditor/config/views/config/images/' . $button[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $button[ 'icon' ];
+												?>
+												<li class="sortableItem" id="<?php echo $button[ 'name' ]; ?>">
+													<img src="<?php echo $path; ?>" alt="<?php echo $button[ 'title' ]; ?>" title="<?php echo $button[ 'title' ]; ?>" />
+												</li>
+												<?php
 											}
 										}
 									}
@@ -557,17 +521,14 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 								$all = explode(',', implode('', $this->usedToolbars));
 								foreach($this->allToolbars as $icon)
 								{
-									if(!in_array($icon[ 'name' ], $all))
+									if(!in_array($icon[ 'name' ], $all) && $icon[ 'icon' ] && $icon[ 'row' ] == $i)
 									{
-										if($icon[ 'icon' ] && $icon[ 'row' ] == $i)
-										{
-											$path = $icon[ 'type' ] == 'command' ? 'components/com_ckeditor/config/views/config/images/' . $icon[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $icon[ 'icon' ];
-											?>
-											<li class="sortableItem" id="<?php echo $icon[ 'name' ]; ?>">
-												<img src="<?php echo $path; ?>" alt="<?php echo $icon[ 'title' ]; ?>" title="<?php echo $icon[ 'title' ]; ?>" />
-											</li>
-										<?php }
-									}
+										$path = $icon[ 'type' ] === 'command' ? 'components/com_ckeditor/config/views/config/images/' . $icon[ 'icon' ] : '../plugins/editors/ckeditor/plugins/' . $icon[ 'icon' ];
+										?>
+										<li class="sortableItem" id="<?php echo $icon[ 'name' ]; ?>">
+											<img src="<?php echo $path; ?>" alt="<?php echo $icon[ 'title' ]; ?>" title="<?php echo $icon[ 'title' ]; ?>" />
+										</li>
+									<?php }
 								}
 								?>
 							</ul>
@@ -588,15 +549,13 @@ JFilterOutput::objectHTMLSafe($this->group, ENT_QUOTES, '');
 
 <script type="text/javascript">
     var local = document.location;
-    if (local.hash && local.hash != '#') {
-        switch (local.hash) {
-            case '#layout-settings' :
-                jQuery('.tab-pane').hide();
-                jQuery('#layout_tab').addClass('active');
-                jQuery('#basic_tab').removeClass('active');
-                jQuery("#layout-settings").show();
-                document.location.hash = '';
-                break;
+    if (local.hash && local.hash !== '#') {
+        if (local.hash === '#layout-settings') {
+            jQuery('.tab-pane').hide();
+            jQuery('#layout_tab').addClass('active');
+            jQuery('#basic_tab').removeClass('active');
+            jQuery("#layout-settings").show();
+            document.location.hash = '';
         }
     }
     jQuery('.nav-tabs a').click(function () {

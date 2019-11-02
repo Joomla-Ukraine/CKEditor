@@ -32,11 +32,13 @@ li.sortableItem {
 #paramsstyle,
 #paramstemplate,
 #paramscss,
-#paramsFilesSaveImages,
-#paramsFilesSaveFiles,
-#paramsFilesSaveThumbs,
-#paramsFilesResourceFiles,
-#paramsFilesResourceImages,
+#paramsCKFinderSaveImages,
+#paramsCKFinderSaveFlash,
+#paramsCKFinderSaveFiles,
+#paramsCKFinderSaveThumbs,
+#paramsCKFinderResourceFiles,
+#paramsCKFinderResourceImages,
+#paramsCKFinderResourceFlash,
 #paramsCKFinderLicenseName,
 #paramsCKFinderLicenseKey {
     width: 300px;

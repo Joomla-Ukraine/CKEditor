@@ -2,12 +2,13 @@
 /**
  * CKEditor for Joomla!
  *
- * @version       5.x
- * @package       CKEditor
- * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
- * @license       LICENSE.md
+ * @version        5.x
+ * @package        CKEditor
+ * @author         Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C)  2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @license        GNU General Public License version 2 or later
  *
+ * @since          5.0
  **/
 
 /*
@@ -19,7 +20,7 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 

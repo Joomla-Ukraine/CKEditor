@@ -1,3 +1,14 @@
+/**
+ * CKEditor for Joomla!
+ *
+ * @version       5.x
+ * @package       CKEditor
+ * @author        Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @license       LICENSE.md
+ *
+ **/
+
 /*
 Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license

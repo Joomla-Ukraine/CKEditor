@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="component" method="upgrade">
+    <name>CKEditor</name>
+    <creationDate>17.04.2019</creationDate>
+    <author>Joomla! Ukraine, CKSource.com</author>
+    <authorUrl>http://joomla-ua.org</authorUrl>
+    <copyright>Copyright (c) 2014-2016, Joomla! Ukraine - Denys Nosov. All rights reserved. Copyright (c) 2003-2014,
+        CKSource - Frederico Knabben. All rights reserved.
+    </copyright>
+    <license>Licensed under CKEditor for Joomla License Agreement, version 1.1. For licensing, see http://cksource.com/license/ckeditor-for-joomla
+    </license>
+    <version>5.14.1</version>
+    <description>CKEditor for Joomla component integrates CKEditor, a WYSIWYG online editor, with the link browser plugin and CKFinder.
+    </description>
+
+    <scriptfile>install_ckeditor.php</scriptfile>
+
+    <install>
+        <sql>
+            <file charset="utf8" driver="mysql">install_ckeditor.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file charset="utf8" driver="mysql">uninstall_ckeditor.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="site">
+        <file>index.html</file>
+        <file>ckeditor.php</file>
+        <file>editor.php</file>
+    </files>
+
+    <languages folder="language/en-GB">
+        <language tag="en-GB" client="site">en-GB.plg_editors_ckeditor.ini</language>
+        <language tag="en-GB" client="site">en-GB.plg_editors_ckeditor.sys.ini</language>
+        <language tag="en-GB" client="site">en-GB.com_ckeditor.sys.ini</language>
+        <language tag="en-GB" client="site">en-GB.com_ckeditor.ini</language>
+    </languages>
+
+    <administration>
+        <menu img="components/com_ckeditor/images/ckeditor_ico16.png" link="option=com_ckeditor">
+            COM_CKEDITOR_MENU_NAME
+        </menu>
+
+        <files folder="admin">
+            <folder>config</folder>
+            <folder>media</folder>
+            <file>index.html</file>
+            <file>ckeditor.php</file>
+            <file>editor.php</file>
+            <file>config.xml</file>
+            <file>install_ckeditor.sql</file>
+            <file>uninstall_ckeditor.sql</file>
+        </files>
+
+        <languages folder="language/en-GB">
+            <language tag="en-GB">en-GB.plg_editors_ckeditor.ini</language>
+            <language tag="en-GB">en-GB.plg_editors_ckeditor.sys.ini</language>
+            <language tag="en-GB">en-GB.com_ckeditor.sys.ini</language>
+            <language tag="en-GB">en-GB.com_ckeditor.ini</language>
+        </languages>
+    </administration>
+
+    <update>http://joomla-ua.org/update/editor/ckeditor.xml</update>
+    <updateservers>
+        <server type="extension" priority="1" name="CKEditor">http://joomla-ua.org/update/editor/ckeditor.xml</server>
+    </updateservers>
+</extension>

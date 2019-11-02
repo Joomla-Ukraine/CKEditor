@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -20,9 +20,12 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die ('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 
-class JContentEditorBridge extends JObject
+defined('_JEXEC') or die;
+
+class JContentEditorBridge extends CMSObject
 {
 	/**
 	 *
@@ -49,7 +52,7 @@ class JContentEditorBridge extends JObject
 	 */
 	public function load()
 	{
-		$jinput = JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 		$task   = $jinput->get('task', '', 'STR');
 
 		if($task)
@@ -58,16 +61,14 @@ class JContentEditorBridge extends JObject
 			{
 				case 'plugin':
 					$plugin = JRequest::getVar('plugin', 'cmd');
-					JFactory::getApplication()
-					        ->enqueueMessage(JText::_('PLUGIN_NOT_FOUND'), 'message');
+					Factory::getApplication()->enqueueMessage(JText::_('PLUGIN_NOT_FOUND'), 'message');
 					exit ();
 					break;
 			}
 		}
 		else
 		{
-			JFactory::getApplication()
-			        ->enqueueMessage(JText::_('NO_TASK'), 'message');
+			Factory::getApplication()->enqueueMessage(JText::_('NO_TASK'), 'message');
 		}
 	}
 }

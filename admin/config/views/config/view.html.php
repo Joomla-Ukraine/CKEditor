@@ -2,12 +2,13 @@
 /**
  * CKEditor for Joomla!
  *
- * @version       5.x
- * @package       CKEditor
- * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
- * @license       LICENSE.md
+ * @version        5.x
+ * @package        CKEditor
+ * @author         Denys D. Nosov (denys@joomla-ua.org)
+ * @copyright (C)  2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @license        GNU General Public License version 2 or later
  *
+ * @since          5.0
  **/
 
 /*
@@ -19,7 +20,7 @@
 * other free or open source software licenses.
 */
 
-defined('_JEXEC') or die ;
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 jimport('joomla.form.form');
@@ -565,16 +566,15 @@ class ConfigViewConfig extends JViewLegacy
 
 		$this->assignRef('allToolbars', $toolBars);
 
-		//get variables from GET
 		$toolbar = JRequest::getWord('cid', '');
 		$default = JRequest::getWord('default', 'false');
 
 		//check which toolbar edit and set default if  necessary
-		if($toolbar == 'advanced')
+		if($toolbar === 'advanced')
 		{
-			if($default == 'true')
+			if($default === 'true')
 			{
-				$param = str_replace(' ', '', 'Source,;,Save,NewPage,Preview,;,Templates,;,Cut,Copy,Paste,PasteText,PasteFromWord,;,Print,SpellChecker,Scayt,;,Undo,Redo,;,Find,Replace,;,SelectAll,RemoveFormat,;,/,Bold,Italic,Underline,Strike,;,Subscript,Superscript,;,NumberedList,BulletedList,;,Outdent,Indent,Blockquote,;,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,;,BidiLtr,BidiRtl,;,Link,Unlink,Anchor,;,Image,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,/,Styles,;,Format,;,Font,;,FontSize,TextColor,BGColor,;,Maximize,ShowBlocks,;,ReadMore,;,About');
+				$param = str_replace(' ', '', 'Source,;,Save,NewPage,Preview,;,Templates,;,Cut,Copy,Paste,PasteText,PasteFromWord,;,Print,SpellChecker,Scayt,;,Undo,Redo,;,Find,Replace,;,SelectAll,RemoveFormat,;,/,Bold,Italic,Underline,Strike,;,Subscript,Superscript,;,NumberedList,BulletedList,;,Outdent,Indent,Blockquote,;,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,;,BidiLtr,BidiRtl,;,Link,Unlink,Anchor,;,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,/,Styles,;,Format,;,Font,;,FontSize,TextColor,BGColor,;,Maximize,ShowBlocks,;,ReadMore,;,About');
 				$this->assignRef('usedToolbars', $param);
 			}
 			else
@@ -585,7 +585,7 @@ class ConfigViewConfig extends JViewLegacy
 		}
 		else
 		{
-			if($default == 'true')
+			if($default === 'true')
 			{
 				$param = str_replace(' ', '', 'Bold,Italic,Underline,Strike,;,NumberedList,BulletedList,;,Outdent,Indent,;,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,;,Link,Unlink,Anchor,/,Styles,Format,;,Image,;,Subscript,Superscript,;,SpecialChar');
 				$this->assignRef('usedToolbars', $param);

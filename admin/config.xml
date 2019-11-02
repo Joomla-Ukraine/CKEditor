@@ -426,19 +426,19 @@
 
     </fieldset>
 
-    <fieldset name="FilesSettings">
+    <fieldset name="CKFinderSettings">
 
-        <field name="filemanagers"
-               type="list"
-               default="0"
-               label="FILEMANAGER"
-               description="FILEMANAGER_DESCRIPTION">
-            <option value="0">JSELECT</option>
-            <option value="1">CKFinder</option>
-            <option value="2">RESPONSIVE filemanager</option>
+        <field name="ckfinder"
+               type="radio"
+               default="1"
+               label="CKFINDER"
+               description="CKFINDER_DESCRIPTION"
+               class="btn-group">
+            <option value="0">JDisabled</option>
+            <option value="1">JEnabled</option>
         </field>
 
-        <field name="FilesPathType"
+        <field name="CKFinderPathType"
                type="radio"
                default="0"
                label="CKFINDER_URLS_TYPE"
@@ -486,71 +486,96 @@
 
     </fieldset>
 
-    <fieldset name="FilesSettingsResources">
+		<fieldset name="CKFinderSettingsLicense">
+			<field name="CKFinderLicenseName"
+			       type="text"
+			       default=""
+			       label="LICENSE_NAME"
+			       description="LICENSE_NAME_DESCRIPTION" />
 
-        <field name="FilesSaveFiles"
+			<field name="CKFinderLicenseKey"
+			       type="text"
+			       default=""
+			       label="LICENSE_KEY"
+			       description="LICENSE_KEY_DESCRIPTION" />
+		</fieldset>
+
+    <fieldset name="CKFinderSettingsResources">
+
+        <field name="CKFinderSaveFiles"
                type="text"
                default="files"
                label="FILES_PATH"
                description="FILES_PATH_DESCRIPTION" />
 
-        <field name="FilesSaveImages"
+        <field name="CKFinderSaveImages"
                type="text"
                default="images"
                label="IMAGES_PATH"
                description="IMAGES_PATH_DESCRIPTION" />
 
-        <field name="FilesSaveThumbs"
+        <field name="CKFinderSaveThumbs"
                type="text"
                default="cache/_thumbs"
                label="THUMBNAILS_PATH"
                description="THUMBNAILS_PATH_DESCRIPTION" />
 
-        <field name="FilesResourceFiles"
+        <field name="CKFinderResourceFiles"
                type="text"
                label="FILES_EXTENSIONS"
                description="FILES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="FilesResourceImages"
+        <field name="CKFinderResourceImages"
                type="text"
                label="IMAGES_EXTENSIONS"
                description="IMAGES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="FilesMaxFilesSize"
+        <field name="CKFinderResourceFlash"
+               type="text"
+               label="FLASH_EXTENSIONS"
+               description="FLASH_EXTENSIONS_DESCRIPTION" />
+
+        <field name="CKFinderMaxFilesSize"
                type="text"
                default="8M"
                label="MAX_FILES_SIZE"
                description="MAX_FILES_SIZE_DESCRIPTION" />
 
-        <field name="FilesMaxImagesSize"
+        <field name="CKFinderMaxImagesSize"
                type="text"
                default="8M"
                label="MAX_IMAGES_SIZE"
                description="MAX_IMAGES_SIZE_DESCRIPTION" />
 
+        <field name="CKFinderMaxFlashSize"
+               type="text"
+               default="8M"
+               label="MAX_FLASH_SIZE"
+               description="MAX_FLASH_SIZE_DESCRIPTION" />
+
     </fieldset>
 
-    <fieldset name="FilesSettingsImages">
+    <fieldset name="CKFinderSettingsImages">
 
-        <field name="FilesMaxImageWidth"
+        <field name="CKFinderMaxImageWidth"
                type="text"
                label="MAX_IMAGE_WIDTH"
                description="MAX_IMAGE_WIDTH_DESCRIPTION"
                default="1600" />
 
-        <field name="FilesMaxImageHeight"
+        <field name="CKFinderMaxImageHeight"
                type="text"
                label="MAX_IMAGE_HEIGHT"
                description="MAX_IMAGE_HEIGHT_DESCRIPTION"
                default="1200" />
 
-        <field name="FilesMaxThumbnailWidth"
+        <field name="CKFinderMaxThumbnailWidth"
                type="text"
                label="THUMBNAIL_WIDTH"
                description="THUMBNAIL_WIDTH_DESCRIPTION"
                default="100" />
 
-        <field name="FilesMaxThumbnailHeight"
+        <field name="CKFinderMaxThumbnailHeight"
                type="text"
                label="THUMBNAIL_HEIGHT"
                description="THUMBNAIL_HEIGHT_DESCRIPTION"
@@ -563,7 +588,6 @@
         <field name="CKFinderFileEdit"
                type="radio"
                default="1"
-               showon="filemanagers:1"
                label="FILE_EDIT_PLUGIN"
                description="FILE_EDIT_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -574,7 +598,6 @@
         <field name="CKFinderImageResize"
                type="radio"
                default="1"
-               showon="filemanagers:1"
                label="IMAGE_RESIZE_PLUGIN"
                description="IMAGE_RESIZE_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -585,7 +608,6 @@
         <field name="CKFinderZip"
                type="radio"
                default="1"
-               showon="filemanagers:1"
                label="ZIP_PLUGIN"
                description="ZIP_PLUGIN_DESCRIPTION"
                class="btn-group">
@@ -595,9 +617,9 @@
 
     </fieldset>
 
-    <fieldset name="FilesSettingsChmod">
+    <fieldset name="CKFinderSettingsChmod">
 
-        <field name="FilesSettingsChmod"
+        <field name="CKFinderSettingsChmod"
                type="text"
                label="CHMOD_SETTINGS"
                description="CHMOD_SETTINGS_DESCRIPTION"
@@ -605,23 +627,18 @@
 
     </fieldset>
 
-    <fieldset name="CKFinderLicenseInformation">
-
+    <fieldset name="license-information">
         <field name="PackageLicenseName"
                type="text"
                default=""
-               showon="filemanagers:1"
                label="LICENSE_NAME"
                description="LICENSE_NAME_DESCRIPTION"
                size="80" />
-
         <field name="PackageLicenseKey"
                type="text"
                default=""
-               showon="filemanagers:1"
                label="LICENSE_KEY"
                description="LICENSE_KEY_DESCRIPTION"
                size="80" />
-
     </fieldset>
 </config>

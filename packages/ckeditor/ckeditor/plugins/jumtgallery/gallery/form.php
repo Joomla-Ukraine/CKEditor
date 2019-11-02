@@ -5,7 +5,7 @@
  * @version       5.x
  * @package       CKEditor
  * @author        Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C) 2014-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C) 2014-2018 by Denys D. Nosov (https://joomla-ua.org)
  * @license       LICENSE.md
  *
  **/
@@ -54,6 +54,7 @@ if($session->getState() != 'active')
 	<head>
 		<meta content="charset=utf-8" />
 		<link href="../../../../../../../media/jui/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<title>Gallery</title>
 	</head>
 	<body>
 	<dl id="system-message">
@@ -71,32 +72,15 @@ if($session->getState() != 'active')
 	return;
 }
 
-jimport('joomla.form.form');
-jimport('joomla.utilities.simplexml');
-
-$xml = file_get_contents('components/com_ckeditor/config.xml');
-$xml = str_replace(array(
-	'<config>',
-	'</config>'
-), array(
-	'<form>',
-	'</form>'
-), $xml);
-
-$form = new jForm('adminFormCKEditor');
-
-$form->load($xml);
-
-$lists = array();
-
-$row = JTable::getInstance('extension');
+$lists = [];
+$row   = JTable::getInstance('extension');
 
 $query = 'SELECT extension_id FROM #__extensions WHERE element = "ckeditor"';
 $db->setQuery($query);
 $id = $db->loadResult();
 $row->load((int) $id);
-$formData = new JRegistry($row->params, 'xml');
 
+$formData   = new JRegistry($row->params, 'xml');
 $rootfolder = $formData[ 'jumtgallery' ];
 
 ?>
@@ -109,6 +93,7 @@ $rootfolder = $formData[ 'jumtgallery' ];
 	<link href="<?php echo JURI::base(); ?>assets/jqueryFileTree.css" rel="stylesheet" type="text/css" />
 	<script src="<?php echo JURI::base(true); ?>/../../../../../../../media/jui/js/jquery.min.js"></script>
 	<script src="<?php echo JURI::base(); ?>assets/jqueryFileTree.js?v3"></script>
+	<script src="/plugins/editors/ckeditor/ckfinder/ckfinder.js"></script>
 	<script>
         jQuery.noConflict();
         jQuery(document).ready(function () {
@@ -126,21 +111,19 @@ $rootfolder = $formData[ 'jumtgallery' ];
                 title = document.getElementById("title").value,
                 cssclass = document.getElementById("cssclass").value;
 
-            if (folder != '') {
+            if (folder !== '') {
                 folder = "" + folder + "";
             }
 
-            if (title == '' && cssclass != '') {
+            if (title === '' && cssclass != '') {
                 title = "|";
-            }
-            else if (title != '') {
+            } else if (title != '') {
                 title = "|" + title;
-            }
-            else {
+            } else {
                 title == "";
             }
 
-            if (cssclass != '') {
+            if (cssclass !== '') {
                 cssclass = "|" + cssclass;
             }
 
@@ -151,7 +134,7 @@ $rootfolder = $formData[ 'jumtgallery' ];
             return false;
         }
 
-        document.write(unescape('%3Cscript src="/plugins/editors/ckeditor/ckfinder/ckfinder.js""%3E%3C/script%3E'));
+        //document.write(unescape('%3Cscript src="/plugins/editors/ckeditor/ckfinder/ckfinder.js""%3E%3C/script%3E'));
 
         window.onload = function () {
             Element.prototype.appendBefore = function (element) {
@@ -163,20 +146,28 @@ $rootfolder = $formData[ 'jumtgallery' ];
             };
 
             var NewElement = document.createElement('span');
-            NewElement.innerHTML = ' <a onclick="BrowseServer();" class="btn btn-primary"><?php echo JText::_('CK_JUMTG_UPLOAD_PHOTOS'); ?></a>';
+            NewElement.innerHTML = ' <a id="popup" class="btn btn-primary"><?php echo JText::_('CK_JUMTG_UPLOAD_PHOTOS'); ?></a>';
 
             NewElement.appendAfter(document.getElementById('img_gall'));
+
+            document.getElementById( 'popup' ).onclick = function() {
+                selectFileWithCKFinder( '' );
+            };
         };
 
-        function BrowseServer() {
-            var finder = new CKFinder();
-            finder.selectActionFunction = SetFileField;
-            finder.popup();
-        }
 
-        function SetFileField(fileUrl) {
-            var str = fileUrl.replace("http://" + window.location.host + "/", "");
-            document.getElementById('img_gall').value = str;
+        function selectFileWithCKFinder( elementId ) {
+            CKFinder.popup( {
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function( finder ) {
+                    finder.on( 'file:choose:resizedImage', function( evt ) {
+                        var output = document.getElementById( elementId );
+                        output.value = evt.data.resizedUrl;
+                    } );
+                }
+            } );
         }
 	</script>
 
@@ -197,7 +188,7 @@ $rootfolder = $formData[ 'jumtgallery' ];
 		<div class="controls">
 			<div class="selects"></div>
 			<br>
-			<input id="folder" class="folderurl uneditable-input" name="selectfolder" disabled="disabled" style="width:30%">
+
 			<span id="img_gall"></span>
 		</div>
 	</div>
@@ -215,6 +206,7 @@ $rootfolder = $formData[ 'jumtgallery' ];
 	</div>
 	<div class="control-group">
 		<div class="controls">
+			<input id="folder" class="folderurl uneditable-input" name="selectfolder" disabled="disabled" style="width:30%">
 			<button onclick="insertJUGallery();" class="btn btn-success"><?php echo JText::_('CK_JUMTG_TAG'); ?></button>
 		</div>
 	</div>
