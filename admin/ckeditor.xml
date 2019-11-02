@@ -28,7 +28,6 @@
     </uninstall>
 
     <files folder="site">
-        <file>index.html</file>
         <file>ckeditor.php</file>
         <file>editor.php</file>
     </files>
@@ -48,7 +47,6 @@
         <files folder="admin">
             <folder>config</folder>
             <folder>media</folder>
-            <file>index.html</file>
             <file>ckeditor.php</file>
             <file>editor.php</file>
             <file>config.xml</file>
