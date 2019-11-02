@@ -2,7 +2,7 @@
 
 <project name="ckeditor" default="dist" basedir=".">
 
-    <property name="VERSION" value="5.16.0"/>
+    <property name="VERSION" value="5.16.1"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>
@@ -94,12 +94,60 @@
         <delete file="${temp_ckfinder}/guzzlehttp/psr7/phpunit.xml.dist"/>
         <delete file="${temp_ckfinder}/guzzlehttp/psr7/Makefile"/>
 
+        <delete file="${temp_ckfinder}/league/flysystem/composer.json"/>
+        <delete file="${temp_ckfinder}/league/flysystem/deprecations.md"/>
+        <delete file="${temp_ckfinder}/league/flysystem/LICENSE"/>
+        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/composer.json"/>
+        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/changelog.md"/>
+        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/LICENSE"/>
+        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/phpspec.no-coverage.yml"/>
+        <delete file="${temp_ckfinder}/league/flysystem-azure/composer.json"/>
+        <delete file="${temp_ckfinder}/league/flysystem-azure/phpunit.php"/>
+        <delete file="${temp_ckfinder}/league/flysystem-azure/LICENSE"/>
+        <delete file="${temp_ckfinder}/league/flysystem-azure/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/league/flysystem-azure/readme.md"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/composer.json"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/LICENSE"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpunit.php"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpspec.hhvm.yml"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpspec.yml"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpunit.xml"/>
+        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/readme.md"/>
+
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/BreakingChanges.md"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/build.xml"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/ChangeLog.md"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/composer.json"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/CONTRIBUTING.md"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/LICENSE"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.functional.xml.dist"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpdoc.dist.xml"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml"/>
+        <delete file="${temp_ckfinder}/microsoft/azure-storage/readme.md"/>
+        <delete dir="${temp_ckfinder}/microsoft/azure-storage/build"/>
+        <delete dir="${temp_ckfinder}/microsoft/azure-storage/samples"/>
+
         <delete file="${temp_ckfinder}/monolog/monolog/composer.json"/>
         <delete file="${temp_ckfinder}/monolog/monolog/CHANGELOG.md"/>
         <delete file="${temp_ckfinder}/monolog/monolog/LICENSE"/>
         <delete file="${temp_ckfinder}/monolog/monolog/README.md"/>
         <delete file="${temp_ckfinder}/monolog/monolog/phpunit.xml.dist"/>
         <delete dir="${temp_ckfinder}/monolog/monolog/doc"/>
+
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/composer.json"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/CHANGELOG.md"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/LICENSE"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/README.md"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/phpunit.xml.dist"/>
+        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/Makefile"/>
+
+        <delete file="${temp_ckfinder}/pimple/pimple/composer.json"/>
+        <delete file="${temp_ckfinder}/pimple/pimple/CHANGELOG"/>
+        <delete file="${temp_ckfinder}/pimple/pimple/LICENSE"/>
+        <delete file="${temp_ckfinder}/pimple/pimple/README.md"/>
+        <delete file="${temp_ckfinder}/pimple/pimple/phpunit.xml.dist"/>
+
     </target>
 
     <target name="replace">

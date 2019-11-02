@@ -145,15 +145,14 @@ $config[ 'hideFolders' ] = $default_hide_folders;
 
 if($hide_folder = $session->get('CKFinder3HideFolders'))
 {
-	$hide_folders   = explode(',', $hide_folder);
-	$custom_folders = [];
+	$hide_folders = explode(', ', $hide_folder);
 	if(is_array($hide_folders))
 	{
-		$custom_folders[] = $hide_folders;
+		$custom_folders = $hide_folders;
 	}
 	else
 	{
-		$custom_folders[] = $hide_folder;
+		$custom_folders = (array) $hide_folder;
 	}
 
 	$merges_hide_folders     = array_merge($default_hide_folders, $custom_folders);
