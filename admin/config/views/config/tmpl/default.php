@@ -351,8 +351,6 @@ $other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
 							endif; ?>
 						</fieldset>
 					</div>
-				</div>
-				<div class="row-fluid">
 					<div class="span6">
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('RESOURCE_TYPES_CONFIGURATION'); ?></legend>
@@ -371,8 +369,7 @@ $other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
 								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
-					</div>
-					<div class="span6">
+
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('IMAGE_DIMENSIONS'); ?></legend>
 							<?php if($this->form->getFieldset('CKFinderSettingsImages')): ?>
@@ -390,29 +387,7 @@ $other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
 								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span6">
-						<fieldset class="adminform form-horizontal">
-							<legend><?php echo JText::_('PLUGINS_SETTINGS'); ?></legend>
-							<?php if($this->form->getFieldset('CKFinderSettingsPlugins')): ?>
-								<?php foreach($this->form->getFieldset('CKFinderSettingsPlugins') as $field): ?>
-									<?php if($field->hidden): ?>
-										<?php echo $field->input; ?>
-									<?php else: ?>
-										<div class="control-group">
-											<div class="control-label"><?php echo $field->label; ?></div>
-											<div class="controls"><?php echo $field->input ?></div>
-										</div>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php else :
-								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
-							endif; ?>
-						</fieldset>
-					</div>
-					<div class="span6">
+
 						<fieldset class="adminform form-horizontal">
 							<legend><?php echo JText::_('CHMOD_SETTINGS_HEAD'); ?></legend>
 							<?php if($this->form->getFieldset('CKFinderSettingsChmod')) : ?>
@@ -430,6 +405,14 @@ $other = ($this->toolbar === 'advanced') ? 'basic' : 'advanced';
 								echo '<div  style="text-align: center; padding: 5px; ">' . JText::_('NO_PARAMETERS ') . '</div>';
 							endif; ?>
 						</fieldset>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span6">
+
+					</div>
+					<div class="span6">
+
 					</div>
 				</div>
 			<?php endif; ?>

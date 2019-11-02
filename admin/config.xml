@@ -530,10 +530,10 @@
                label="IMAGES_EXTENSIONS"
                description="IMAGES_EXTENSIONS_DESCRIPTION" />
 
-        <field name="CKFinderResourceFlash"
+        <field name="CKFinderHideFolders"
                type="text"
-               label="FLASH_EXTENSIONS"
-               description="FLASH_EXTENSIONS_DESCRIPTION" />
+               label="HIDE_FOLDERS"
+               description="HIDE_FOLDERS_DESCRIPTION" />
 
         <field name="CKFinderMaxFilesSize"
                type="text"
@@ -546,12 +546,6 @@
                default="8M"
                label="MAX_IMAGES_SIZE"
                description="MAX_IMAGES_SIZE_DESCRIPTION" />
-
-        <field name="CKFinderMaxFlashSize"
-               type="text"
-               default="8M"
-               label="MAX_FLASH_SIZE"
-               description="MAX_FLASH_SIZE_DESCRIPTION" />
 
     </fieldset>
 
@@ -580,40 +574,6 @@
                label="THUMBNAIL_HEIGHT"
                description="THUMBNAIL_HEIGHT_DESCRIPTION"
                default="100" />
-
-    </fieldset>
-
-    <fieldset name="CKFinderSettingsPlugins">
-
-        <field name="CKFinderFileEdit"
-               type="radio"
-               default="1"
-               label="FILE_EDIT_PLUGIN"
-               description="FILE_EDIT_PLUGIN_DESCRIPTION"
-               class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
-        </field>
-
-        <field name="CKFinderImageResize"
-               type="radio"
-               default="1"
-               label="IMAGE_RESIZE_PLUGIN"
-               description="IMAGE_RESIZE_PLUGIN_DESCRIPTION"
-               class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
-        </field>
-
-        <field name="CKFinderZip"
-               type="radio"
-               default="1"
-               label="ZIP_PLUGIN"
-               description="ZIP_PLUGIN_DESCRIPTION"
-               class="btn-group">
-            <option value="0">JDisabled</option>
-            <option value="1">JEnabled</option>
-        </field>
 
     </fieldset>
 

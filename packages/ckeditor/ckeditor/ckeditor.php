@@ -457,8 +457,8 @@ class plgEditorCKeditor extends CMSPlugin
 		{
 			$this->session->set('CKFinder3Access', false);
 
-			$username_access    = $this->params->get('username_access', [ '8' ]);
-			$user_access_folder = $this->params->get('user_access_folder', [ '2' ]);
+			$username_access    = $this->params->get('username_access');
+			$user_access_folder = $this->params->get('user_access_folder');
 
 			// Access to CKFinder
 			$user_access_true = false;
@@ -523,6 +523,7 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3MaxThumbnailHeight', null);
 					$this->session->set('CKFinder3SettingsPlugins', null);
 					$this->session->set('CKFinder3SettingsChmod', null);
+					$this->session->set('CKFinder3HideFolders', null);
 				}
 
 				$ckfinder_path = 'plugins/editors/ckeditor/ckfinder/';
@@ -565,7 +566,6 @@ class plgEditorCKeditor extends CMSPlugin
 						}
 					}
 				}
-				echo $saveDir ."<br>";
 
 				$this->session->set('CKFinder3ImagesPath', $saveDir);
 				$this->session->set('CKFinder3ImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
@@ -584,7 +584,6 @@ class plgEditorCKeditor extends CMSPlugin
 					$saveDir .= '/upload/' . $this->user->id;
 					$this->_make_dir($saveDir, $chmod);
 				}
-				echo $saveDir ."<br>";
 
 				$saveDir = $this->params->get('CKFinderSaveThumbs', 'cache/_thumbs');
 				if($user_folder_access_true)
@@ -600,7 +599,6 @@ class plgEditorCKeditor extends CMSPlugin
 					$saveDir .= '/upload/' . $this->user->id;
 					$this->_make_dir($saveDir, $chmod);
 				}
-				echo $saveDir ."<br>";
 
 				$this->session->set('CKFinder3ThumbsPath', $saveDir);
 				$this->session->set('CKFinder3ThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
@@ -648,6 +646,11 @@ class plgEditorCKeditor extends CMSPlugin
 				if($this->params->get('CKFinderSettingsChmod', '0755'))
 				{
 					$this->session->set('CKFinder3SettingsChmod', $chmod);
+				}
+
+				if($this->params->get('CKFinderHideFolders', ''))
+				{
+					$this->session->set('CKFinder3HideFolders', $this->params->get('CKFinderHideFolders'));
 				}
 
 				if($this->params->get('CKFinderMaxImagesSize', ''))

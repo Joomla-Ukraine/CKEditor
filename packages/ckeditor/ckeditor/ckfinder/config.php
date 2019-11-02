@@ -139,11 +139,31 @@ $config[ 'disallowUnsafeCharacters' ] = true;
 $config[ 'secureImageUploads' ]       = true;
 $config[ 'checkSizeAfterScaling' ]    = true;
 $config[ 'htmlExtensions' ]           = [ 'html', 'htm', 'xml', 'js' ];
-$config[ 'hideFolders' ]              = [ '.*', 'CVS', '__thumbs' ];
-$config[ 'hideFiles' ]                = [ '.*' ];
-$config[ 'forceAscii' ]               = false;
-$config[ 'xSendfile' ]                = false;
-$config[ 'debug' ]                    = false;
+
+$default_hide_folders    = [ '.*', 'CVS', '__thumbs' ];
+$config[ 'hideFolders' ] = $default_hide_folders;
+
+if($hide_folder = $session->get('CKFinder3HideFolders'))
+{
+	$hide_folders   = explode(',', $hide_folder);
+	$custom_folders = [];
+	if(is_array($hide_folders))
+	{
+		$custom_folders[] = $hide_folders;
+	}
+	else
+	{
+		$custom_folders[] = $hide_folder;
+	}
+
+	$merges_hide_folders     = array_merge($default_hide_folders, $custom_folders);
+	$config[ 'hideFolders' ] = $merges_hide_folders;
+}
+
+$config[ 'hideFiles' ]  = [ '.*' ];
+$config[ 'forceAscii' ] = false;
+$config[ 'xSendfile' ]  = false;
+$config[ 'debug' ]      = false;
 
 /*==================================== Plugins ========================================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_plugins
