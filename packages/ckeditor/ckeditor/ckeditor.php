@@ -542,16 +542,16 @@ class plgEditorCKeditor extends CMSPlugin
 				}
 
 				$saveDir = $this->params->get('CKFinderSaveImages', 'images');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$this->user->id,
-					$this->user->username
-				], $saveDir);
-
-				if($user_folder_access_true === true)
+				if($user_folder_access_true)
 				{
+					$saveDir = str_replace([
+						'$id',
+						'$username'
+					], [
+						$this->user->id,
+						$this->user->username
+					], $saveDir);
+
 					$saveDir .= '/upload/' . $this->user->id;
 					$this->_make_dir($saveDir, $chmod);
 
@@ -565,39 +565,42 @@ class plgEditorCKeditor extends CMSPlugin
 						}
 					}
 				}
+				echo $saveDir ."<br>";
 
 				$this->session->set('CKFinder3ImagesPath', $saveDir);
 				$this->session->set('CKFinder3ImagesUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
 
 				$saveDir = $this->params->get('CKFinderSaveFiles', 'files');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$this->user->id,
-					$this->user->username
-				], $saveDir);
-
-				if($user_folder_access_true === true)
+				if($user_folder_access_true)
 				{
+					$saveDir = str_replace([
+						'$id',
+						'$username'
+					], [
+						$this->user->id,
+						$this->user->username
+					], $saveDir);
+
 					$saveDir .= '/upload/' . $this->user->id;
 					$this->_make_dir($saveDir, $chmod);
 				}
+				echo $saveDir ."<br>";
 
 				$saveDir = $this->params->get('CKFinderSaveThumbs', 'cache/_thumbs');
-				$saveDir = str_replace([
-					'$id',
-					'$username'
-				], [
-					$this->user->id,
-					$this->user->username
-				], $saveDir);
-
-				if($user_folder_access_true === true)
+				if($user_folder_access_true)
 				{
+					$saveDir = str_replace([
+						'$id',
+						'$username'
+					], [
+						$this->user->id,
+						$this->user->username
+					], $saveDir);
+
 					$saveDir .= '/upload/' . $this->user->id;
 					$this->_make_dir($saveDir, $chmod);
 				}
+				echo $saveDir ."<br>";
 
 				$this->session->set('CKFinder3ThumbsPath', $saveDir);
 				$this->session->set('CKFinder3ThumbsUrl', $prefix . str_replace('\\', '/', trim($saveDir)) . '/');
