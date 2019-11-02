@@ -162,7 +162,7 @@ $config[ 'cache' ] = [
 	'proxyCommand' => 0
 ];
 
-$config[ 'tempDirectory' ]     = sys_get_temp_dir();
+$config[ 'tempDirectory' ]     = JPATH_BASE . '/tmp';
 $config[ 'sessionWriteClose' ] = true;
 $config[ 'csrfProtection' ]    = true;
 $config[ 'headers' ]           = [];
