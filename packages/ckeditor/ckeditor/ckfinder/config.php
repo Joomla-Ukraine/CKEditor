@@ -33,10 +33,7 @@ $config[ 'authentication' ] = function ()
 	$session = Factory::getSession();
 	if($session->getState() === 'active' && $session->get('CKFinder3Access') === true)
 	{
-		if($session->get('CKFinder3LicenseName') != '' && $session->get('CKFinder3LicenseKey') != '')
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;

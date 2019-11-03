@@ -2,7 +2,7 @@
 
 <project name="ckeditor" default="dist" basedir=".">
 
-    <property name="VERSION" value="5.16.2"/>
+    <property name="VERSION" value="5.16.3"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>
@@ -151,7 +151,7 @@
         <delete file="${temp_ckfinder}/psr/cache/composer.json"/>
         <delete file="${temp_ckfinder}/psr/cache/CHANGELOG.md"/>
         <delete file="${temp_ckfinder}/psr/cache/LICENSE.txt"/>
-        <delete file="${temp_ckfinder}/psr/cache/readme.md"/>
+        <delete file="${temp_ckfinder}/psr/cache/README.md"/>
         <delete file="${temp_ckfinder}/psr/container/composer.json"/>
         <delete file="${temp_ckfinder}/psr/container/LICENSE"/>
         <delete file="${temp_ckfinder}/psr/container/README.md"/>
