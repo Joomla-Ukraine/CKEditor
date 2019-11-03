@@ -1,182 +1,113 @@
 <?xml version="1.0"?>
 
-<project name="ckeditor" default="dist" basedir=".">
+<project name="ckeditor"
+         default="dist"
+         basedir=".">
 
-    <property name="VERSION" value="5.16.3"/>
+    <property name="VERSION"
+              value="5.16.4" />
 
     <tstamp>
-        <format property="DATE" pattern="%d.%m.%Y"/>
+        <format property="DATE"
+                pattern="%d.%m.%Y" />
     </tstamp>
 
-    <property name="build" value="build"/>
+    <property name="build"
+              value="build" />
 
-    <property name="temp" value="temp"/>
+    <property name="temp"
+              value="temp" />
 
-    <property name="temp_ckfinder" value="temp/packages/ckeditor/ckeditor/ckfinder/core/connector/php/vendor"/>
+    <property name="temp_ckfinder"
+              value="temp/packages/ckeditor/ckeditor/ckfinder/core/connector/php/vendor" />
 
-    <property name="dist" value="dist"/>
+    <property name="dist"
+              value="dist" />
 
-    <property name="filename" value="com_ckeditor_v${VERSION}.zip"/>
+    <property name="filename"
+              value="com_ckeditor_v${VERSION}.zip" />
 
-    <target name="init" depends="clean">
-        <mkdir dir="${build}"/>
-        <mkdir dir="${temp}"/>
-        <mkdir dir="${dist}"/>
+    <target name="init"
+            depends="clean">
+        <mkdir dir="${build}" />
+        <mkdir dir="${temp}" />
+        <mkdir dir="${dist}" />
     </target>
 
     <target name="temp">
 
         <copy todir="${temp}/language">
             <fileset dir="language">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
         <copy todir="${temp}/admin">
             <fileset dir="admin">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
         <copy todir="${temp}/site">
             <fileset dir="site">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
         <copy todir="${temp}/packages">
             <fileset dir="packages">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
-        <delete file="${temp_ckfinder}/aws/aws-sdk-php/composer.json"/>
-        <delete file="${temp_ckfinder}/aws/aws-sdk-php/NOTICE.md"/>
-        <delete file="${temp_ckfinder}/aws/aws-sdk-php/LICENSE.md"/>
-        <delete file="${temp_ckfinder}/aws/aws-sdk-php/README.md"/>
-        <delete file="${temp_ckfinder}/aws/aws-sdk-php/phpstan.neon"/>
+        <delete dir="${temp_ckfinder}/cksource/ckfinder/dev" />
+        <delete dir="${temp_ckfinder}/cksource/ckfinder/userfiles" />
+        <delete dir="${temp_ckfinder}/guzzlehttp/guzzle/docs" />
+        <delete dir="${temp_ckfinder}/microsoft/azure-storage/build" />
+        <delete dir="${temp_ckfinder}/microsoft/azure-storage/samples" />
+        <delete dir="${temp_ckfinder}/monolog/monolog/doc" />
+        <delete dir="${temp_ckfinder}/psr/http-message/docs" />
 
-        <delete file="${temp_ckfinder}/cksource/ckfinder/composer.json"/>
-        <delete file="${temp_ckfinder}/cksource/ckfinder/composer.lock"/>
-        <delete file="${temp_ckfinder}/cksource/ckfinder/license.txt"/>
-        <delete file="${temp_ckfinder}/cksource/ckfinder/README.md"/>
-        <delete file="${temp_ckfinder}/cksource/ckfinder/phpunit.xml.dist"/>
-        <delete dir="${temp_ckfinder}/cksource/ckfinder/dev"/>
-        <delete dir="${temp_ckfinder}/cksource/ckfinder/userfiles"/>
-
-        <delete file="${temp_ckfinder}/composer/instaled.json"/>
-        <delete file="${temp_ckfinder}/composer/LICENSE"/>
-
-        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/composer.json"/>
-        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/LICENSE.md"/>
-        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/README.md"/>
-        <delete file="${temp_ckfinder}/graham-cambell/guzzle-factory/phpunit.xml.dist"/>
-
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/composer.json"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/LICENSE"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/README.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/Makefile"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/guzzle/Dockerfile"/>
-        <delete dir="${temp_ckfinder}/guzzlehttp/guzzle/docs"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/composer.json"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/LICENSE"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/README.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/promises/Makefile"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/composer.json"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/LICENSE"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/README.md"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/guzzlehttp/psr7/Makefile"/>
-
-        <delete file="${temp_ckfinder}/league/flysystem/composer.json"/>
-        <delete file="${temp_ckfinder}/league/flysystem/deprecations.md"/>
-        <delete file="${temp_ckfinder}/league/flysystem/LICENSE"/>
-        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/composer.json"/>
-        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/changelog.md"/>
-        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/LICENSE"/>
-        <delete file="${temp_ckfinder}/league/flysystem-aws-s3-v3/phpspec.no-coverage.yml"/>
-        <delete file="${temp_ckfinder}/league/flysystem-azure/composer.json"/>
-        <delete file="${temp_ckfinder}/league/flysystem-azure/phpunit.php"/>
-        <delete file="${temp_ckfinder}/league/flysystem-azure/LICENSE"/>
-        <delete file="${temp_ckfinder}/league/flysystem-azure/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/league/flysystem-azure/readme.md"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/composer.json"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/LICENSE"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpunit.php"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpspec.hhvm.yml"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpspec.yml"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/phpunit.xml"/>
-        <delete file="${temp_ckfinder}/league/flysystem-cached-adapter/readme.md"/>
-
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/BreakingChanges.md"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/build.xml"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/ChangeLog.md"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/composer.json"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/CONTRIBUTING.md"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/LICENSE"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.functional.xml.dist"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpdoc.dist.xml"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/microsoft/azure-storage/README.md"/>
-        <delete dir="${temp_ckfinder}/microsoft/azure-storage/build"/>
-        <delete dir="${temp_ckfinder}/microsoft/azure-storage/samples"/>
-
-        <delete file="${temp_ckfinder}/monolog/monolog/composer.json"/>
-        <delete file="${temp_ckfinder}/monolog/monolog/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/monolog/monolog/LICENSE"/>
-        <delete file="${temp_ckfinder}/monolog/monolog/README.md"/>
-        <delete file="${temp_ckfinder}/monolog/monolog/phpunit.xml.dist"/>
-        <delete dir="${temp_ckfinder}/monolog/monolog/doc"/>
-
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/composer.json"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/LICENSE"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/README.rst"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/phpunit.xml.dist"/>
-        <delete file="${temp_ckfinder}/mtdowling/jmespath.php/Makefile"/>
-
-        <delete file="${temp_ckfinder}/pimple/pimple/composer.json"/>
-        <delete file="${temp_ckfinder}/pimple/pimple/CHANGELOG"/>
-        <delete file="${temp_ckfinder}/pimple/pimple/LICENSE"/>
-        <delete file="${temp_ckfinder}/pimple/pimple/README.rst"/>
-        <delete file="${temp_ckfinder}/pimple/pimple/phpunit.xml.dist"/>
-
-        <delete file="${temp_ckfinder}/psr/cache/composer.json"/>
-        <delete file="${temp_ckfinder}/psr/cache/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/psr/cache/LICENSE.txt"/>
-        <delete file="${temp_ckfinder}/psr/cache/README.md"/>
-        <delete file="${temp_ckfinder}/psr/container/composer.json"/>
-        <delete file="${temp_ckfinder}/psr/container/LICENSE"/>
-        <delete file="${temp_ckfinder}/psr/container/README.md"/>
-        <delete file="${temp_ckfinder}/psr/http-message/composer.json"/>
-        <delete file="${temp_ckfinder}/psr/http-message/LICENSE"/>
-        <delete file="${temp_ckfinder}/psr/http-message/CHANGELOG.md"/>
-        <delete file="${temp_ckfinder}/psr/http-message/README.md"/>
-        <delete dir="${temp_ckfinder}/psr/http-message/docs"/>
-        <delete file="${temp_ckfinder}/psr/log/composer.json"/>
-        <delete file="${temp_ckfinder}/psr/log/LICENSE"/>
-        <delete file="${temp_ckfinder}/psr/log/README.md"/>
-
-        <delete file="${temp_ckfinder}/ralouphie/getallheaders/composer.json"/>
-        <delete file="${temp_ckfinder}/ralouphie/getallheaders/LICENSE"/>
-        <delete file="${temp_ckfinder}/ralouphie/getallheaders/README.md"/>
-
+        <delete>
+              <fileset dir="${temp_ckfinder}">
+                    <include name="**/BreakingChanges.md" />
+                    <include name="**/deprecations*" />
+                    <include name="**/build.xml" />
+                    <include name="**/Dockerfile" />
+                    <include name="**/instaled.json" />
+                    <include name="**/composer.json" />
+                    <include name="**/composer.lock" />
+                    <include name="**/CHANGELOG*" />
+                    <include name="**/changelog.md" />
+                    <include name="**/CONTRIBUTING*" />
+                    <include name="**/LICENSE*" />
+                    <include name="**/LICENCE*" />
+                    <include name="**/license*" />
+                    <include name="**/licence*" />
+                    <include name="**/NOTICE.md" />
+                    <include name="**/Makefile" />
+                    <include name="**/README*" />
+                    <include name="**/readme*" />
+                    <include name="**/UPGRADING.md" />
+                    <include name="**/*phpstan*" />
+                    <include name="**/*phpspec*" />
+                    <include name="**/*phpunit*" />
+                    <include name="**/*phpdoc*" />
+                    <include name="**/*phpdox.xml" />
+              </fileset>
+        </delete>
     </target>
 
     <target name="replace">
 
-        <copy file="ckeditor.xml" todir="${build}">
+        <copy file="ckeditor.xml"
+              todir="${build}">
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
@@ -186,13 +117,15 @@
         >
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
 
-        <delete file="${temp}/packages/ckeditor/ckeditor/ckeditor.xml"/>
+        <delete file="${temp}/packages/ckeditor/ckeditor/ckeditor.xml" />
 
         <copy file="${temp}/temp/packages/ckeditor/ckeditor/ckeditor.xml"
               todir="${temp}/packages/ckeditor/ckeditor"
@@ -203,13 +136,15 @@
         >
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
 
-        <delete file="${temp}/packages/ckeditor/ckeditor/ckeditor.php"/>
+        <delete file="${temp}/packages/ckeditor/ckeditor/ckeditor.php" />
 
         <copy file="${temp}/temp/packages/ckeditor/ckeditor/ckeditor.php"
               todir="${temp}/packages/ckeditor/ckeditor"
@@ -219,52 +154,56 @@
 
     <target name="pack-plugins">
 
-        <mkdir dir="${build}/packages"/>
+        <mkdir dir="${build}/packages" />
 
-        <zip destfile="${build}/packages/plg_ckeditor.zip" description="plg_ckeditor">
-            <fileset dir="${temp}/packages/ckeditor"/>
+        <zip destfile="${build}/packages/plg_ckeditor.zip"
+             description="plg_ckeditor">
+            <fileset dir="${temp}/packages/ckeditor" />
         </zip>
 
         <copy todir="${build}/language">
             <fileset dir="${temp}/language">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
         <copy todir="${build}/admin">
             <fileset dir="${temp}/admin">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
         <copy todir="${build}/site">
             <fileset dir="${temp}/site">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
 
-        <copy file="ckeditor.xml" todir="${build}"/>
+        <copy file="ckeditor.xml"
+              todir="${build}" />
 
-        <copy file="install_ckeditor.php" todir="${build}"/>
+        <copy file="install_ckeditor.php"
+              todir="${build}" />
 
     </target>
 
-    <target name="dist" depends="init, temp, replace, pack-plugins">
+    <target name="dist"
+            depends="init, temp, replace, pack-plugins">
         <zip destfile="${dist}/${filename}">
             <fileset dir="${build}/">
-                <include name="**/**"/>
+                <include name="**/**" />
             </fileset>
         </zip>
 
-        <delete dir="${build}"/>
-        <delete dir="${temp}"/>
+        <delete dir="${build}" />
+        <delete dir="${temp}" />
 
     </target>
 
     <target name="clean">
 
-        <delete dir="${build}"/>
-        <delete dir="${temp}"/>
+        <delete dir="${build}" />
+        <delete dir="${temp}" />
 
     </target>
 

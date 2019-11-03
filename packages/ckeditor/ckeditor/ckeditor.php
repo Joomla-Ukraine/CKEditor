@@ -498,13 +498,6 @@ class plgEditorCKeditor extends CMSPlugin
 				$user_folder_access_true = true;
 			}
 
-			// Prefix URL
-			$prefix = Uri::root();
-			if($this->params->get('CKFinderPathType', 0) == 1)
-			{
-				$prefix = '';
-			}
-
 			// Enable CKFinder
 			if($user_access_true && $this->params->get('ckfinder', '0') == 1)
 			{
@@ -523,6 +516,7 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3MaxThumbnailHeight', null);
 					$this->session->set('CKFinder3SettingsChmod', null);
 					$this->session->set('CKFinder3HideFolders', null);
+					$this->session->set('CKFinder3PathType', null);
 				}
 
 				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/ckfinder/';
@@ -647,6 +641,25 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3LicenseName', trim($this->params->get('CKFinderLicenseName')));
 					$this->session->set('CKFinder3LicenseKey', trim($this->params->get('CKFinderLicenseKey')));
 				}
+
+				// Prefix URL
+				switch($this->params->get('CKFinderPathType', 0))
+				{
+					case '1':
+						$prefix = '';
+						break;
+
+					case '2':
+						$prefix = str_replace('/administrator', '/', Uri::base(true));
+						break;
+
+					default:
+					case '0':
+						$prefix = str_replace('/administrator', '', Uri::base());
+						break;
+				}
+
+				$this->session->set('CKFinder3PathType', $prefix);
 
 				// Chmod
 				if($this->params->get('CKFinderSettingsChmod', '0755'))
@@ -876,8 +889,9 @@ class plgEditorCKeditor extends CMSPlugin
 		if(is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$return  .= '<div style="clear:both;">';
 			$return  .= LayoutHelper::render('joomla.editors.buttons', $buttons);
-			$return  .= '<div style="clear:both;">' . $return . '</div>';
+			$return  .= '</div>';
 		}
 
 		return $return;

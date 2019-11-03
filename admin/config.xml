@@ -41,13 +41,11 @@
 
         <field name="CKEditorWidth"
                type="text"
-               default=""
                label="EDITOR_WIDTH"
                description="EDITOR_WIDTH_DESCRIPTION" />
 
         <field name="CKEditorHeight"
                type="text"
-               default=""
                label="EDITOR_HEIGHT"
                description="EDITOR_HEIGHT_DESCRIPTION" />
 
@@ -78,13 +76,11 @@
                size="80" />
 
         <field name="Basic_ToolBar"
-               default=""
                type="hidden"
                label="Basic ToolBar"
                description="Change Basic toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar" />
 
         <field name="Advanced_ToolBar"
-               default=""
                type="hidden"
                label="Advanced Toolbar"
                description="Change advanced toolbar. Special characters: '/' - new line, '-' - separator, ';' - set new toolbar" />
@@ -245,7 +241,6 @@
 
         <field name="Color"
                type="text"
-               default=""
                label="USER_INTERFACE_COLOR"
                description="USER_INTERFACE_COLOR_DESCRIPTION" />
 
@@ -281,19 +276,16 @@
 
         <field name="style"
                type="text"
-               default=""
                label="STYLES_DEFINITION_FILE"
                description="STYLES_DEFINITION_FILE_DESCRIPTION" />
 
         <field name="template"
                type="text"
-               default=""
                label="TEMPLATES_DEFINITION_FILE"
                description="TEMPLATES_DEFINITION_FILE_DESCRIPTION" />
 
         <field name="css"
                type="text"
-               default=""
                label="CSS_FILES"
                description="CSS_FILES_DESCRIPTION" />
 
@@ -309,7 +301,6 @@
 
         <field name="cssbodyclass"
                type="text"
-               default=""
                label="CSS_BODY_CLASS" />
 
         <field name="DivBased"
@@ -439,13 +430,13 @@
         </field>
 
         <field name="CKFinderPathType"
-               type="radio"
+               type="list"
                default="0"
                label="CKFINDER_URLS_TYPE"
-               description="CKFINDER_URLS_TYPE_DESCRIPTION"
-               class="btn-group">
+               description="CKFINDER_URLS_TYPE_DESCRIPTION">
             <option value="0">Absolute</option>
             <option value="1">Relative</option>
+            <option value="2">Relative with slash (/)</option>
         </field>
 
         <field name="username_access"
@@ -489,13 +480,11 @@
 		<fieldset name="CKFinderSettingsLicense">
 			<field name="CKFinderLicenseName"
 			       type="text"
-			       default=""
 			       label="LICENSE_NAME"
 			       description="LICENSE_NAME_DESCRIPTION" />
 
 			<field name="CKFinderLicenseKey"
 			       type="text"
-			       default=""
 			       label="LICENSE_KEY"
 			       description="LICENSE_KEY_DESCRIPTION" />
 		</fieldset>
@@ -590,13 +579,11 @@
     <fieldset name="license-information">
         <field name="PackageLicenseName"
                type="text"
-               default=""
                label="LICENSE_NAME"
                description="LICENSE_NAME_DESCRIPTION"
                size="80" />
         <field name="PackageLicenseKey"
                type="text"
-               default=""
                label="LICENSE_KEY"
                description="LICENSE_KEY_DESCRIPTION"
                size="80" />
