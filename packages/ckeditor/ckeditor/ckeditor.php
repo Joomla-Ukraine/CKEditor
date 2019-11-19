@@ -33,7 +33,7 @@ class plgEditorCKeditor extends CMSPlugin
 {
 	public $pluginsName = [];
 	public $called = false;
-	public $buildVersion = '?v=5.16.3';
+	public $buildVersion = '?v=5.16.4';
 
 	/**
 	 * plgEditorCKeditor constructor.
@@ -85,7 +85,7 @@ class plgEditorCKeditor extends CMSPlugin
 		foreach(glob(__DIR__ . '/plugins/*', GLOB_ONLYDIR) as $dir)
 		{
 			$this->pluginsName[] = basename($dir);
-			$pluginsPath         .= "\nCKEDITOR.plugins.addExternal('" . basename($dir) . "', '../plugins/" . basename($dir) . "/');";
+			$pluginsPath         .= "\nCKEDITOR.plugins.addExternal('" . basename($dir) . "', '../plugins/" . basename($dir) . "/', 'plugin.js" . $this->buildVersion . "');";
 		}
 
 		$load .= $pluginsPath;
@@ -505,7 +505,7 @@ class plgEditorCKeditor extends CMSPlugin
 				{
 					$this->session->set('CKFinder3LicenseName', null);
 					$this->session->set('CKFinder3LicenseKey', null);
-					$this->session->set('CKFinder3Access', true); //user can use CKFinder
+					$this->session->set('CKFinder3Access', true);
 					$this->session->set('CKFinder3MaxFilesSize', null);
 					$this->session->set('CKFinder3MaxImagesSize', null);
 					$this->session->set('CKFinder3ResourceFiles', null);
@@ -522,10 +522,10 @@ class plgEditorCKeditor extends CMSPlugin
 				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/ckfinder/';
 				$chmod         = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
 
-				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "ckfinder.html',
-					filebrowserImageBrowseUrl: '" . $ckfinder_path . "ckfinder.html?Type=Images',
-					filebrowserUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Files',
-					filebrowserImageUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php?command=QuickUpload&type=Images'";
+				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "ckfinder.html" . $this->buildVersion . "',
+					filebrowserImageBrowseUrl: '" . $ckfinder_path . "ckfinder.html" . $this->buildVersion . "&Type=Images',
+					filebrowserUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php" . $this->buildVersion . "&command=QuickUpload&type=Files',
+					filebrowserImageUploadUrl: '" . $ckfinder_path . "core/connector/php/connector.php" . $this->buildVersion . "&command=QuickUpload&type=Images'";
 
 				if(!defined('CKFINDER_PATH_BASE'))
 				{
