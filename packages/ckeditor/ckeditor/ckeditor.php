@@ -394,16 +394,16 @@ class plgEditorCKeditor extends CMSPlugin
 		}
 
 		$style_file = trim($this->params->get('style', ''));
-		if($style_file != '' && file_exists(__DIR__ . '/styles/' . $style_file))
+		if($style_file != '')
 		{
-			$editor .= ",stylesCombo_stylesSet: 'default:" . Uri::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
-			$editor .= ",stylesSet: 'default:" . Uri::root() . 'plugins/editors/ckeditor/styles/' . $style_file . $this->buildVersion . "'";
+			$editor .= ",stylesCombo_stylesSet: 'default:" . trim($style_file) . $this->buildVersion . "'";
+			$editor .= ",stylesSet: 'default:" . trim($style_file) . $this->buildVersion . "'";
 		}
 
 		$template_file = trim($this->params->get('template', ''));
-		if($template_file != '' && file_exists(__DIR__ . '/templates/' . $template_file))
+		if($template_file != '')
 		{
-			$editor .= ",templates_files: ['" . Uri::root() . '/plugins/editors/ckeditor/templates/' . $template_file . $this->buildVersion . "']";
+			$editor .= ",templates_files: ['" . trim($template_file) . $this->buildVersion . "']";
 			$editor .= ",templates: 'default'";
 		}
 
@@ -418,10 +418,7 @@ class plgEditorCKeditor extends CMSPlugin
 		{
 			foreach(explode(';', $css_files) AS $file)
 			{
-				if(file_exists(__DIR__ . '/css/' . trim($file)))
-				{
-					$css .= ", '" . Uri::root() . 'plugins/editors/ckeditor/css/' . trim($file) . $this->buildVersion . "'";
-				}
+				$css .= ", '" . trim($file) . $this->buildVersion . "'";
 			}
 		}
 
