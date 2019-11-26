@@ -33,7 +33,7 @@ class plgEditorCKeditor extends CMSPlugin
 {
 	public $pluginsName = [];
 	public $called = false;
-	public $buildVersion = '?v=5.16.4';
+	public $buildVersion = '?v=5.16.6';
 
 	/**
 	 * plgEditorCKeditor constructor.
