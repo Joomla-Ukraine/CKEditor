@@ -68,7 +68,7 @@ $config[ 'backends' ][] = [
 	'name'               => 'default',
 	'adapter'            => 'local',
 	'baseUrl'            => $session->get('CKFinder3PathType', ''),
-	//  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
+	'root'               => $session->get('CKFinder3RootFolder', ''),
 	'chmodFiles'         => 0777,
 	'chmodFolders'       => $session->get('CKFinder3SettingsChmod') ? trim($session->get('CKFinder3SettingsChmod')) : 0755,
 	'filesystemEncoding' => 'UTF-8'
@@ -180,5 +180,6 @@ $config[ 'tempDirectory' ]     = JPATH_BASE . '/tmp';
 $config[ 'sessionWriteClose' ] = true;
 $config[ 'csrfProtection' ]    = true;
 $config[ 'headers' ]           = [];
-
+//print_r($config);
+//die;
 return $config;

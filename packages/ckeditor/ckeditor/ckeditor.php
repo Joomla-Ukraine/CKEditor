@@ -514,10 +514,14 @@ class plgEditorCKeditor extends CMSPlugin
 					$this->session->set('CKFinder3SettingsChmod', null);
 					$this->session->set('CKFinder3HideFolders', null);
 					$this->session->set('CKFinder3PathType', null);
+					$this->session->set('CKFinder3RootFolder', null);
 				}
 
 				$ckfinder_path = Uri::root() . 'plugins/editors/ckeditor/ckfinder/';
 				$chmod         = octdec(trim($this->params->get('CKFinderSettingsChmod', '0755')));
+				$root_folder   = str_replace('/administrator', '', JPATH_BASE);
+
+				$this->session->set('CKFinder3RootFolder', $root_folder);
 
 				$editor .= ",filebrowserBrowseUrl: '" . $ckfinder_path . "ckfinder.html" . $this->buildVersion . "',
 					filebrowserImageBrowseUrl: '" . $ckfinder_path . "ckfinder.html" . $this->buildVersion . "&Type=Images',
